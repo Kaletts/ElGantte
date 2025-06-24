@@ -20,14 +20,34 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Partners" asp-action="Index">Partners</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
                         </li>
                     </ul>
                 </div>
             </div>
+            <div class="me-2 col d-flex gap-2">
+                @if (!(User.Identity?.IsAuthenticated ?? false))
+                {
+                    <form asp-controller="Account" asp-action="Login" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-primary">Iniciar sesión</button>
+                        @Html.AntiForgeryToken()
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                        <button type="submit" class="btn btn-outline-danger">Logout</button>
+                        @Html.AntiForgeryToken()
+                    </form>
+                }
+            </div>
+
         </nav>
     </header>
     <div class="container">
@@ -38,15 +58,8 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - ElGantte - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - ElGantte - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
         </div>
-        @if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                <button type="submit" class="btn-primary">Cerrar sesión</button>
-                @Html.AntiForgeryToken()
-            </form>
-        }
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

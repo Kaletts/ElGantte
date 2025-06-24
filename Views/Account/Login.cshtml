@@ -5,8 +5,59 @@
 
 <h1>Login</h1>
 
-<form method="post">
-    <input name="email" placeholder="Email" />
-    <input name="password" type="password" placeholder="Contraseña" />
-    <button type="submit">Entrar</button>
-</form>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="min-width: 320px; max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4">Iniciar sesión</h2>
+
+        <form method="post" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="tucorreo@pepito.com"
+                    required/>
+                <div class="invalid-feedback">
+                    Por favor ingresa un correo válido.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    required
+                    minlength="6"
+                />
+                <div class="invalid-feedback">
+                    La contraseña es obligatoria (mínimo 6 caracteres).
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('form');
+
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>

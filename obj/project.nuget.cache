@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "A9gd5CwclNk=",
+  "dgSpecHash": "qMbdwR8rlkY=",
   "success": true,
   "projectFilePath": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\ElGantte.csproj",
   "expectedPackageFiles": [
@@ -77,6 +77,7 @@
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.17\\microsoft.entityframeworkcore.analyzers.8.0.17.nupkg.sha512",
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.17\\microsoft.entityframeworkcore.design.8.0.17.nupkg.sha512",
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.17\\microsoft.entityframeworkcore.relational.8.0.17.nupkg.sha512",
+    "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.11\\microsoft.entityframeworkcore.tools.8.0.11.nupkg.sha512",
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.1\\microsoft.extensions.caching.memory.8.0.1.nupkg.sha512",
     "C:\\Users\\Kaled\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
