@@ -3,56 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\partnerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\partnerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\partner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\partner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,168 +30,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Delete.cshtml",
               "RelativeDocumentMoniker": "Views\\Partners\\Delete.cshtml",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Delete.cshtml",
               "RelativeToolTip": "Views\\Partners\\Delete.cshtml",
-              "ViewState": "AgIAADgAAAAAAAAAAAAmwEgAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAHgAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-25T16:56:24.769Z",
+              "WhenOpened": "2025-06-25T17:54:35.313Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\Partners\\Create.cshtml",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
               "RelativeToolTip": "Views\\Partners\\Create.cshtml",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAACUAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEQAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-25T16:38:34.599Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T16:25:39.178Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAwwDEAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T16:25:28.738Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Partner.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Partner.cs",
-              "RelativeDocumentMoniker": "Models\\Partner.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Partner.cs",
-              "RelativeToolTip": "Models\\Partner.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T17:20:28.507Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Partners\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Index.cshtml",
-              "RelativeToolTip": "Views\\Partners\\Index.cshtml",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAFAAAABmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-24T17:16:01.008Z",
+              "WhenOpened": "2025-06-25T17:52:54.148Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "PartnersController.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\PartnersController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PartnersController.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\PartnersController.cs",
-              "RelativeToolTip": "Controllers\\PartnersController.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAA4wEIAAABZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T17:12:48.593Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACQAAAAZAAAAAAAAAA==",
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Partners\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Partners\\Edit.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAEYAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-24T17:10:24.552Z",
+              "WhenOpened": "2025-06-25T17:52:47.43Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\Register.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\Register.cshtml",
-              "RelativeToolTip": "Views\\Account\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-24T17:06:19.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\Login.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\Login.cshtml",
-              "RelativeToolTip": "Views\\Account\\Login.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-24T17:00:21.603Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T16:55:09.512Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Usuario.cs",
-              "RelativeDocumentMoniker": "Models\\Usuario.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Usuario.cs",
-              "RelativeToolTip": "Models\\Usuario.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T16:55:02.887Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-24T16:53:14.17Z"
             }
           ]
         }

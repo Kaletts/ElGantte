@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ElGantte.Models.Integracione>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModeloTerminal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoftwareIntegrado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreSwapp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Certificado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiasIntegrando)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiasStandBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StandBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CasoSf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartaCesionNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartnerNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolucionNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeloTerminal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoftwareIntegrado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreSwapp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Certificado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiasIntegrando)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiasStandBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StandBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CasoSf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CartaCesionNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartnerNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SolucionNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusNavigation.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -47,6 +47,7 @@
                 }
                 else
                 {
+                    <small class="text-center">Bienvenido @(User.Identity.Name)</small>
                     <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
                         <button type="submit" class="btn btn-outline-danger">Logout</button>
                         @Html.AntiForgeryToken()

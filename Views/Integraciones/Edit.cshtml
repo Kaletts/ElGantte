@@ -1,0 +1,96 @@
+﻿@model ElGantte.Models.Integracione
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Integracione</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ModeloTerminal" class="control-label"></label>
+                <input asp-for="ModeloTerminal" class="form-control" />
+                <span asp-validation-for="ModeloTerminal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoftwareIntegrado" class="control-label"></label>
+                <input asp-for="SoftwareIntegrado" class="form-control" />
+                <span asp-validation-for="SoftwareIntegrado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreSwapp" class="control-label"></label>
+                <input asp-for="NombreSwapp" class="form-control" />
+                <span asp-validation-for="NombreSwapp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Certificado" class="control-label"></label>
+                <input asp-for="Certificado" class="form-control" />
+                <span asp-validation-for="Certificado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input asp-for="FechaInicio" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFin" class="control-label"></label>
+                <input asp-for="FechaFin" class="form-control" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasIntegrando" class="control-label"></label>
+                <input asp-for="DiasIntegrando" class="form-control" />
+                <span asp-validation-for="DiasIntegrando" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiasStandBy" class="control-label"></label>
+                <input asp-for="DiasStandBy" class="form-control" />
+                <span asp-validation-for="DiasStandBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StandBy" class="control-label"></label>
+                <input asp-for="StandBy" class="form-control" />
+                <span asp-validation-for="StandBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CasoSf" class="control-label"></label>
+                <input asp-for="CasoSf" class="form-control" />
+                <span asp-validation-for="CasoSf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.Status"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Solucion" class="control-label"></label>
+                <select asp-for="Solucion" class="form-control" asp-items="ViewBag.Solucion"></select>
+                <span asp-validation-for="Solucion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Partner" class="control-label"></label>
+                <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner"></select>
+                <span asp-validation-for="Partner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CartaCesion" class="control-label"></label>
+                <select asp-for="CartaCesion" class="form-control" asp-items="ViewBag.CartaCesion"></select>
+                <span asp-validation-for="CartaCesion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

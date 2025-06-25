@@ -71,20 +71,44 @@
     </div>
     <div class="col-md-4">
         <h4>Integraciones en curso</h4>
-        @if (Model.Integraciones != null && Model.Integraciones.Any())
+        @if (ViewBag.Integraciones != null && ((List<ElGantte.Models.Integracione>)ViewBag.Integraciones).Any())
         {
-            <ul class="list-group">
-                @foreach (var integracion in Model.Integraciones)
+            <div class="mt-4">
+                <h5>Integraciones en curso:</h5>
+
+                @if (ViewBag.Integraciones != null && ((List<ElGantte.Models.Integracione>)ViewBag.Integraciones).Any())
                 {
-                    <li class="list-group-item">
-                        @integracion.ModeloTerminal <!-- ESTO NO SÉ SI FUNCIONA -->
-                    </li>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Modelo de Terminal</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var integracion in (List<ElGantte.Models.Integracione>)ViewBag.Integraciones)
+                                {
+                                    <tr>
+                                        <td>@integracion.ModeloTerminal</td>
+                                        <td>
+                                            @(integracion.Certificado.GetValueOrDefault() ? "Certificado" : "Integrando")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
-            </ul>
+                else
+                {
+                    <p class="text-muted">Este partner no tiene integraciones activas.</p>
+                }
+            </div>
         }
         else
         {
-            <p>No hay integraciones activas para este partner.</p>
+            <p class="text-muted">Este partner no tiene integraciones activas.</p>
         }
     </div>
 </div>
@@ -94,5 +118,5 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar 💣" class="btn btn-outline-danger" /> |
-        <a asp-action="Index" class="btn btn-outline-primary">Volver a Partners</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
     </form>

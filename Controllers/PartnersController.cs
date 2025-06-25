@@ -138,6 +138,12 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
+            var integraciones = await _context.Integraciones
+            .Where(i => i.Partner == id)
+            .ToListAsync();
+
+            ViewBag.Integraciones = integraciones;
+
             return View(partner);
         }
 

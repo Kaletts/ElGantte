@@ -4,12 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editar Partner <strong>@Html.DisplayFor(Model => Model.Nombre)</strong></h1>
 
 <h4>Partner</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="container-fluid">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -23,10 +23,12 @@
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Tipo" /> @Html.DisplayNameFor(model => model.Tipo)
-                </label>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label">Tipo</label>
+                <select asp-for="Tipo" class="form-control">
+                    <option value="true">Partner</option>
+                    <option value="false">Cliente</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="FechaRegistro" class="control-label"></label>
@@ -59,13 +61,13 @@
                 <span asp-validation-for="AccountManager" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar Cambios" class="btn btn-outline-success mt-1 w-100" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary mt-1 w-100">Volver al inicio</a>
 </div>
 
