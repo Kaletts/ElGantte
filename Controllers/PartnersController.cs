@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,6 +63,8 @@ namespace ElGantte.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(partner);
+                partner.Correo = partner.Correo.Trim().ToLowerInvariant();
+                partner.AccountManager = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(partner.AccountManager.Trim().ToLower());
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -118,6 +122,7 @@ namespace ElGantte.Controllers
             return View(partner);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Partners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

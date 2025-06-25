@@ -76,9 +76,14 @@
                 @Html.DisplayFor(modelItem => item.AccountManager)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary flex-fill">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark flex-fill">Detalles</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger flex-fill">Eliminar</a>
+                        }
+                </div>
             </td>
         </tr>
 }
