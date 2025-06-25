@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ElGantte.Controllers
 {
-    [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User")]
+    [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
     public class PartnersController : Controller
     {
         private readonly AppDbContext _context;

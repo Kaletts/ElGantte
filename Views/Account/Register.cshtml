@@ -2,63 +2,79 @@
 @{
     ViewData["Title"] = "Registro";
 }
-<h1>Registro</h1>
+@{
+    ViewData["Title"] = "Registro";
+}
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="min-width: 320px; max-width: 400px; width: 100%;">
-        <h2 class="text-center mb-4">Crear una cuenta</h2>
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="row shadow rounded overflow-hidden" style="max-width: 900px; width: 100%;">
+        <!-- SVG o imagen a la izquierda -->
+        <div class="col-md-6 bg-light d-flex justify-content-center align-items-center p-4">
+            <svg width="300px" height="300px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 9H4V8h14zm-5 3H4v1h9zm8-8v9h-1V5H2v13h9v1H1V4zm2.07 11.637l-.707-.707-5.863 5.863-2.863-2.863-.707.707 3.57 3.57z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+        </div>
 
-        <form method="post" novalidate>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="tucorreo@ejemplo.com"
-                    required
-                />
-                <div class="invalid-feedback">
-                    Por favor ingresa un correo válido.
+        <!-- Formulario a la derecha -->
+        <div class="col-md-6 bg-white p-5">
+            <h2 class="text-center mb-4">Crear una cuenta</h2>
+
+            <form method="post" novalidate>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           placeholder="tucorreo@ejemplo.com"
+                           required />
+                    <div class="invalid-feedback">
+                        Por favor ingresa un correo válido.
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Contraseña"
-                    required
-                    minlength="6"
-                />
-                <div class="invalid-feedback">
-                    La contraseña es obligatoria (mínimo 6 caracteres).
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           placeholder="Contraseña"
+                           required
+                           minlength="6" />
+                    <div class="invalid-feedback">
+                        La contraseña es obligatoria (mínimo 6 caracteres).
+                    </div>
                 </div>
-            </div>
 
-            <button type="submit" class="btn btn-primary w-100">Registrar</button>
-        </form>
+                <div class="mb-4">
+                    <label for="role" class="form-label">Rol</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="">Selecciona un rol</option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor selecciona un rol.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Registrar</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
-// Bootstrap 5 client-side validation (simple)
-(() => {
-  'use strict';
-  const forms = document.querySelectorAll('form');
-
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated');
-    }, false);
-  });
-})();
+    (() => {
+        'use strict';
+        const forms = document.querySelectorAll('form');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
 </script>

@@ -4,17 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Crear nuevo Partner</h1>
 
-<h4>Partner</h4>
+<h4>Partners</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="container-fluid">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <input asp-for="Nombre" class="form-control" required />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -22,19 +22,21 @@
                 <input asp-for="Direccion" class="form-control" />
                 <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Tipo" /> @Html.DisplayNameFor(model => model.Tipo)
-                </label>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label">Tipo</label>
+                <select asp-for="Tipo" class="form-control">
+                    <option value="true">Partner</option>
+                    <option value="false">Cliente</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
+                <input asp-for="FechaRegistro" class="form-control" required id="fechaInicio" type="date" max="" />
                 <span asp-validation-for="FechaRegistro" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
+                <input asp-for="Correo" class="form-control" required type="email" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,27 +46,57 @@
             </div>
             <div class="form-group">
                 <label asp-for="Notas" class="control-label"></label>
-                <input asp-for="Notas" class="form-control" />
+                <textarea asp-for="Notas" class="form-control" rows="6"></textarea>
                 <span asp-validation-for="Notas" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaCambio" class="control-label"></label>
-                <input asp-for="FechaCambio" class="form-control" />
-                <span asp-validation-for="FechaCambio" class="text-danger"></span>
+                <label asp-for="FechaCambio" class="control-label" hidden></label>
+                <input asp-for="FechaCambio" class="form-control" id="fechaCambio" hidden />
             </div>
             <div class="form-group">
                 <label asp-for="AccountManager" class="control-label"></label>
                 <input asp-for="AccountManager" class="form-control" />
                 <span asp-validation-for="AccountManager" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group m-4">
+                <input type="submit" value="Crear" class="btn btn-primary w-100" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver al inicio</a>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const now = new Date();
+        const madridTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
+
+        const day = String(madridTime.getDate()).padStart(2, '0');
+        const month = String(madridTime.getMonth() + 1).padStart(2, '0');
+        const year = madridTime.getFullYear();
+
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const fechaInicio = document.getElementById("fechaInicio");
+        fechaInicio.value = formattedDate;
+        fechaInicio.max = formattedDate;
+
+        const fechaCambio = document.getElementById("fechaCambio");
+        if (fechaCambio) {
+            fechaCambio.value = formattedDate;
+            fechaCambio.max = formattedDate;
+        }
+    });
+</script>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+}

@@ -14,7 +14,7 @@ namespace ElGantte.Controllers
             _logger = logger;
         }
 
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User")]
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
         public IActionResult Index()
         {
             return View();

@@ -2,6 +2,7 @@
 using ElGantte.Data;
 using ElGantte.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -44,7 +45,7 @@ namespace ElGantte.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: /Account/Register
         public IActionResult Register() => View();
 
