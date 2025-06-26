@@ -4,60 +4,60 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Integraciones</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nueva integración</a>
 </p>
-<table class="table">
+
+<input type="text" id="buscarEntrada" class="form-control mb-3" placeholder="Buscar lo que sea...">
+
+<table class="table table-striped table-hover">
     <thead>
-        <tr>
-            <th>
+        <tr class="text-center">
+            <th onclick="sortTable(0)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.ModeloTerminal)
             </th>
-            <th>
+            <th onclick="sortTable(1)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.SoftwareIntegrado)
             </th>
-            <th>
+            <th onclick="sortTable(2)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.NombreSwapp)
             </th>
-            <th>
+            <th onclick="sortTable(3)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.Certificado)
             </th>
-            <th>
+            <th onclick="sortTable(4, true)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.FechaInicio)
             </th>
-            <th>
+            <th onclick="sortTable(5, true)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.FechaFin)
             </th>
-            <th>
+            <th onclick="sortTable(6)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.DiasIntegrando)
             </th>
-            <th>
+            <th onclick="sortTable(7)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.DiasStandBy)
             </th>
-            <th>
+            <th onclick="sortTable(8)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.StandBy)
             </th>
-            <th>
+            <th onclick="sortTable(9)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.CasoSf)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CartaCesionNavigation)
-            </th>
-            <th>
+            <th onclick="sortTable(10)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.PartnerNavigation)
             </th>
-            <th>
+            <th onclick="sortTable(11)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.SolucionNavigation)
             </th>
-            <th>
+            <th onclick="sortTable(12)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.StatusNavigation)
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="dataTable">
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -69,9 +69,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NombreSwapp)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Certificado)
-            </td>
+                <td>@(item.Certificado.HasValue ? (item.Certificado.Value ? "Sí" : "No") : "No especificado")</td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaInicio)
             </td>
@@ -84,14 +82,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DiasStandBy)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StandBy)
-            </td>
+                <td>@(item.StandBy.HasValue ? (item.StandBy.Value ? "Sí" : "No") : "No especificado")</td>
             <td>
                 @Html.DisplayFor(modelItem => item.CasoSf)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CartaCesionNavigation.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PartnerNavigation.Id)
@@ -102,12 +95,70 @@
             <td>
                 @Html.DisplayFor(modelItem => item.StatusNavigation.Id)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td class="d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary flex-fill">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark flex-fill">Detalles</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger flex-fill">Eliminar</a>
+                    }
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+<script defer>
+    //Filtro en tiempo real - Funciona bastante bien
+    document.getElementById("buscarEntrada").addEventListener("keyup", function () {
+        let filtro = this.value.toLowerCase();
+        let filas = document.querySelectorAll("#dataTable tr");
+
+        filas.forEach(fila => {
+            let text = fila.textContent.toLowerCase();
+            fila.style.display = text.includes(filtro) ? "" : "none";
+        });
+    });
+
+    let orderDirection = {}; //Guarda el estado de orden para cada columna
+
+    function sortTable(colIndex, isDate = false) {
+        let table = document.querySelector(".table");
+        let tbody = table.querySelector("tbody");
+        let rows = Array.from(tbody.rows);
+
+        //Alternar entre ascendente y descendente
+        let isAscending = orderDirection[colIndex] === "asc";
+        orderDirection[colIndex] = isAscending ? "desc" : "asc";
+
+        //Función para convertir una cadena de fecha a objeto Date, con manejo de valores vacíos
+        function parseDate(dateString) {
+            if (!dateString || dateString.trim() === "") {
+                return new Date(0); //Fecha mínima (01/01/1970) para que se ordene al final
+            }
+            let parts = dateString.split(/[/ :]/); //Divide por / o espacios
+            return new Date(parts[2], parts[1] - 1, parts[0], parts[3] || 0, parts[4] || 0, parts[5] || 0);
+        }
+
+        // Ordenar filas
+        let sortedRows = rows.sort((a, b) => {
+            let aText = a.cells[colIndex].textContent.trim();
+            let bText = b.cells[colIndex].textContent.trim();
+
+            if (isDate) {
+                let dateA = parseDate(aText);
+                let dateB = parseDate(bText);
+                return isAscending ? dateA - dateB : dateB - dateA;
+            } else {
+                return isAscending
+                    ? aText.localeCompare(bText, undefined, { numeric: true })
+                    : bText.localeCompare(aText, undefined, { numeric: true });
+            }
+        });
+
+        // Reinsertar filas ordenadas
+        tbody.innerHTML = "";
+        sortedRows.forEach(row => tbody.appendChild(row));
+    }
+</script>

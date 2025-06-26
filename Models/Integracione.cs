@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElGantte.Models;
 
@@ -17,28 +18,36 @@ public partial class Integracione
     [Key]
     public int Id { get; set; }
 
+    [DisplayName("Modelo")]
     [StringLength(255)]
     public string ModeloTerminal { get; set; } = null!;
 
+    [DisplayName("Software")]
     [StringLength(255)]
     public string SoftwareIntegrado { get; set; } = null!;
 
     [Column("NombreSWAPP")]
+    [DisplayName("Nombre App")]
     [StringLength(255)]
     public string? NombreSwapp { get; set; }
 
     public bool? Certificado { get; set; }
 
+    [DisplayName("Fecha Inicio")]
     public DateOnly? FechaInicio { get; set; }
 
+    [DisplayName("Fecha Fin")]
     public DateOnly? FechaFin { get; set; }
 
+    [DisplayName("Días Integrando")]
     public int? DiasIntegrando { get; set; }
 
+    [DisplayName("Días Standby")]
     public int? DiasStandBy { get; set; }
 
     public bool? StandBy { get; set; }
 
+    [DisplayName("Caso SF")]
     [Column("CasoSF")]
     [StringLength(255)]
     public string? CasoSf { get; set; }
@@ -67,14 +76,17 @@ public partial class Integracione
     [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Kitintegracion> Kitintegracions { get; set; } = new List<Kitintegracion>();
 
+    [DisplayName("Partner")]
     [ForeignKey("Partner")]
     [InverseProperty("Integraciones")]
     public virtual Partner PartnerNavigation { get; set; } = null!;
 
+    [DisplayName("Solución")]
     [ForeignKey("Solucion")]
     [InverseProperty("Integraciones")]
     public virtual Solucione SolucionNavigation { get; set; } = null!;
 
+    [DisplayName("Status")]
     [ForeignKey("Status")]
     [InverseProperty("Integraciones")]
     public virtual Status? StatusNavigation { get; set; }
