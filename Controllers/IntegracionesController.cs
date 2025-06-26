@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ElGantte.Data;
+using ElGantte.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ElGantte.Data;
-using ElGantte.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ElGantte.Controllers
 {
+    [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
     public class IntegracionesController : Controller
     {
         private readonly AppDbContext _context;

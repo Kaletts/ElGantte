@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\account\\accessdenied.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,11 +26,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccessDenied.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\AccessDenied.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\AccessDenied.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Account\\AccessDenied.cshtml",
+              "RelativeToolTip": "Views\\Account\\AccessDenied.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-26T16:52:49.676Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -36,33 +53,31 @@
               "RelativeDocumentMoniker": "Views\\Partners\\Delete.cshtml",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Delete.cshtml",
               "RelativeToolTip": "Views\\Partners\\Delete.cshtml",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAHgAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAHgAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-25T17:54:35.313Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-25T17:54:35.313Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
+              "RelativeDocumentMoniker": "Views\\Partners\\Create.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
+              "RelativeToolTip": "Views\\Partners\\Create.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAEQAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-25T17:52:54.148Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
-              "RelativeDocumentMoniker": "Views\\Partners\\Create.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml*",
-              "RelativeToolTip": "Views\\Partners\\Create.cshtml*",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAEQAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-25T17:52:54.148Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Edit.cshtml",
               "RelativeDocumentMoniker": "Views\\Partners\\Edit.cshtml",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Edit.cshtml",
               "RelativeToolTip": "Views\\Partners\\Edit.cshtml",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAEYAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABMAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-06-25T17:52:47.43Z",
               "EditorCaption": ""

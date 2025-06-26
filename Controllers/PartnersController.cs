@@ -44,6 +44,12 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
+            var integraciones = await _context.Integraciones
+            .Where(i => i.Partner == id)
+            .ToListAsync();
+
+            ViewBag.Integraciones = integraciones;
+
             return View(partner);
         }
 
@@ -147,6 +153,7 @@ namespace ElGantte.Controllers
             return View(partner);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // POST: Partners/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
