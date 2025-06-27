@@ -22,28 +22,28 @@ public partial class Integracione
     [StringLength(255)]
     public string ModeloTerminal { get; set; } = null!;
 
-    [DisplayName("Software")]
+    [DisplayName("Tipo Solución")]
     [StringLength(255)]
     public string SoftwareIntegrado { get; set; } = null!;
 
     [Column("NombreSWAPP")]
-    [DisplayName("Nombre App")]
+    [DisplayName("Aplicación")]
     [StringLength(255)]
     public string? NombreSwapp { get; set; }
 
-    public bool? Certificado { get; set; }
+    public bool? Certificado { get; set; } = false;
 
     [DisplayName("Fecha Inicio")]
-    public DateOnly? FechaInicio { get; set; }
+    public DateOnly? FechaInicio { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [DisplayName("Fecha Fin")]
     public DateOnly? FechaFin { get; set; }
 
     [DisplayName("Días Integrando")]
-    public int? DiasIntegrando { get; set; }
+    public int? DiasIntegrando { get; set; } = 0;
 
     [DisplayName("Días Standby")]
-    public int? DiasStandBy { get; set; }
+    public int? DiasStandBy { get; set; } = 0;
 
     public bool? StandBy { get; set; }
 
@@ -79,12 +79,12 @@ public partial class Integracione
     [DisplayName("Partner")]
     [ForeignKey("Partner")]
     [InverseProperty("Integraciones")]
-    public virtual Partner PartnerNavigation { get; set; } = null!;
+    public virtual Partner? PartnerNavigation { get; set; } = null!;
 
     [DisplayName("Solución")]
     [ForeignKey("Solucion")]
     [InverseProperty("Integraciones")]
-    public virtual Solucione SolucionNavigation { get; set; } = null!;
+    public virtual Solucione? SolucionNavigation { get; set; } = null!;
 
     [DisplayName("Status")]
     [ForeignKey("Status")]

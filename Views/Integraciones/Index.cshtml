@@ -16,95 +16,100 @@
     <thead>
         <tr class="text-center">
             <th onclick="sortTable(0)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.ModeloTerminal)
-            </th>
-            <th onclick="sortTable(1)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.SoftwareIntegrado)
-            </th>
-            <th onclick="sortTable(2)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.NombreSwapp)
-            </th>
-            <th onclick="sortTable(3)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.Certificado)
-            </th>
-            <th onclick="sortTable(4, true)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th onclick="sortTable(5, true)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th onclick="sortTable(6)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.DiasIntegrando)
-            </th>
-            <th onclick="sortTable(7)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.DiasStandBy)
-            </th>
-            <th onclick="sortTable(8)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.StandBy)
-            </th>
-            <th onclick="sortTable(9)" style="cursor: pointer;">
-                @Html.DisplayNameFor(model => model.CasoSf)
-            </th>
-            <th onclick="sortTable(10)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.PartnerNavigation)
             </th>
-            <th onclick="sortTable(11)" style="cursor: pointer;">
+            <th onclick="sortTable(1)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.SolucionNavigation)
             </th>
-            <th onclick="sortTable(12)" style="cursor: pointer;">
+            <th onclick="sortTable(2)" style="cursor: pointer;">
                 @Html.DisplayNameFor(model => model.StatusNavigation)
             </th>
-            <th></th>
+            <th onclick="sortTable(3)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.ModeloTerminal)
+            </th>
+            <th onclick="sortTable(4)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.SoftwareIntegrado)
+            </th>
+            <th onclick="sortTable(5)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.NombreSwapp)
+            </th>
+            <th onclick="sortTable(6)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.Certificado)
+            </th>
+            <th onclick="sortTable(7, true)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th onclick="sortTable(8, true)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th onclick="sortTable(9)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.DiasIntegrando)
+            </th>
+            <th onclick="sortTable(10)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.DiasStandBy)
+            </th>
+            <th onclick="sortTable(11)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.StandBy)
+            </th>
+            <th onclick="sortTable(12)" style="cursor: pointer;">
+                @Html.DisplayNameFor(model => model.CasoSf)
+            </th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody id="dataTable">
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModeloTerminal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoftwareIntegrado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreSwapp)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartnerNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SolucionNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModeloTerminal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoftwareIntegrado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreSwapp)
+                </td>
                 <td>@(item.Certificado.HasValue ? (item.Certificado.Value ? "Sí" : "No") : "No especificado")</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasIntegrando)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiasStandBy)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiasIntegrando)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiasStandBy)
+                </td>
                 <td>@(item.StandBy.HasValue ? (item.StandBy.Value ? "Sí" : "No") : "No especificado")</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CasoSf)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartnerNavigation.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SolucionNavigation.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StatusNavigation.Id)
-            </td>
-                <td class="d-flex gap-2">
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary flex-fill">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark flex-fill">Detalles</a>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger flex-fill">Eliminar</a>
-                    }
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.CasoSf)
+                </td>
+
+                <td>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary flex-fill">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark flex-fill">Detalles</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger flex-fill">Eliminar</a>
+                        }
+                    </div>
+                   
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,14 +52,20 @@ namespace ElGantte.Controllers
         }
 
         // GET: Integraciones/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CartaCesion"] = new SelectList(_context.Cartascesions, "Id", "Id");
-            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id");
-            ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id");
-            ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id");
+            await CargarListasAsync();
             return View();
         }
+
+        private async Task CargarListasAsync()
+        {
+            ViewBag.ModelosTerminales = new SelectList(await _context.Modelosterminals.ToListAsync(), "Id", "Modelo");
+            ViewBag.Status = new SelectList(await _context.Statuses.ToListAsync(), "Id", "Nombre");
+            ViewBag.Solucion = new SelectList(await _context.Soluciones.ToListAsync(), "Id", "Nombre");
+            ViewBag.PartnerList = new SelectList(await _context.Partners.ToListAsync(), "Id", "Nombre");
+        }
+
 
         // POST: Integraciones/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -73,10 +80,8 @@ namespace ElGantte.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartaCesion"] = new SelectList(_context.Cartascesions, "Id", "Id", integracione.CartaCesion);
-            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id", integracione.Partner);
-            ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id", integracione.Solucion);
-            ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id", integracione.Status);
+            //Si falla la validación, necesitas recargar ViewBag
+            await CargarListasAsync();
             return View(integracione);
         }
 

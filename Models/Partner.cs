@@ -23,7 +23,7 @@ public partial class Partner
 
     public bool Tipo { get; set; }
     [DisplayName("Fecha Registro")]
-    public DateOnly FechaRegistro { get; set; }
+    public DateOnly FechaRegistro { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [StringLength(255)]
     public string Correo { get; set; } = null!;
@@ -35,7 +35,7 @@ public partial class Partner
     [Column(TypeName = "text")]
     public string? Notas { get; set; }
     [DisplayName("Fecha Cambio")]
-    public DateOnly? FechaCambio { get; set; }
+    public DateOnly? FechaCambio { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [StringLength(255)]
     [DisplayName("AM")]

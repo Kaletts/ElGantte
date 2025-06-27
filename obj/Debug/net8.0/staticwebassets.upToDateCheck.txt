@@ -1,6 +1,8 @@
 wwwroot\css\site.css
+wwwroot\css\tom-select.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
+wwwroot\js\tom-select.complete.min.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
