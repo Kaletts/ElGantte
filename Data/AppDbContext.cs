@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using ElGantte.Models;
+﻿using ElGantte.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using System;
+using System.Collections.Generic;
 
 namespace ElGantte.Data;
 
@@ -116,6 +117,11 @@ public partial class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("integraciones_ibfk_1");
         });
+
+        modelBuilder.Entity<Integracione>()
+                .HasOne(i => i.ModeloTerminalNavigation)
+                .WithMany(mt => mt.Integraciones)
+                .HasForeignKey(i => i.ModeloTerminal);
 
         modelBuilder.Entity<Jira>(entity =>
         {

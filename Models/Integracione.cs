@@ -19,8 +19,7 @@ public partial class Integracione
     public int Id { get; set; }
 
     [DisplayName("Modelo")]
-    [StringLength(255)]
-    public string ModeloTerminal { get; set; } = null!;
+    public int? ModeloTerminal { get; set; } = 1!;
 
     [DisplayName("Tipo Solución")]
     [StringLength(255)]
@@ -93,4 +92,8 @@ public partial class Integracione
 
     [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Terminale> Terminales { get; set; } = new List<Terminale>();
+
+    [ForeignKey("ModeloTerminal")]
+    [InverseProperty("Integraciones")]
+    public Modelosterminal? ModeloTerminalNavigation { get; set; } //navegación
 }

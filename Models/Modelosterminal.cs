@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElGantte.Models;
 
@@ -21,4 +22,8 @@ public partial class Modelosterminal
 
     [InverseProperty("ModeloNavigation")]
     public virtual ICollection<Terminale> Terminales { get; set; } = new List<Terminale>();
+
+    [InverseProperty("ModeloTerminalNavigation")]
+    public virtual ICollection<Integracione> Integraciones { get; set; } = new List<Integracione>();
+
 }

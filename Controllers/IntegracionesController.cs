@@ -25,7 +25,7 @@ namespace ElGantte.Controllers
         // GET: Integraciones
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Integraciones.Include(i => i.CartaCesionNavigation).Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation);
+            var appDbContext = _context.Integraciones.Include(i => i.CartaCesionNavigation).Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation).Include(i => i.ModeloTerminalNavigation);
             return View(await appDbContext.ToListAsync());
         }
 
