@@ -3,68 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\modelosterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\modelosterminal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\integraciones\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\integraciones\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\integracione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\integracione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\cartascesioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\cartascesioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\integraciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\integraciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\migrations\\20250628180344_detallescartacesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:migrations\\20250628180344_detallescartacesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\migrations\\20250628171014_basesincronizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:migrations\\20250628171014_basesincronizada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\migrations\\20250624162327_addusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:migrations\\20250624162327_addusuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\cartascesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\cartascesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\integraciones\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\integraciones\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\integraciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\integraciones\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\partners\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\jira.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\jira.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\partner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\partner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\solucione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\solucione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\cartascesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\cartascesion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -83,202 +51,104 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Integraciones\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Index.cshtml",
-              "RelativeToolTip": "Views\\Integraciones\\Index.cshtml",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAEkAAABPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-28T17:17:37.873Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAwwHIAAAAAAAAAAAAAAA==",
+              "Title": "20250628180344_DetallesCartaCesion.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250628180344_DetallesCartaCesion.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250628180344_DetallesCartaCesion.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250628180344_DetallesCartaCesion.cs",
+              "RelativeToolTip": "Migrations\\20250628180344_DetallesCartaCesion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T17:00:10.588Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABNAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T17:11:25.037Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IntegracionesController.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\IntegracionesController.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
-              "RelativeToolTip": "Controllers\\IntegracionesController.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAcwEwAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T17:07:15.269Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-27T16:49:36.682Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
-              "RelativeDocumentMoniker": "Views\\Partners\\Create.cshtml",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Partners\\Create.cshtml",
-              "RelativeToolTip": "Views\\Partners\\Create.cshtml",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAFQAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-27T16:44:42.193Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Modelosterminal.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Modelosterminal.cs",
-              "RelativeDocumentMoniker": "Models\\Modelosterminal.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Modelosterminal.cs",
-              "RelativeToolTip": "Models\\Modelosterminal.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T16:39:52.396Z",
+              "WhenOpened": "2025-06-28T18:03:46.287Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Integracione.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Integracione.cs",
-              "RelativeDocumentMoniker": "Models\\Integracione.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Integracione.cs*",
-              "RelativeToolTip": "Models\\Integracione.cs*",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAIwGAAAAAmAAAAAAAAAA==",
+              "Title": "CartascesionController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\CartascesionController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CartascesionController.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\CartascesionController.cs",
+              "RelativeToolTip": "Controllers\\CartascesionController.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAQwG8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T17:16:12.504Z",
+              "WhenOpened": "2025-06-28T17:53:47.834Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "20250628171014_BaseSincronizada.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250628171014_BaseSincronizada.cs",
-              "RelativeDocumentMoniker": "Migrations\\20250628171014_BaseSincronizada.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250628171014_BaseSincronizada.cs",
-              "RelativeToolTip": "Migrations\\20250628171014_BaseSincronizada.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T17:10:40.271Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "20250624162327_AddUsuario.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250624162327_AddUsuario.cs",
-              "RelativeDocumentMoniker": "Migrations\\20250624162327_AddUsuario.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250624162327_AddUsuario.cs",
-              "RelativeToolTip": "Migrations\\20250624162327_AddUsuario.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T17:07:22.736Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Solucione.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Solucione.cs",
-              "RelativeDocumentMoniker": "Models\\Solucione.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Solucione.cs",
-              "RelativeToolTip": "Models\\Solucione.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T16:42:32.414Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\Integraciones\\Create.cshtml",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Create.cshtml",
               "RelativeToolTip": "Views\\Integraciones\\Create.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAD8AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-27T16:36:55.96Z",
+              "WhenOpened": "2025-06-28T17:43:54.167Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-27T17:13:51.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Partner.cs",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Partner.cs",
-              "RelativeDocumentMoniker": "Models\\Partner.cs",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Partner.cs",
-              "RelativeToolTip": "Models\\Partner.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAAAXAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "Jira.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Jira.cs",
+              "RelativeDocumentMoniker": "Models\\Jira.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Jira.cs",
+              "RelativeToolTip": "Models\\Jira.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T17:35:11.65Z"
+              "WhenOpened": "2025-06-28T17:38:37.191Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-27T17:13:58.818Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 3,
               "Title": "Cartascesion.cs",
               "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Cartascesion.cs",
               "RelativeDocumentMoniker": "Models\\Cartascesion.cs",
               "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Cartascesion.cs",
               "RelativeToolTip": "Models\\Cartascesion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-27T16:42:15.965Z"
+              "WhenOpened": "2025-06-28T17:38:09.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Integraciones\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Index.cshtml",
+              "RelativeToolTip": "Views\\Integraciones\\Index.cshtml",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEkAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-28T17:30:36.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IntegracionesController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\IntegracionesController.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
+              "RelativeToolTip": "Controllers\\IntegracionesController.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAcwG0AAAB2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T17:31:30.308Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Integraciones\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Integraciones\\Edit.cshtml",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAGIAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-28T17:29:22.384Z",
+              "EditorCaption": ""
             }
           ]
         }

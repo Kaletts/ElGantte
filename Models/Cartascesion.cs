@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElGantte.Models;
 
@@ -14,6 +15,14 @@ public partial class Cartascesion
 
     [Column("CartasCesion")]
     public byte[] CartasCesion1 { get; set; } = null!;
+
+    public DateOnly Fecha { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+
+    [StringLength(255)]
+    public string NombreArchivo { get; set; }
+
+    [StringLength(50)]
+    public string TipoMime { get; set; }
 
     [InverseProperty("CartaCesionNavigation")]
     public virtual ICollection<Integracione> Integraciones { get; set; } = new List<Integracione>();

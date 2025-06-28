@@ -93,15 +93,22 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
-            var integracione = await _context.Integraciones.FindAsync(id);
+            var integracione = await _context.Integraciones
+                .Include(i => i.PartnerNavigation)
+                .Include(i => i.CartaCesionNavigation)
+                .Include(i => i.SolucionNavigation)
+                .Include(i => i.StatusNavigation)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
             if (integracione == null)
             {
                 return NotFound();
             }
             ViewData["CartaCesion"] = new SelectList(_context.Cartascesions, "Id", "Id", integracione.CartaCesion);
-            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id", integracione.Partner);
-            ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id", integracione.Solucion);
-            ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id", integracione.Status);
+            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Nombre", integracione.Partner);
+            ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Nombre", integracione.Solucion);
+            ViewBag.ModelosTerminales = new SelectList(await _context.Modelosterminals.ToListAsync(), "Id", "Modelo");
+            ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Nombre", integracione.Status);
             return View(integracione);
         }
 
@@ -144,6 +151,7 @@ namespace ElGantte.Controllers
             return View(integracione);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Integraciones/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -166,6 +174,7 @@ namespace ElGantte.Controllers
             return View(integracione);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // POST: Integraciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

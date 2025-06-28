@@ -4,18 +4,18 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Editando la integración del <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong></h1>
 
 <h4>Integracione</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-8">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ModeloTerminal" class="control-label"></label>
-                <input asp-for="ModeloTerminal" class="form-control" />
+                <select asp-for="ModeloTerminal" class="form-control" asp-items="ViewBag.ModelosTerminales"></select>
                 <span asp-validation-for="ModeloTerminal" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -88,9 +88,28 @@
             </div>
         </form>
     </div>
+    <div class="col-4">
+        <h4>Subir Carta de Cesión</h4>
+        <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="integracionId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="ArchivoCartaCesion">Subir Carta de Cesión</label>
+                <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
+            </div>
+            <button type="submit" class="btn btn-outline-success mt-2">Subir</button>
+        </form>
+        @if (Model.CartaCesion != null)
+        {
+            <a asp-controller="Cartascesion" asp-action="Descargar" asp-route-id="@Model.CartaCesion" class="btn btn-sm btn-outline-primary">
+                Descargar carta de cesión
+            </a>
+        }
+    </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary mt-1 w-100">Volver al inicio</a>
 </div>
+
+
 
