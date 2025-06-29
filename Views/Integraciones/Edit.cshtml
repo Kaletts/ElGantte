@@ -4,7 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong></h1>
+<div class="d-flex justify-content-between">
+    <h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong> <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em></h1>
+    <div>
+        @await Html.PartialAsync("_TempDataMensajes")
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-6">
@@ -130,48 +135,100 @@
         </form>
     </div>
     <div class="col-6">
-        <h4>Subir Carta de Cesión</h4>
-        <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="integracionId" value="@Model.Id" />
-            <div class="form-group">
-                <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
-            </div>
-            <button type="submit" class="btn btn-outline-success mt-2">Subir</button>
-        </form>
-        @if (Model.CartasCesion != null && Model.CartasCesion.Any())
-        {
-            <ul class="list-group">
-                @foreach (var carta in Model.CartasCesion)
-                {
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>@carta.Fecha.ToString("dd/MM/yyyy")</span>
-                        <span>@carta.NombreArchivo</span>
-                        <div class="d-flex gap-2">
-                            <a asp-controller="Cartascesion"
-                               asp-action="Descargar"
-                               asp-route-id="@carta.Id"
-                               class="btn btn-sm btn-outline-primary">
-                                Descargar
-                            </a>
-                            @if (User.IsInRole("Admin"))
-                            {
+        <div class="row">
+            <h4>Subir Carta de Cesión</h4>
+            <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="integracionId" value="@Model.Id" />
+                <div class="form-group d-flex">
+                        <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
+                        <button type="submit" class="btn btn-outline-success">Subir</button>
+                </div>
+            </form>
+            @if (Model.CartasCesion != null && Model.CartasCesion.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var carta in Model.CartasCesion)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@carta.Fecha.ToString("dd/MM/yyyy")</span>
+                            <span>@carta.NombreArchivo</span>
+                            <div class="d-flex gap-2">
                                 <a asp-controller="Cartascesion"
-                                   asp-action="Delete"
+                                   asp-action="Descargar"
                                    asp-route-id="@carta.Id"
-                                   asp-route-integracionId="@Model.Id"
-                                   class="btn btn-outline-danger">
-                                    Eliminar
-                                </a>                               
-                            }
-                        </div>
-                    </li>
+                                   class="btn btn-sm btn-outline-primary">
+                                    Descargar
+                                </a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-controller="Cartascesion"
+                                       asp-action="Delete"
+                                       asp-route-id="@carta.Id"
+                                       asp-route-integracionId="@Model.Id"
+                                       class="btn btn-outline-danger">
+                                        Eliminar
+                                    </a>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No hay cartas de cesión subidas aún.</p>
+            }
+        </div>
+        <div class="row">
+            <div class="row mt-4">
+                <h4>Subir Cuaderno de Pruebas</h4>
+                <form asp-controller="Cuadernospruebas" asp-action="SubirCuaderno" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="integracionId" value="@Model.Id" />
+                    <div class="form-group d-flex">
+                        <input type="file" name="ArchivoCuadernoPrueba" id="ArchivoCuadernoPrueba" class="form-control" required accept=".xls,.xlsx,.pdf,.doc,.docx,.ods" />
+                        <button type="submit" class="btn btn-outline-success">Subir</button>
+                    </div>
+                  
+                </form>
+
+                @if (Model.CuadernosPrueba != null && Model.CuadernosPrueba.Any())
+                {
+                    <ul class="list-group mt-2">
+                        @foreach (var cuaderno in Model.CuadernosPrueba)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@cuaderno.Fecha.ToString("dd/MM/yyyy")</span>
+                                <span>@cuaderno.NombreArchivo</span>
+                                <div class="d-flex gap-2">
+                                    <a asp-controller="Cuadernospruebas"
+                                       asp-action="Descargar"
+                                       asp-route-id="@cuaderno.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Descargar
+                                    </a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Cuadernospruebas"
+                                           asp-action="Delete"
+                                           asp-route-id="@cuaderno.Id"
+                                           asp-route-integracionId="@Model.Id"
+                                           class="btn btn-outline-danger">
+                                            Eliminar
+                                        </a>
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
                 }
-            </ul>
-        }
-        else
-        {
-            <p>No hay cartas de cesión subidas aún.</p>
-        }
+                else
+                {
+                    <p>No hay cuadernos de prueba subidos aún.</p>
+                }
+            </div>
+
+        </div>
+       
         
     </div>
 

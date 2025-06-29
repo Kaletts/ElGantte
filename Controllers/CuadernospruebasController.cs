@@ -1,4 +1,5 @@
 ﻿using ElGantte.Data;
+using ElGantte.Migrations;
 using ElGantte.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -126,7 +127,7 @@ namespace ElGantte.Controllers
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Cuadernospruebas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? integracionId)
         {
             if (id == null)
             {
@@ -140,6 +141,7 @@ namespace ElGantte.Controllers
             {
                 return NotFound();
             }
+            ViewBag.IntegracionId = integracionId;
 
             return View(cuadernosprueba);
         }
@@ -148,16 +150,62 @@ namespace ElGantte.Controllers
         // POST: Cuadernospruebas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int integracionId)
         {
             var cuadernosprueba = await _context.Cuadernosprueba.FindAsync(id);
             if (cuadernosprueba != null)
             {
                 _context.Cuadernosprueba.Remove(cuadernosprueba);
+                await _context.SaveChangesAsync();
             }
 
+            TempData["Success"] = "Cuaderno de pruebas eliminado correctamente.";
+            return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubirCuaderno(IFormFile ArchivoCuadernoPrueba, int integracionId)
+        {
+            if (ArchivoCuadernoPrueba == null || ArchivoCuadernoPrueba.Length == 0)
+            {
+                TempData["Error"] = "Debe seleccionar un archivo válido.";
+                return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
+            }
+
+            using var memoryStream = new MemoryStream();
+            await ArchivoCuadernoPrueba.CopyToAsync(memoryStream);
+
+            var cuaderno = new Cuadernosprueba
+            {
+                CuadernoPrueba = memoryStream.ToArray(),
+                NombreArchivo = Path.GetFileName(ArchivoCuadernoPrueba.FileName),
+                TipoMime = ArchivoCuadernoPrueba.ContentType,
+                Fecha = DateOnly.FromDateTime(DateTime.Today),
+                IntegracioneId = integracionId
+            };
+
+            _context.Cuadernosprueba.Add(cuaderno);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            TempData["Success"] = "Cuaderno de prueba subido correctamente.";
+            return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
+        }
+
+        //Metodo para descargar el cuaderno de pruebas
+        public async Task<IActionResult> Descargar(int id)
+        {
+            var cuaderno = await _context.Cuadernosprueba.FindAsync(id);
+            if (cuaderno == null || cuaderno.CuadernoPrueba == null)
+            {
+                return NotFound();
+            }
+
+            var nombre = cuaderno.NombreArchivo ?? $"Cuaderno_{id}.xlsx";
+            var tipo = cuaderno.TipoMime ?? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            return File(cuaderno.CuadernoPrueba, tipo, nombre);
         }
 
         private bool CuadernospruebaExists(int id)

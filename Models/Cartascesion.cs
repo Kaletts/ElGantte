@@ -21,7 +21,7 @@ public partial class Cartascesion
     [StringLength(255)]
     public string NombreArchivo { get; set; }
 
-    [StringLength(50)]
+    [StringLength(255)]
     public string TipoMime { get; set; }
 
     public int IntegracioneId { get; set; }

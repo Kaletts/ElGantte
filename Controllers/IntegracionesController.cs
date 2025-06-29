@@ -97,6 +97,7 @@ namespace ElGantte.Controllers
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
                 .Include(i => i.CartasCesion)
+                .Include(i => i.CuadernosPrueba)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if (integracione == null)
