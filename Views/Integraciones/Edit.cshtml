@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Editando la integración del <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong></h1>
+<h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong></h1>
 <hr />
 <div class="row">
     <div class="col-6">
@@ -18,7 +18,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="SoftwareIntegrado" class="control-label"></label>
-                <input asp-for="SoftwareIntegrado" class="form-control" />
+                <select asp-for="SoftwareIntegrado" class="form-control" required>
+                    <option value="APK">APK</option>
+                    <option value="SOFT.CAJA + APK">SOFT.CAJA + APK</option>
+                    <option value="SOFT.CAJA">SOFT.CAJA</option>
+                    <option value="TNA">TNA</option>
+                </select>
                 <span asp-validation-for="SoftwareIntegrado" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -28,14 +33,36 @@
             </div>
             <div class="form-group">
                 <label asp-for="Certificado" class="control-label"></label>
-                <input asp-for="Certificado" class="form-control" />
+                <select asp-for="Certificado" class="form-control">
+                    @if (Model.Certificado.HasValue && Model.Certificado.Value)
+                    {
+                        <option value="true" selected>Sí</option>
+                        <option value="false">No</option>
+                    }
+                    else
+                    {
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    }
+                </select>
                 <span asp-validation-for="Certificado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FechaInicio" class="control-label"></label>
-                <input asp-for="FechaInicio" class="form-control" />
-                <span asp-validation-for="FechaInicio" class="text-danger"></span>
-            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label asp-for="FechaInicio" class="control-label"></label>
+                    <input asp-for="FechaInicio" class="form-control" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+            } else
+            {
+                <div class="form-group">
+                    <label asp-for="FechaInicio" class="control-label"></label>
+                    <input asp-for="FechaInicio" class="form-control" disabled/>
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+            }
+
             <div class="form-group">
                 <label asp-for="FechaFin" class="control-label"></label>
                 <input asp-for="FechaFin" class="form-control" />
@@ -53,7 +80,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="StandBy" class="control-label"></label>
-                <input asp-for="StandBy" class="form-control" />
+                <select asp-for="StandBy" class="form-control">
+                    @if (Model.StandBy.HasValue && Model.StandBy.Value)
+                    {
+                        <option value="true" selected>Sí</option>
+                        <option value="false">No</option>
+                    }
+                    else
+                    {
+                        <option value="true">Sí</option>
+                        <option value="false" selected>No</option>
+                    }
+                </select>
                 <span asp-validation-for="StandBy" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -71,11 +109,21 @@
                 <select asp-for="Solucion" class="form-control" asp-items="ViewBag.Solucion"></select>
                 <span asp-validation-for="Solucion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Partner" class="control-label"></label>
-                <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner"></select>
-                <span asp-validation-for="Partner" class="text-danger"></span>
-            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label asp-for="Partner" class="control-label"></label>
+                    <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner"></select>
+                    <span asp-validation-for="Partner" class="text-danger"></span>
+                </div>
+            } else
+            {
+                <div class="form-group">
+                    <label asp-for="Partner" class="control-label"></label>
+                    <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner" disabled></select>
+                    <span asp-validation-for="Partner" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Guardar Cambios" class="btn btn-outline-success mt-1 w-100" />
             </div>
@@ -132,6 +180,7 @@
 
 
 <a asp-action="Index" class="btn btn-outline-primary mt-2 w-100">Volver al inicio</a>
+
 
 
 
