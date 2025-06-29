@@ -5,11 +5,9 @@
 }
 
 <h1>Editando la integración del <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong></h1>
-
-<h4>Integracione</h4>
 <hr />
 <div class="row">
-    <div class="col-8">
+    <div class="col-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -79,37 +77,61 @@
                 <span asp-validation-for="Partner" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CartaCesion" class="control-label"></label>
-                <select asp-for="CartaCesion" class="form-control" asp-items="ViewBag.CartaCesion"></select>
-                <span asp-validation-for="CartaCesion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar Cambios" class="btn btn-outline-success mt-1 w-100" />
             </div>
         </form>
     </div>
-    <div class="col-4">
+    <div class="col-6">
         <h4>Subir Carta de Cesión</h4>
         <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data">
             <input type="hidden" name="integracionId" value="@Model.Id" />
             <div class="form-group">
-                <label for="ArchivoCartaCesion">Subir Carta de Cesión</label>
                 <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
             </div>
             <button type="submit" class="btn btn-outline-success mt-2">Subir</button>
         </form>
-        @if (Model.CartaCesion != null)
+        @if (Model.CartasCesion != null && Model.CartasCesion.Any())
         {
-            <a asp-controller="Cartascesion" asp-action="Descargar" asp-route-id="@Model.CartaCesion" class="btn btn-sm btn-outline-primary">
-                Descargar carta de cesión
-            </a>
+            <ul class="list-group">
+                @foreach (var carta in Model.CartasCesion)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@carta.Fecha.ToString("dd/MM/yyyy")</span>
+                        <span>@carta.NombreArchivo</span>
+                        <div class="d-flex gap-2">
+                            <a asp-controller="Cartascesion"
+                               asp-action="Descargar"
+                               asp-route-id="@carta.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Descargar
+                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Cartascesion"
+                                   asp-action="Delete"
+                                   asp-route-id="@carta.Id"
+                                   asp-route-integracionId="@Model.Id"
+                                   class="btn btn-outline-danger">
+                                    Eliminar
+                                </a>                               
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
         }
+        else
+        {
+            <p>No hay cartas de cesión subidas aún.</p>
+        }
+        
     </div>
+
+
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-outline-primary mt-1 w-100">Volver al inicio</a>
-</div>
+
+<a asp-action="Index" class="btn btn-outline-primary mt-2 w-100">Volver al inicio</a>
 
 
 

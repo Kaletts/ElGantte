@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250628182536_CorregirRelacionCarta2")]
+    partial class CorregirRelacionCarta2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,42 +92,6 @@ namespace ElGantte.Migrations
                         .IsUnique();
 
                     b.ToTable("comentarios");
-                });
-
-            modelBuilder.Entity("ElGantte.Models.Cuadernosprueba", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("CuadernoPrueba")
-                        .IsRequired()
-                        .HasColumnType("longblob")
-                        .HasColumnName("CuadernoPrueba");
-
-                    b.Property<DateOnly>("Fecha")
-                        .HasColumnType("date");
-
-                    b.Property<int>("IntegracioneId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NombreArchivo")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("TipoMime")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IntegracioneId");
-
-                    b.ToTable("cuadernosprueba");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Efmigrationshistory", b =>
@@ -533,36 +500,6 @@ namespace ElGantte.Migrations
                     b.ToTable("statuses");
                 });
 
-            modelBuilder.Entity("ElGantte.Models.Telecertificaciones", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
-
-                    b.Property<string>("Enlace")
-                        .IsRequired()
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<DateOnly>("Fecha")
-                        .HasColumnType("date");
-
-                    b.Property<int>("IntegracioneId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IntegracioneId");
-
-                    b.ToTable("telecertificaciones");
-                });
-
             modelBuilder.Entity("ElGantte.Models.Terminale", b =>
                 {
                     b.Property<int>("Id")
@@ -637,17 +574,6 @@ namespace ElGantte.Migrations
                         .HasConstraintName("comentarios_ibfk_1");
 
                     b.Navigation("IntegracionNavigation");
-                });
-
-            modelBuilder.Entity("ElGantte.Models.Cuadernosprueba", b =>
-                {
-                    b.HasOne("ElGantte.Models.Integracione", "Integracion")
-                        .WithMany("CuadernosPrueba")
-                        .HasForeignKey("IntegracioneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Integracion");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Historicoetapa", b =>
@@ -750,17 +676,6 @@ namespace ElGantte.Migrations
                     b.Navigation("TerminalNavigation");
                 });
 
-            modelBuilder.Entity("ElGantte.Models.Telecertificaciones", b =>
-                {
-                    b.HasOne("ElGantte.Models.Integracione", "Integracion")
-                        .WithMany("TeleCertificaciones")
-                        .HasForeignKey("IntegracioneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Integracion");
-                });
-
             modelBuilder.Entity("ElGantte.Models.Terminale", b =>
                 {
                     b.HasOne("ElGantte.Models.Integracione", "IntegracionNavigation")
@@ -790,15 +705,11 @@ namespace ElGantte.Migrations
 
                     b.Navigation("Comentarios");
 
-                    b.Navigation("CuadernosPrueba");
-
                     b.Navigation("Historicoetapas");
 
                     b.Navigation("Historicoreuniones");
 
                     b.Navigation("Kitintegracions");
-
-                    b.Navigation("TeleCertificaciones");
 
                     b.Navigation("Terminales");
                 });

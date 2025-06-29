@@ -8,7 +8,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ElGantte.Models;
 
 [Table("integraciones")]
-[Index("CartaCesion", Name = "FK_CartaCesion_idx")]
 [Index("Solucion", Name = "FK_Solucion_idx")]
 [Index("Status", Name = "Status")]
 [Index("Id", Name = "id_UNIQUE", IsUnique = true)]
@@ -57,11 +56,14 @@ public partial class Integracione
 
     public int Partner { get; set; }
 
-    public int? CartaCesion { get; set; }
+    [InverseProperty("Integracion")]
+    public virtual ICollection<Cartascesion> CartasCesion { get; set; } = new List<Cartascesion>();
 
-    [ForeignKey("CartaCesion")]
-    [InverseProperty("Integraciones")]
-    public virtual Cartascesion? CartaCesionNavigation { get; set; }
+    [InverseProperty("Integracion")]
+    public virtual ICollection<Cuadernosprueba> CuadernosPrueba { get; set; } = new List<Cuadernosprueba>();
+
+    [InverseProperty("Integracion")]
+    public virtual ICollection<Telecertificaciones> TeleCertificaciones { get; set; } = new List<Telecertificaciones>();
 
     [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Comentario> Comentarios { get; set; } = new List<Comentario>();

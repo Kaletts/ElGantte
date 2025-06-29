@@ -1,0 +1,51 @@
+﻿@model ElGantte.Models.Cuadernosprueba
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Cuadernosprueba</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CuadernoPrueba)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CuadernoPrueba)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreArchivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreArchivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoMime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TipoMime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Integracion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Integracion.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

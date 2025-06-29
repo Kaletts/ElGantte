@@ -24,6 +24,8 @@ public partial class Cartascesion
     [StringLength(50)]
     public string TipoMime { get; set; }
 
-    [InverseProperty("CartaCesionNavigation")]
-    public virtual ICollection<Integracione> Integraciones { get; set; } = new List<Integracione>();
+    public int IntegracioneId { get; set; }
+
+    [ForeignKey("IntegracioneId")]
+    public virtual Integracione Integracion { get; set; } = null!;
 }

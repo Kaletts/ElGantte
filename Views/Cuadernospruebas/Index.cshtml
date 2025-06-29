@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ElGantte.Models.Cartascesion>
+﻿@model IEnumerable<ElGantte.Models.Cuadernosprueba>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,10 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IntegracioneId)
+                @Html.DisplayNameFor(model => model.CuadernoPrueba)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreArchivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoMime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Integracion)
             </th>
             <th></th>
         </tr>
@@ -25,10 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Integracion)
+                @Html.DisplayFor(modelItem => item.CuadernoPrueba)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreArchivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoMime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Integracion.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -25,7 +25,7 @@ namespace ElGantte.Controllers
         // GET: Integraciones
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Integraciones.Include(i => i.CartaCesionNavigation).Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation).Include(i => i.ModeloTerminalNavigation);
+            var appDbContext = _context.Integraciones.Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation).Include(i => i.ModeloTerminalNavigation);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -38,7 +38,6 @@ namespace ElGantte.Controllers
             }
 
             var integracione = await _context.Integraciones
-                .Include(i => i.CartaCesionNavigation)
                 .Include(i => i.PartnerNavigation)
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
@@ -95,16 +94,15 @@ namespace ElGantte.Controllers
 
             var integracione = await _context.Integraciones
                 .Include(i => i.PartnerNavigation)
-                .Include(i => i.CartaCesionNavigation)
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
+                .Include(i => i.CartasCesion)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if (integracione == null)
             {
                 return NotFound();
             }
-            ViewData["CartaCesion"] = new SelectList(_context.Cartascesions, "Id", "Id", integracione.CartaCesion);
             ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Nombre", integracione.Partner);
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Nombre", integracione.Solucion);
             ViewBag.ModelosTerminales = new SelectList(await _context.Modelosterminals.ToListAsync(), "Id", "Modelo");
@@ -144,7 +142,6 @@ namespace ElGantte.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CartaCesion"] = new SelectList(_context.Cartascesions, "Id", "Id", integracione.CartaCesion);
             ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id", integracione.Partner);
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id", integracione.Solucion);
             ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id", integracione.Status);
@@ -161,7 +158,6 @@ namespace ElGantte.Controllers
             }
 
             var integracione = await _context.Integraciones
-                .Include(i => i.CartaCesionNavigation)
                 .Include(i => i.PartnerNavigation)
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)

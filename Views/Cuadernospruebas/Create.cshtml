@@ -1,0 +1,49 @@
+﻿@model ElGantte.Models.Cuadernosprueba
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Cuadernosprueba</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CuadernoPrueba" class="control-label"></label>
+                <input asp-for="CuadernoPrueba" class="form-control" />
+                <span asp-validation-for="CuadernoPrueba" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fecha" class="control-label"></label>
+                <input asp-for="Fecha" class="form-control" />
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreArchivo" class="control-label"></label>
+                <input asp-for="NombreArchivo" class="form-control" />
+                <span asp-validation-for="NombreArchivo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoMime" class="control-label"></label>
+                <input asp-for="TipoMime" class="form-control" />
+                <span asp-validation-for="TipoMime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntegracioneId" class="control-label"></label>
+                <select asp-for="IntegracioneId" class ="form-control" asp-items="ViewBag.IntegracioneId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -105,8 +105,6 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.HasOne(d => d.CartaCesionNavigation).WithMany(p => p.Integraciones).HasConstraintName("FK_CartaCesion");
-
             entity.HasOne(d => d.PartnerNavigation).WithMany(p => p.Integraciones).HasConstraintName("integraciones_ibfk_2");
 
             entity.HasOne(d => d.SolucionNavigation).WithMany(p => p.Integraciones)
@@ -196,4 +194,6 @@ public partial class AppDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<ElGantte.Models.Cuadernosprueba> Cuadernosprueba { get; set; } = default!;
 }
