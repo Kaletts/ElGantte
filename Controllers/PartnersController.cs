@@ -72,6 +72,7 @@ namespace ElGantte.Controllers
                 partner.Correo = partner.Correo.Trim().ToLowerInvariant();
                 partner.AccountManager = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(partner.AccountManager.Trim().ToLower());
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Partner creado";
                 return RedirectToAction(nameof(Index));
             }
             return View(partner);
@@ -110,16 +111,19 @@ namespace ElGantte.Controllers
                 try
                 {
                     _context.Update(partner);
+                    TempData["Success"] = "Partner editado";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PartnerExists(partner.Id))
                     {
+                        TempData["Warning"] = "Partner no encontrado";
                         return NotFound();
                     }
                     else
                     {
+                        TempData["Error"] = "No se pudo editar el Partner";
                         throw;
                     }
                 }
@@ -163,6 +167,7 @@ namespace ElGantte.Controllers
             if (partner != null)
             {
                 _context.Partners.Remove(partner);
+                TempData["Success"] = "Partner eliminado";
             }
 
             await _context.SaveChangesAsync();

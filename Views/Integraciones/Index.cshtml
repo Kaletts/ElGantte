@@ -10,8 +10,8 @@
     <a asp-action="Create">Nueva integración</a>
 </p>
 
+@await Html.PartialAsync("_TempDataMensajes")
 <input type="text" id="buscarEntrada" class="form-control mb-3" placeholder="Buscar lo que sea...">
-
 <table class="table table-striped table-hover">
     <thead>
         <tr class="text-center">

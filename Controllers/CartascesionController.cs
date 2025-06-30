@@ -113,6 +113,7 @@ namespace ElGantte.Controllers
             var nombre = carta.NombreArchivo ?? $"Carta_{id}.pdf";
             var tipo = carta.TipoMime ?? "application/octet-stream";
 
+            TempData["Success"] = "Carta de cesión descargada";
             return File(carta.CartasCesion1, tipo, nombre);
         }
 
@@ -197,6 +198,7 @@ namespace ElGantte.Controllers
             if (cartascesion != null)
             {
                 _context.Cartascesions.Remove(cartascesion);
+                TempData["Error"] = "Carta de cesión eliminada";
                 await _context.SaveChangesAsync();
             }
 

@@ -1,12 +1,69 @@
-﻿@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success shadow-sm bg-body-tertiary rounded">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger shadow-sm bg-body-tertiary rounded">@TempData["Error"]</div>
-}
-@if (TempData["Warning"] != null)
-{
-    <div class="alert alert-warning shadow-sm bg-body-tertiary rounded">@TempData["Warning"]</div>
-}
+﻿<div id="notificaciones" class="notificacion-container">
+    @if (TempData["Success"] != null)
+    {
+        <div class="notificacion notificacion-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="notificacion notificacion-error">@TempData["Error"]</div>
+    }
+    @if (TempData["Warning"] != null)
+    {
+        <div class="notificacion notificacion-warning">@TempData["Warning"]</div>
+    }
+</div>
+
+<style>
+    .notificacion-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .notificacion {
+        padding: 12px 20px;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(-10px);
+        animation: fadeIn 0.4s ease-out forwards, fadeOut 0.5s ease-in 9s forwards;
+    }
+
+    .notificacion-success {
+        background-color: #198754;
+    }
+
+    .notificacion-error {
+        background-color: #dc3545;
+    }
+
+    .notificacion-warning {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    @@keyframes fadeIn {
+        to
+
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    @@keyframes fadeOut {
+        to
+
+    {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    }
+</style>

@@ -77,10 +77,13 @@ namespace ElGantte.Controllers
             {
                 _context.Add(integracione);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Integración creada";
                 return RedirectToAction(nameof(Index));
             }
             //Si falla la validación, necesitas recargar ViewBag
             await CargarListasAsync();
+
+            TempData["Error"] = "Integración no guardada, datos incorrectos";
             return View(integracione);
         }
 
@@ -98,6 +101,7 @@ namespace ElGantte.Controllers
                 .Include(i => i.StatusNavigation)
                 .Include(i => i.CartasCesion)
                 .Include(i => i.CuadernosPrueba)
+                .Include(i => i.TeleCertificaciones)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if (integracione == null)
@@ -120,6 +124,7 @@ namespace ElGantte.Controllers
         {
             if (id != integracione.Id)
             {
+                TempData["Error"] = "ID de integración no coincide";
                 return NotFound();
             }
 
@@ -134,6 +139,7 @@ namespace ElGantte.Controllers
                 {
                     if (!IntegracioneExists(integracione.Id))
                     {
+                        TempData["Error"] = "Integración no encontrada";
                         return NotFound();
                     }
                     else
@@ -146,6 +152,7 @@ namespace ElGantte.Controllers
             ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id", integracione.Partner);
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id", integracione.Solucion);
             ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id", integracione.Status);
+            TempData["Success"] = "Integración editada";
             return View(integracione);
         }
 
@@ -155,6 +162,7 @@ namespace ElGantte.Controllers
         {
             if (id == null)
             {
+                TempData["Error"] = "ID de integración no coincide";
                 return NotFound();
             }
 
@@ -165,6 +173,7 @@ namespace ElGantte.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (integracione == null)
             {
+                TempData["Error"] = "Integración no encontrada";
                 return NotFound();
             }
 
@@ -181,6 +190,10 @@ namespace ElGantte.Controllers
             if (integracione != null)
             {
                 _context.Integraciones.Remove(integracione);
+                TempData["Success"] = "Integración eliminada";
+            } else
+            {
+                TempData["Error"] = "Integración no encontrada o ya eliminada";
             }
 
             await _context.SaveChangesAsync();

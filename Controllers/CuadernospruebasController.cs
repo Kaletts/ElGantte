@@ -205,6 +205,7 @@ namespace ElGantte.Controllers
             var nombre = cuaderno.NombreArchivo ?? $"Cuaderno_{id}.xlsx";
             var tipo = cuaderno.TipoMime ?? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
+            TempData["Success"] = "Cuaderno de pruebas descargado correctamente";
             return File(cuaderno.CuadernoPrueba, tipo, nombre);
         }
 

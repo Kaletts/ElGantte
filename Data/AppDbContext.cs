@@ -196,4 +196,6 @@ public partial class AppDbContext : DbContext
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 public DbSet<ElGantte.Models.Cuadernosprueba> Cuadernosprueba { get; set; } = default!;
+
+public DbSet<ElGantte.Models.Telecertificaciones> Telecertificaciones { get; set; } = default!;
 }

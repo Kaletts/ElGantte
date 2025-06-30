@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ElGantte.Models
@@ -17,8 +18,10 @@ namespace ElGantte.Models
 
         [MaxLength(1000)]
         public string Descripcion { get; set; } = string.Empty;
+        
         public int IntegracioneId { get; set; }
 
+        [ValidateNever]
         [ForeignKey("IntegracioneId")]
         public virtual Integracione Integracion { get; set; } = null!;
     }

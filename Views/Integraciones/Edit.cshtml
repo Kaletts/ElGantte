@@ -4,12 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="d-flex justify-content-between">
-    <h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong> <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em></h1>
-    <div>
-        @await Html.PartialAsync("_TempDataMensajes")
-    </div>
-</div>
+@await Html.PartialAsync("_TempDataMensajes")
+<h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong> <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em></h1>
 <hr />
 <div class="row">
     <div class="col-6">
@@ -56,21 +52,21 @@
             {
                 <div class="form-group">
                     <label asp-for="FechaInicio" class="control-label"></label>
-                    <input asp-for="FechaInicio" class="form-control" />
+                    <input asp-for="FechaInicio" class="form-control" type="date" />
                     <span asp-validation-for="FechaInicio" class="text-danger"></span>
                 </div>
             } else
             {
                 <div class="form-group">
                     <label asp-for="FechaInicio" class="control-label"></label>
-                    <input asp-for="FechaInicio" class="form-control" disabled/>
+                    <input asp-for="FechaInicio" class="form-control" disabled type="date" />
                     <span asp-validation-for="FechaInicio" class="text-danger"></span>
                 </div>
             }
 
             <div class="form-group">
                 <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" class="form-control" />
+                <input asp-for="FechaFin" class="form-control" type="date" />
                 <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -226,6 +222,57 @@
                     <p>No hay cuadernos de prueba subidos aún.</p>
                 }
             </div>
+        </div>
+        <div class="row">
+        
+
+                <hr />
+                <h4>Agregar Telecertificación</h4>
+                <form asp-controller="Telecertificaciones" asp-action="Create" method="post">
+                <input type="hidden" name="IntegracioneId" value="@Model.Id" />
+                    <div class="mb-2">
+                        <label>Enlace</label>
+                        <input type="url" name="Enlace" class="form-control" required />
+                    </div>
+                    <div class="mb-2">
+                        <label>Fecha</label>
+                        <input type="date" name="Fecha" class="form-control" required />
+                    </div>
+                    <textarea name="Descripcion" class="form-control" rows="4"></textarea>
+                    <button type="submit" class="btn btn-outline-success">Agregar</button>
+                </form>
+ 
+
+            @if (Model.TeleCertificaciones != null && Model.TeleCertificaciones.Any())
+            {
+                <h5 class="mt-4">Telecertificaciones existentes</h5>
+                <ul class="list-group">
+                    @foreach (var t in Model.TeleCertificaciones)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>@t.Fecha.ToString("dd/MM/yyyy")</strong> - @t.Descripcion
+                                <a href="@t.Enlace" target="_blank" class="btn btn-sm btn-outline-primary ms-2">Ver enlace</a>
+                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <form asp-controller="Telecertificaciones"
+                                      asp-action="Delete"
+                                      method="post"
+                                      onsubmit="return confirm('¿Seguro que querés eliminar esta telecertificación?');">
+                                    <input type="hidden" name="id" value="@t.Id" />
+                                    <input type="hidden" name="integracionId" value="@Model.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                </form>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="mt-2">No hay telecertificaciones cargadas aún.</p>
+            }
 
         </div>
        
