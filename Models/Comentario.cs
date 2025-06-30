@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElGantte.Models;
@@ -23,5 +24,6 @@ public partial class Comentario
 
     [ForeignKey("Integracion")]
     [InverseProperty("Comentarios")]
+    [ValidateNever]
     public virtual Integracione IntegracionNavigation { get; set; } = null!;
 }

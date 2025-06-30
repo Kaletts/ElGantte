@@ -33,6 +33,77 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+<div class="col-8">
+
+    <div class="card mb-3">
+        <div class="card-header bg-primary text-white">
+            Comentarios
+        </div>
+        @*Aca se envía una acción al controlador con la fecha y el comentario *@
+        <form asp-action="AgregarComentario" asp-route-id="@Model.Id" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" style="width: 60%;" placeholder="Escribe tu comentario..." name="Comentario1" required>
+                <input type="date" class="form-control" id="fechaInputComentario" name="Fecha" required>
+                <input type="hidden" name="Integracion" value="@Model.Id"> @* Enviar el ID oculto de la integración para el metodo *@
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </div>
+        </form>
+        <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+            <ul class="list-group">
+                @foreach (var comentario in Model.Comentarios)
+                {
+                    <li class="list-group-item">
+                        <strong>@comentario.Fecha.ToString("dd/MM/yyyy"):</strong>
+                        @comentario.Comentario1
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    Etapas
+                </div>
+                @*Aca se envía una acción al controlador con la fecha y la etapa *@
+                <form asp-action="AgregarEtapa" asp-route-id="@Model.Id" method="post">
+                    <div class="input-group">
+                        <select class="form-control" placeholder="Elige la etapa" style="width: 60%;" name="NombreEtapa" asp-items="ViewBag.EtapasDisponibles" required>
+                            <option value="">Elige una etapa</option>
+                        </select>
+                        <input type="date" class="form-control" id="fechaInputEtapa" name="FechaCambio" required>
+                        <input type="hidden" name="Integracion" value="@Model.Id"> @* Enviar el ID oculto de la integración para el metodo *@
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                    <ul class="list-group">
+                        @foreach (var etapa in Model.Historicoetapas)
+                        {
+                            <li class="list-group-item">
+                                <strong>@etapa.FechaCambio.ToString("dd/MM/yyyy"):</strong>
+                                @etapa.Etapa
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-secondary">Editar</a> |
     <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>

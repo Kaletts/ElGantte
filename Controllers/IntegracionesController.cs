@@ -42,7 +42,25 @@ namespace ElGantte.Controllers
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
                 .Include(i => i.ModeloTerminalNavigation)
+                .Include(i => i.Historicoetapas)
+                .Include(i => i.Comentarios)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
+            if (integracione != null)
+            {
+                integracione.Comentarios = integracione.Comentarios
+                    .OrderByDescending(c => c.Fecha)
+                    .ToList();
+            }
+
+            if (integracione != null)
+            {
+                integracione.Historicoetapas = integracione.Historicoetapas
+                    .OrderByDescending(c => c.FechaCambio)
+                    .ToList();
+            }
+
+
             if (integracione == null)
             {
                 return NotFound();
@@ -199,6 +217,127 @@ namespace ElGantte.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        //Agregar comentario nuevo desde integracion
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgregarComentario(int id, [Bind("Comentario1,Fecha,Integracion")] Comentario comentario)
+        {
+            if (ModelState.IsValid)
+            {
+                var integracion = await _context.Integraciones.FindAsync(id);
+
+                //Si por alguna razón el comentario no tiene fecha, se pone la actual
+                if (comentario.Fecha == DateOnly.MinValue)
+                {
+                    comentario.Fecha = DateOnly.FromDateTime(DateTime.Today);
+                }
+
+                if (integracion != null)
+                {
+                    comentario.Integracion = integracion.Id; // Asociamos el comentario a la integración
+
+                    //Guardo la fecha del comentario
+                    DateOnly fechaBusqueda = comentario.Fecha;
+
+                    //Busco el comentario existente previo
+                    var comentarioExistente = await _context.Comentarios
+                        .FirstOrDefaultAsync(c => c.Fecha == fechaBusqueda && c.Integracion == integracion.Id);
+
+                    if (comentarioExistente != null)
+                    {
+                        //No hace falta escribir la fecha porque se debería conservar la original
+                        comentarioExistente.Comentario1 = comentario.Comentario1;
+                        _context.Update(comentarioExistente);
+                        TempData["Warning"] = "Comentario actualizado";
+                    }
+                    else
+                    {
+                        TempData["Success"] = "Comentario creado";
+                        _context.Add(comentario); //Agregamos el comentario a la base
+                    }
+
+                    await _context.SaveChangesAsync(); // Guardamos cambios
+                }
+
+                return RedirectToAction("Details", new { id = id });
+            } else
+            {
+                TempData["Error"] = "Error creando el comentario";
+            }
+
+                //Si el modelo no es válido, vuelve a cargar la vista con el formulario y los datos necesarios
+                return RedirectToAction("Details", new { id = id });
+        }
+
+        //Agregar nueva etapa desde integracion
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,NombreEtapa,Integracion")] Historicoetapa etapa)
+        {
+            if (ModelState.IsValid)
+            {
+                //Para revisar errores en los modelos
+                //foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                //{
+                //    Console.WriteLine(error.ErrorMessage);
+                //}
+                var integracion = await _context.Integraciones.FindAsync(id);
+
+                // Si por alguna razón la etapa no tiene fecha, se pone la actual
+                if (etapa.FechaCambio == DateOnly.MinValue)
+                {
+                    etapa.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+                }
+
+                if (integracion != null)
+                {
+                    //Guardo la fecha de la etapa
+                    DateOnly fechaBusqueda = etapa.FechaCambio;
+
+                    //Busco el comentario existente previo
+                    var etapaExistente = await _context.Historicoetapas
+                        .FirstOrDefaultAsync(c => c.FechaCambio == fechaBusqueda && c.Integracion == integracion.Id);
+
+                    if (etapaExistente != null)
+                    {
+                        //No hace falta escribir la fecha porque se debería conservar la original
+                        etapaExistente.Etapa = etapa.Etapa;
+                        _context.Update(etapaExistente);
+                        TempData["Warning"] = "Etapa actualizada";
+                    }
+                    else
+                    {
+                        etapa.Integracion = integracion.Id; // Asociamos la etapa a la integración
+                        _context.Add(etapa); // Agregamos la etapa a la base
+                        TempData["Success"] = "Etapa creada";
+                    }
+
+                    await _context.SaveChangesAsync(); // Guardamos cambios
+                }
+
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            // Si el modelo no es válido, vuelve a cargar la vista con el formulario y los datos necesarios
+            return RedirectToAction("Details", new { id = id });
+        }
+
+        //Método para obtener los datos del dashboard en formato JSON
+        [HttpGet]
+        public async Task<IActionResult> GetDashboardData()
+        {
+            var datos = new
+            {
+                integrando = _context.Integraciones.Count(i => i.Status == 1),
+                standby = _context.Integraciones.Count(i => i.Status == 2),
+                ko = _context.Integraciones.Count(i => i.Status == 3),
+                certificado = _context.Integraciones.Count(i => i.Status == 4)
+            };
+
+            return Json(datos);
         }
 
         private bool IntegracioneExists(int id)
