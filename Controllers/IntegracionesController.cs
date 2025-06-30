@@ -41,6 +41,7 @@ namespace ElGantte.Controllers
                 .Include(i => i.PartnerNavigation)
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (integracione == null)
             {
