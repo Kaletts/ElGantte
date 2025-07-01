@@ -191,6 +191,7 @@ namespace ElGantte.Controllers
                 .Include(i => i.PartnerNavigation)
                 .Include(i => i.SolucionNavigation)
                 .Include(i => i.StatusNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (integracione == null)
             {
@@ -281,11 +282,6 @@ namespace ElGantte.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Para revisar errores en los modelos
-                //foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                //{
-                //    Console.WriteLine(error.ErrorMessage);
-                //}
                 var integracion = await _context.Integraciones.FindAsync(id);
 
                 // Si por alguna razón la etapa no tiene fecha, se pone la actual

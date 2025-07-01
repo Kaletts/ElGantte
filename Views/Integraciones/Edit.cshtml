@@ -4,285 +4,469 @@
     ViewData["Title"] = "Edit";
 }
 
-@await Html.PartialAsync("_TempDataMensajes")
-<h1>Editando la integración de <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong> <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em></h1>
-<hr />
-<div class="row">
-    <div class="col-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ModeloTerminal" class="control-label"></label>
-                <select asp-for="ModeloTerminal" class="form-control" asp-items="ViewBag.ModelosTerminales"></select>
-                <span asp-validation-for="ModeloTerminal" class="text-danger"></span>
+<div class="container-fluid py-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="h4 mb-0">
+                    <i class="fas fa-puzzle-piece me-2"></i>Editando integración
+                </h2>
+                <a asp-action="Index" class="btn btn-light btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Volver al listado
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="SoftwareIntegrado" class="control-label"></label>
-                <select asp-for="SoftwareIntegrado" class="form-control" required>
-                    <option value="APK">APK</option>
-                    <option value="SOFT.CAJA + APK">SOFT.CAJA + APK</option>
-                    <option value="SOFT.CAJA">SOFT.CAJA</option>
-                    <option value="TNA">TNA</option>
-                </select>
-                <span asp-validation-for="SoftwareIntegrado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreSwapp" class="control-label"></label>
-                <input asp-for="NombreSwapp" class="form-control" />
-                <span asp-validation-for="NombreSwapp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Certificado" class="control-label"></label>
-                <select asp-for="Certificado" class="form-control">
-                    @if (Model.Certificado.HasValue && Model.Certificado.Value)
-                    {
-                        <option value="true" selected>Sí</option>
-                        <option value="false">No</option>
-                    }
-                    else
-                    {
-                        <option value="true">Sí</option>
-                        <option value="false" selected>No</option>
-                    }
-                </select>
-                <span asp-validation-for="Certificado" class="text-danger"></span>
-            </div>
-            @if (User.IsInRole("Admin"))
-            {
-                <div class="form-group">
-                    <label asp-for="FechaInicio" class="control-label"></label>
-                    <input asp-for="FechaInicio" class="form-control" type="date" />
-                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
-                </div>
-            } else
-            {
-                <div class="form-group">
-                    <label asp-for="FechaInicio" class="control-label"></label>
-                    <input asp-for="FechaInicio" class="form-control" disabled type="date" />
-                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
-                </div>
-            }
+        </div>
 
-            <div class="form-group">
-                <label asp-for="FechaFin" class="control-label"></label>
-                <input asp-for="FechaFin" class="form-control" type="date" />
-                <span asp-validation-for="FechaFin" class="text-danger"></span>
+        <div class="card-body">
+            @await Html.PartialAsync("_TempDataMensajes")
+
+            <div class="alert alert-info mb-4">
+                <h5 class="alert-heading">
+                    <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong>
+                    <span class="text-muted">|</span>
+                    <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em>
+                </h5>
+                <hr>
+                <p class="mb-0">Complete los detalles de la integración a continuación.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="DiasIntegrando" class="control-label"></label>
-                <input asp-for="DiasIntegrando" class="form-control" />
-                <span asp-validation-for="DiasIntegrando" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiasStandBy" class="control-label"></label>
-                <input asp-for="DiasStandBy" class="form-control" />
-                <span asp-validation-for="DiasStandBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StandBy" class="control-label"></label>
-                <select asp-for="StandBy" class="form-control">
-                    @if (Model.StandBy.HasValue && Model.StandBy.Value)
-                    {
-                        <option value="true" selected>Sí</option>
-                        <option value="false">No</option>
-                    }
-                    else
-                    {
-                        <option value="true">Sí</option>
-                        <option value="false" selected>No</option>
-                    }
-                </select>
-                <span asp-validation-for="StandBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CasoSf" class="control-label"></label>
-                <input asp-for="CasoSf" class="form-control" />
-                <span asp-validation-for="CasoSf" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control" asp-items="ViewBag.Status"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Solucion" class="control-label"></label>
-                <select asp-for="Solucion" class="form-control" asp-items="ViewBag.Solucion"></select>
-                <span asp-validation-for="Solucion" class="text-danger"></span>
-            </div>
-            @if (User.IsInRole("Admin"))
-            {
-                <div class="form-group">
-                    <label asp-for="Partner" class="control-label"></label>
-                    <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner"></select>
-                    <span asp-validation-for="Partner" class="text-danger"></span>
+
+            <div class="row g-4">
+                <!-- Main Form Column -->
+                <div class="col-lg-6">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="accordion mb-4" id="integrationAccordion">
+                            <!-- Basic Information Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingBasic">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="true" aria-controls="collapseBasic">
+                                        <i class="fas fa-info-circle me-2"></i> Información Básica
+                                    </button>
+                                </h2>
+                                <div id="collapseBasic" class="accordion-collapse collapse show" aria-labelledby="headingBasic" data-bs-parent="#integrationAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label asp-for="ModeloTerminal" class="form-label"></label>
+                                                <select asp-for="ModeloTerminal" class="form-select" asp-items="ViewBag.ModelosTerminales">
+                                                    <option value="">Seleccione un modelo</option>
+                                                </select>
+                                                <span asp-validation-for="ModeloTerminal" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="SoftwareIntegrado" class="form-label"></label>
+                                                <select asp-for="SoftwareIntegrado" class="form-select" required>
+                                                    <option value="">Seleccione software</option>
+                                                    <option value="APK">APK</option>
+                                                    <option value="SOFT.CAJA + APK">SOFT.CAJA + APK</option>
+                                                    <option value="SOFT.CAJA">SOFT.CAJA</option>
+                                                    <option value="TNA">TNA</option>
+                                                </select>
+                                                <span asp-validation-for="SoftwareIntegrado" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="NombreSwapp" class="form-label"></label>
+                                                <input asp-for="NombreSwapp" class="form-control" />
+                                                <span asp-validation-for="NombreSwapp" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="Certificado" class="form-label"></label>
+                                                <select asp-for="Certificado" class="form-select">
+                                                    @if (Model.Certificado.HasValue && Model.Certificado.Value)
+                                                    {
+                                                        <option value="true" selected>Sí</option>
+                                                        <option value="false">No</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="true">Sí</option>
+                                                        <option value="false" selected>No</option>
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="Certificado" class="invalid-feedback"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dates Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingDates">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDates" aria-expanded="false" aria-controls="collapseDates">
+                                        <i class="far fa-calendar-alt me-2"></i> Fechas y Tiempos
+                                    </button>
+                                </h2>
+                                <div id="collapseDates" class="accordion-collapse collapse" aria-labelledby="headingDates" data-bs-parent="#integrationAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <div class="col-md-6">
+                                                    <label asp-for="FechaInicio" class="form-label"></label>
+                                                    <input asp-for="FechaInicio" class="form-control" type="date" />
+                                                    <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-6">
+                                                    <label asp-for="FechaInicio" class="form-label"></label>
+                                                    <input asp-for="FechaInicio" class="form-control" disabled type="date" />
+                                                    <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
+                                                </div>
+                                            }
+
+                                            <div class="col-md-6">
+                                                <label asp-for="FechaFin" class="form-label"></label>
+                                                <input asp-for="FechaFin" class="form-control" type="date" />
+                                                <span asp-validation-for="FechaFin" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="DiasIntegrando" class="form-label"></label>
+                                                <input asp-for="DiasIntegrando" class="form-control" />
+                                                <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="DiasStandBy" class="form-label"></label>
+                                                <input asp-for="DiasStandBy" class="form-control" />
+                                                <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Status Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStatus">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
+                                        <i class="fas fa-tasks me-2"></i> Estado y Solución
+                                    </button>
+                                </h2>
+                                <div id="collapseStatus" class="accordion-collapse collapse" aria-labelledby="headingStatus" data-bs-parent="#integrationAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label asp-for="StandBy" class="form-label"></label>
+                                                <select asp-for="StandBy" class="form-select">
+                                                    @if (Model.StandBy.HasValue && Model.StandBy.Value)
+                                                    {
+                                                        <option value="true" selected>Sí</option>
+                                                        <option value="false">No</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="true">Sí</option>
+                                                        <option value="false" selected>No</option>
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="StandBy" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="CasoSf" class="form-label"></label>
+                                                <input asp-for="CasoSf" class="form-control" placeholder="Número de caso" />
+                                                <span asp-validation-for="CasoSf" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="Status" class="form-label"></label>
+                                                <select asp-for="Status" class="form-select" asp-items="ViewBag.Status">
+                                                    <option value="">Seleccione estado</option>
+                                                </select>
+                                                <span asp-validation-for="Status" class="invalid-feedback"></span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label asp-for="Solucion" class="form-label"></label>
+                                                <select asp-for="Solucion" class="form-select" asp-items="ViewBag.Solucion">
+                                                    <option value="">Seleccione solución</option>
+                                                </select>
+                                                <span asp-validation-for="Solucion" class="invalid-feedback"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Partner Section -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingPartner">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePartner" aria-expanded="false" aria-controls="collapsePartner">
+                                        <i class="fas fa-handshake me-2"></i> Partner
+                                    </button>
+                                </h2>
+                                <div id="collapsePartner" class="accordion-collapse collapse" aria-labelledby="headingPartner" data-bs-parent="#integrationAccordion">
+                                    <div class="accordion-body">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <div class="mb-3">
+                                                <label asp-for="Partner" class="form-label"></label>
+                                                <select asp-for="Partner" class="form-select" asp-items="ViewBag.Partner">
+                                                    <option value="">Seleccione partner</option>
+                                                </select>
+                                                <span asp-validation-for="Partner" class="invalid-feedback"></span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="mb-3">
+                                                <label asp-for="Partner" class="form-label"></label>
+                                                <select asp-for="Partner" class="form-select" asp-items="ViewBag.Partner" disabled>
+                                                    <option value="">Seleccione partner</option>
+                                                </select>
+                                                <span asp-validation-for="Partner" class="invalid-feedback"></span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save me-2"></i> Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            } else
-            {
-                <div class="form-group">
-                    <label asp-for="Partner" class="control-label"></label>
-                    <select asp-for="Partner" class="form-control" asp-items="ViewBag.Partner" disabled></select>
-                    <span asp-validation-for="Partner" class="text-danger"></span>
-                </div>
-            }
-            <div class="form-group">
-                <input type="submit" value="Guardar Cambios" class="btn btn-outline-success mt-1 w-100" />
-            </div>
-        </form>
-    </div>
-    <div class="col-6">
-        <div class="row">
-            <h4>Subir Carta de Cesión</h4>
-            <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="integracionId" value="@Model.Id" />
-                <div class="form-group d-flex">
-                        <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
-                        <button type="submit" class="btn btn-outline-success">Subir</button>
-                </div>
-            </form>
-            @if (Model.CartasCesion != null && Model.CartasCesion.Any())
-            {
-                <ul class="list-group">
-                    @foreach (var carta in Model.CartasCesion)
-                    {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>@carta.Fecha.ToString("dd/MM/yyyy")</span>
-                            <span>@carta.NombreArchivo</span>
-                            <div class="d-flex gap-2">
-                                <a asp-controller="Cartascesion"
-                                   asp-action="Descargar"
-                                   asp-route-id="@carta.Id"
-                                   class="btn btn-sm btn-outline-primary">
-                                    Descargar
-                                </a>
-                                @if (User.IsInRole("Admin"))
+
+                <!-- Attachments Column -->
+                <div class="col-lg-6">
+                    <div class="sticky-top pt-3" style="top: 20px;">
+                        <!-- Carta de Cesión Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-file-signature me-2"></i> Carta de Cesión
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data" class="mb-4">
+                                    <input type="hidden" name="integracionId" value="@Model.Id" />
+                                    <div class="input-group">
+                                        <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-upload me-1"></i> Subir
+                                        </button>
+                                    </div>
+                                    <small class="form-text text-muted">Formatos aceptados: PDF, Word, JPG, PNG, HEIC</small>
+                                </form>
+
+                                @if (Model.CartasCesion != null && Model.CartasCesion.Any())
                                 {
-                                    <a asp-controller="Cartascesion"
-                                       asp-action="Delete"
-                                       asp-route-id="@carta.Id"
-                                       asp-route-integracionId="@Model.Id"
-                                       class="btn btn-outline-danger">
-                                        Eliminar
-                                    </a>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Archivo</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var carta in Model.CartasCesion)
+                                                {
+                                                    <tr>
+                                                        <td>@carta.Fecha.ToString("dd/MM/yyyy")</td>
+                                                        <td class="text-truncate" style="max-width: 150px;" title="@carta.NombreArchivo">@carta.NombreArchivo</td>
+                                                        <td class="text-nowrap">
+                                                            <a asp-controller="Cartascesion" asp-action="Descargar" asp-route-id="@carta.Id" class="btn btn-sm btn-outline-primary" title="Descargar">
+                                                                <i class="fas fa-download"></i>
+                                                            </a>
+                                                            @if (User.IsInRole("Admin"))
+                                                            {
+                                                                <a asp-controller="Cartascesion" asp-action="Delete" asp-route-id="@carta.Id" asp-route-integracionId="@Model.Id" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-exclamation-circle me-2"></i> No hay cartas de cesión subidas aún.
+                                    </div>
                                 }
                             </div>
-                        </li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p>No hay cartas de cesión subidas aún.</p>
-            }
-        </div>
-        <div class="row">
-            <div class="row mt-4">
-                <h4>Subir Cuaderno de Pruebas</h4>
-                <form asp-controller="Cuadernospruebas" asp-action="SubirCuaderno" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="integracionId" value="@Model.Id" />
-                    <div class="form-group d-flex">
-                        <input type="file" name="ArchivoCuadernoPrueba" id="ArchivoCuadernoPrueba" class="form-control" required accept=".xls,.xlsx,.pdf,.doc,.docx,.ods" />
-                        <button type="submit" class="btn btn-outline-success">Subir</button>
-                    </div>
-                  
-                </form>
+                        </div>
 
-                @if (Model.CuadernosPrueba != null && Model.CuadernosPrueba.Any())
-                {
-                    <ul class="list-group mt-2">
-                        @foreach (var cuaderno in Model.CuadernosPrueba)
-                        {
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>@cuaderno.Fecha.ToString("dd/MM/yyyy")</span>
-                                <span>@cuaderno.NombreArchivo</span>
-                                <div class="d-flex gap-2">
-                                    <a asp-controller="Cuadernospruebas"
-                                       asp-action="Descargar"
-                                       asp-route-id="@cuaderno.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Descargar
-                                    </a>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a asp-controller="Cuadernospruebas"
-                                           asp-action="Delete"
-                                           asp-route-id="@cuaderno.Id"
-                                           asp-route-integracionId="@Model.Id"
-                                           class="btn btn-outline-danger">
-                                            Eliminar
-                                        </a>
-                                    }
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p>No hay cuadernos de prueba subidos aún.</p>
-                }
+                        <!-- Cuaderno de Pruebas Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-clipboard-check me-2"></i> Cuaderno de Pruebas
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form asp-controller="Cuadernospruebas" asp-action="SubirCuaderno" method="post" enctype="multipart/form-data" class="mb-4">
+                                    <input type="hidden" name="integracionId" value="@Model.Id" />
+                                    <div class="input-group">
+                                        <input type="file" name="ArchivoCuadernoPrueba" id="ArchivoCuadernoPrueba" class="form-control" required accept=".xls,.xlsx,.pdf,.doc,.docx,.ods" />
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-upload me-1"></i> Subir
+                                        </button>
+                                    </div>
+                                    <small class="form-text text-muted">Formatos aceptados: Excel, PDF, Word, ODS</small>
+                                </form>
+
+                                @if (Model.CuadernosPrueba != null && Model.CuadernosPrueba.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Archivo</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var cuaderno in Model.CuadernosPrueba)
+                                                {
+                                                    <tr>
+                                                        <td>@cuaderno.Fecha.ToString("dd/MM/yyyy")</td>
+                                                        <td class="text-truncate" style="max-width: 150px;" title="@cuaderno.NombreArchivo">@cuaderno.NombreArchivo</td>
+                                                        <td class="text-nowrap">
+                                                            <a asp-controller="Cuadernospruebas" asp-action="Descargar" asp-route-id="@cuaderno.Id" class="btn btn-sm btn-outline-primary" title="Descargar">
+                                                                <i class="fas fa-download"></i>
+                                                            </a>
+                                                            @if (User.IsInRole("Admin"))
+                                                            {
+                                                                <a asp-controller="Cuadernospruebas" asp-action="Delete" asp-route-id="@cuaderno.Id" asp-route-integracionId="@Model.Id" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-exclamation-circle me-2"></i> No hay cuadernos de prueba subidos aún.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Telecertificaciones Card -->
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-video me-2"></i> Telecertificaciones
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form asp-controller="Telecertificaciones" asp-action="Create" method="post" class="mb-4">
+                                    <input type="hidden" name="IntegracioneId" value="@Model.Id" />
+                                    <div class="mb-3">
+                                        <label class="form-label">Enlace</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                            <input type="url" name="Enlace" class="form-control" placeholder="https://ejemplo.com" required />
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Fecha</label>
+                                        <input type="date" name="Fecha" class="form-control" required />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea name="Descripcion" class="form-control" rows="3" placeholder="Agregue una descripción..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-plus-circle me-1"></i> Agregar Telecertificación
+                                    </button>
+                                </form>
+
+                                @if (Model.TeleCertificaciones != null && Model.TeleCertificaciones.Any())
+                                {
+                                    <div class="list-group">
+                                        @foreach (var t in Model.TeleCertificaciones)
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <div class="fw-bold">@t.Fecha.ToString("dd/MM/yyyy")</div>
+                                                        <p class="mb-1">@t.Descripcion</p>
+                                                        <a href="@t.Enlace" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-external-link-alt me-1"></i> Ver enlace
+                                                        </a>
+                                                    </div>
+                                                    @if (User.IsInRole("Admin"))
+                                                    {
+                                                        <form asp-controller="Telecertificaciones" asp-action="Delete" method="post" onsubmit="return confirm('¿Seguro que querés eliminar esta telecertificación?');">
+                                                            <input type="hidden" name="id" value="@t.Id" />
+                                                            <input type="hidden" name="integracionId" value="@Model.Id" />
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-exclamation-circle me-2"></i> No hay telecertificaciones cargadas aún.
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-       
-                <h4>Agregar Telecertificación</h4>
-                <form asp-controller="Telecertificaciones" asp-action="Create" method="post">
-                <input type="hidden" name="IntegracioneId" value="@Model.Id" />
-                    <div class="mb-2">
-                        <label>Enlace</label>
-                        <input type="url" name="Enlace" class="form-control" required />
-                    </div>
-                    <div class="mb-2">
-                        <label>Fecha</label>
-                        <input type="date" name="Fecha" class="form-control" required />
-                    </div>
-                    <textarea name="Descripcion" class="form-control" rows="4"></textarea>
-                    <button type="submit" class="btn btn-outline-success">Agregar</button>
-                </form>
- 
-
-            @if (Model.TeleCertificaciones != null && Model.TeleCertificaciones.Any())
-            {
-                <h5 class="mt-4">Telecertificaciones existentes</h5>
-                <ul class="list-group">
-                    @foreach (var t in Model.TeleCertificaciones)
-                    {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>@t.Fecha.ToString("dd/MM/yyyy")</strong> - @t.Descripcion
-                                <a href="@t.Enlace" target="_blank" class="btn btn-sm btn-outline-primary ms-2">Ver enlace</a>
-                            </div>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <form asp-controller="Telecertificaciones"
-                                      asp-action="Delete"
-                                      method="post"
-                                      onsubmit="return confirm('¿Seguro que querés eliminar esta telecertificación?');">
-                                    <input type="hidden" name="id" value="@t.Id" />
-                                    <input type="hidden" name="integracionId" value="@Model.Id" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                                </form>
-                            }
-                        </li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p class="mt-2">No hay telecertificaciones cargadas aún.</p>
-            }
-
-        </div>
-       
-        
     </div>
-
-
 </div>
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Enable Bootstrap tooltips
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
 
-<a asp-action="Index" class="btn btn-outline-primary mt-2 w-100">Volver al inicio</a>
+        // Form validation
+        (function () {
+            'use strict'
 
+            var forms = document.querySelectorAll('.needs-validation')
 
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
 
-
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}

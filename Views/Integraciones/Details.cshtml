@@ -4,107 +4,154 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Integración @Html.DisplayFor(model => model.PartnerNavigation.Nombre) @Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</h1>
+<h1 class="text-center mb-4">Integración @Model.PartnerNavigation.Nombre @Model.ModeloTerminalNavigation.Modelo</h1>
+
 @await Html.PartialAsync("_TempDataMensajes")
-<div class="card p-3 mb-3 w-50 mx-auto" style="overflow-x: auto;">
-    <div class="card-header fw-bold">Vista General</div>
-    <div class="d-flex flex-wrap gap-3">
-        <div><strong>@Html.DisplayNameFor(m => m.ModeloTerminal):</strong> @Html.DisplayFor(m => m.ModeloTerminalNavigation.Modelo)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.SoftwareIntegrado):</strong> @Html.DisplayFor(m => m.SoftwareIntegrado)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.NombreSwapp):</strong> @Html.DisplayFor(m => m.NombreSwapp)</div>
-        <div>
-            <strong>@Html.DisplayNameFor(m => m.Certificado):</strong> @(Model.Certificado.Value ? "Sí" : "No")
-        </div>
-    </div>
-    <div class="d-flex flex-wrap gap-3 mt-2">
-        <div><strong>@Html.DisplayNameFor(m => m.FechaInicio):</strong> @Html.DisplayFor(m => m.FechaInicio)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.FechaFin):</strong> @Html.DisplayFor(m => m.FechaFin)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.DiasIntegrando):</strong> @Html.DisplayFor(m => m.DiasIntegrando)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.DiasStandBy):</strong> @Html.DisplayFor(m => m.DiasStandBy)</div>
-    </div>
-    <div class="d-flex flex-wrap gap-3 mt-2">
-        <div>
-            <strong>@Html.DisplayNameFor(m => m.StandBy):</strong> @(Model.StandBy.Value ? "Sí" : "No")
-        </div>
-        <div><strong>@Html.DisplayNameFor(m => m.CasoSf):</strong> @Html.DisplayFor(m => m.CasoSf)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.PartnerNavigation):</strong> @Html.DisplayFor(m => m.PartnerNavigation.Id)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.SolucionNavigation):</strong> @Html.DisplayFor(m => m.SolucionNavigation.Id)</div>
-        <div><strong>@Html.DisplayNameFor(m => m.StatusNavigation):</strong> @Html.DisplayFor(m => m.StatusNavigation.Id)</div>
-    </div>
-</div>
 
+<div class="container">
+    <div class="row g-4">
 
-
-
-
-
-
-
-<div class="col-8">
-
-    <div class="card mb-3">
-        <div class="card-header bg-primary text-white">
-            Comentarios
-        </div>
-        @*Aca se envía una acción al controlador con la fecha y el comentario *@
-        <form asp-action="AgregarComentario" asp-route-id="@Model.Id" method="post">
-            <div class="input-group">
-                <input type="text" class="form-control" style="width: 60%;" placeholder="Escribe tu comentario..." name="Comentario1" required>
-                <input type="date" class="form-control" id="fechaInputComentario" name="Fecha" required value="@DateTime.Today.ToString("yyyy-MM-dd")">
-                <input type="hidden" name="Integracion" value="@Model.Id"> @* Enviar el ID oculto de la integración para el metodo *@
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
-        </form>
-        <div class="card-body" style="max-height: 300px; overflow-y: auto;">
-            <ul class="list-group">
-                @foreach (var comentario in Model.Comentarios)
-                {
-                    <li class="list-group-item">
-                        <strong>@comentario.Fecha.ToString("dd/MM/yyyy"):</strong>
-                        @comentario.Comentario1
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="container">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    Etapas
+        <!-- Columna 1: Vista General -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white fw-bold">
+                    Vista General
                 </div>
-                @*Aca se envía una acción al controlador con la fecha y la etapa *@
-                <form asp-action="AgregarEtapa" asp-route-id="@Model.Id" method="post">
-                    <div class="input-group">
-                        <select class="form-control" name="Etapa" asp-items="ViewBag.EtapasDisponibles" required>
-                            <option value="">Elige una etapa</option>
-                        </select>
-                        <input type="date" class="form-control" id="fechaInputEtapa" name="FechaCambio" required value="@DateTime.Today.ToString("yyyy-MM-dd")">
-                        <input type="hidden" name="Integracion" value="@Model.Id"> @* Enviar el ID oculto de la integración para el metodo *@
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-5">Modelo Terminal:</dt>
+                        <dd class="col-7">@Model.ModeloTerminalNavigation.Modelo</dd>
+
+                        <dt class="col-5">Tipo Solución:</dt>
+                        <dd class="col-7">@Model.SoftwareIntegrado</dd>
+
+                        <dt class="col-5">Aplicación:</dt>
+                        <dd class="col-7">@Model.NombreSwapp</dd>
+
+                        <dt class="col-5">Certificado:</dt>
+                        <dd class="col-7">
+                            @if (Model.Certificado == true)
+                            {
+                                <span class="badge bg-success">Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">No</span>
+                            }
+                        </dd>
+
+                        <dt class="col-5">Fecha Inicio:</dt>
+                        <dd class="col-7">@Model.FechaInicio?.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-5">Fecha Fin:</dt>
+                        <dd class="col-7">@Model.FechaFin?.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-5">Días Integrando:</dt>
+                        <dd class="col-7">@Model.DiasIntegrando</dd>
+
+                        <dt class="col-5">Días StandBy:</dt>
+                        <dd class="col-7">@Model.DiasStandBy</dd>
+
+                        <dt class="col-5">StandBy:</dt>
+                        <dd class="col-7">
+                            @if(Model.StandBy == true)
+                            {
+                                <span class="badge bg-warning">Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">No</span>
+                            }
+                        </dd>
+
+                        <dt class="col-5">Caso SF:</dt>
+                        <dd class="col-7">@Model.CasoSf</dd>
+
+                        <dt class="col-5">Partner:</dt>
+                        <dd class="col-7">@Model.PartnerNavigation.Id</dd>
+
+                        <dt class="col-5">Solución:</dt>
+                        <dd class="col-7">@Model.SolucionNavigation.Id</dd>
+
+                        <dt class="col-5">Status:</dt>
+                        <dd class="col-7">
+                            <span class="badge bg-info text-dark">@Model.StatusNavigation.Nombre</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna 2: Comentarios -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white fw-bold">
+                    Comentarios
+                </div>
+
+                <form asp-action="AgregarComentario" asp-route-id="@Model.Id" method="post" class="p-3">
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="3" placeholder="Escribe tu comentario..." name="Comentario1" required></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" id="fechaInputComentario" name="Fecha" required value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                        <input type="hidden" name="Integracion" value="@Model.Id">
+                        <button type="submit" class="btn btn-primary ms-2">Enviar</button>
                     </div>
                 </form>
-                <div class="card-body" style="max-height: 300px; overflow-y: auto;">
-                    <ul class="list-group">
-                        @foreach (var etapa in Model.Historicoetapas)
+
+                <div class="card-body overflow-auto" style="max-height: 350px;">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var comentario in Model.Comentarios.OrderByDescending(c => c.Fecha))
                         {
                             <li class="list-group-item">
-                                <strong>@etapa.FechaCambio.ToString("dd/MM/yyyy"):</strong>
-                                @etapa.Etapa
+                                <small class="text-muted"> @comentario.Fecha.ToString("dd/MM/yyyy"):</small>
+                                <p>@comentario.Comentario1</p>
                             </li>
                         }
                     </ul>
                 </div>
             </div>
         </div>
+
+        <!-- Columna 3: Etapas -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white fw-bold">
+                    Etapas
+                </div>
+
+                <form asp-action="AgregarEtapa" asp-route-id="@Model.Id" method="post" class="p-3">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="Etapa" asp-items="ViewBag.EtapasDisponibles" required>
+                            <option value="">Elige una etapa</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" id="fechaInputEtapa" name="FechaCambio" required value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                        <input type="hidden" name="Integracion" value="@Model.Id">
+                        <button type="submit" class="btn btn-primary ms-2">Enviar</button>
+                    </div>
+                </form>
+
+                <div class="card-body overflow-auto" style="max-height: 350px;">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var etapa in Model.Historicoetapas.OrderByDescending(e => e.FechaCambio))
+                        {
+                            <li class="list-group-item">
+                                <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy"):</small>
+                                <p>@etapa.Etapa</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 
-
-
-
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-secondary">Editar</a> |
-    <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+    <div class="mt-4 text-center">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary me-2">Editar</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+    </div>
 </div>
