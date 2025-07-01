@@ -66,6 +66,8 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
+            ViewBag.EtapasDisponibles = new SelectList(await _context.Etapasintegracions.ToListAsync(), "Nombre", "Nombre");
+
             return View(integracione);
         }
 
@@ -275,7 +277,7 @@ namespace ElGantte.Controllers
         //Agregar nueva etapa desde integracion
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,NombreEtapa,Integracion")] Historicoetapa etapa)
+        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,Etapa,Integracion")] Historicoetapa etapaElegida)
         {
             if (ModelState.IsValid)
             {
@@ -287,15 +289,15 @@ namespace ElGantte.Controllers
                 var integracion = await _context.Integraciones.FindAsync(id);
 
                 // Si por alguna razón la etapa no tiene fecha, se pone la actual
-                if (etapa.FechaCambio == DateOnly.MinValue)
+                if (etapaElegida.FechaCambio == DateOnly.MinValue)
                 {
-                    etapa.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+                    etapaElegida.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
                 }
 
                 if (integracion != null)
                 {
                     //Guardo la fecha de la etapa
-                    DateOnly fechaBusqueda = etapa.FechaCambio;
+                    DateOnly fechaBusqueda = etapaElegida.FechaCambio;
 
                     //Busco el comentario existente previo
                     var etapaExistente = await _context.Historicoetapas
@@ -304,14 +306,14 @@ namespace ElGantte.Controllers
                     if (etapaExistente != null)
                     {
                         //No hace falta escribir la fecha porque se debería conservar la original
-                        etapaExistente.Etapa = etapa.Etapa;
+                        etapaExistente.Etapa = etapaElegida.Etapa;
                         _context.Update(etapaExistente);
                         TempData["Warning"] = "Etapa actualizada";
                     }
                     else
                     {
-                        etapa.Integracion = integracion.Id; // Asociamos la etapa a la integración
-                        _context.Add(etapa); // Agregamos la etapa a la base
+                        etapaElegida.Integracion = integracion.Id; // Asociamos la etapa a la integración
+                        _context.Add(etapaElegida); // Agregamos la etapa a la base
                         TempData["Success"] = "Etapa creada";
                     }
 
@@ -320,6 +322,10 @@ namespace ElGantte.Controllers
 
                 return RedirectToAction("Details", new { id = id });
             }
+            TempData["Error"] = string.Join(" | ", ModelState.SelectMany(
+    kvp => kvp.Value.Errors.Select(e => $"Campo: {kvp.Key} - {e.ErrorMessage}")
+));
+
 
             // Si el modelo no es válido, vuelve a cargar la vista con el formulario y los datos necesarios
             return RedirectToAction("Details", new { id = id });

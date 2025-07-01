@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElGantte.Models;
@@ -13,6 +14,7 @@ namespace ElGantte.Models;
 public partial class Historicoetapa
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     public DateOnly FechaCambio { get; set; }
@@ -24,6 +26,7 @@ public partial class Historicoetapa
 
     public int Integracion { get; set; }
 
+    [ValidateNever]
     [ForeignKey("Integracion")]
     [InverseProperty("Historicoetapas")]
     public virtual Integracione IntegracionNavigation { get; set; } = null!;
