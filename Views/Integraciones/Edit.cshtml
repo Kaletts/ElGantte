@@ -117,7 +117,8 @@
                                             {
                                                 <div class="col-md-6">
                                                     <label asp-for="FechaInicio" class="form-label"></label>
-                                                    <input asp-for="FechaInicio" class="form-control" disabled type="date" />
+                                                    <p class="form-control-plaintext">@Model.FechaInicio?.ToString("yyyy-MM-dd")</p>
+                                                    <input type="hidden" asp-for="FechaInicio" />
                                                     <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
                                                 </div>
                                             }
@@ -128,17 +129,36 @@
                                                 <span asp-validation-for="FechaFin" class="invalid-feedback"></span>
                                             </div>
 
-                                            <div class="col-md-6">
-                                                <label asp-for="DiasIntegrando" class="form-label"></label>
-                                                <input asp-for="DiasIntegrando" class="form-control" />
-                                                <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
-                                            </div>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <div class="col-md-6">
+                                                    <label asp-for="DiasIntegrando" class="form-label"></label>
+                                                    <input asp-for="DiasIntegrando" class="form-control" />
+                                                    <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
+                                                </div>
 
-                                            <div class="col-md-6">
-                                                <label asp-for="DiasStandBy" class="form-label"></label>
-                                                <input asp-for="DiasStandBy" class="form-control" />
-                                                <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
-                                            </div>
+                                                <div class="col-md-6">
+                                                    <label asp-for="DiasStandBy" class="form-label"></label>
+                                                    <input asp-for="DiasStandBy" class="form-control" />
+                                                    <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-6">
+                                                    <label asp-for="DiasIntegrando" class="form-label"></label>
+                                                    <p class="form-control-plaintext">@Model.DiasIntegrando</p>
+                                                    <input type="hidden" asp-for="DiasIntegrando" />
+                                                    <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label asp-for="DiasStandBy" class="form-label"></label>
+                                                    <p class="form-control-plaintext">@Model.DiasStandBy</p>
+                                                    <input type="hidden" asp-for="DiasStandBy" />
+                                                    <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -219,10 +239,8 @@
                                         else
                                         {
                                             <div class="mb-3">
-                                                <label asp-for="Partner" class="form-label"></label>
-                                                <select asp-for="Partner" class="form-select" asp-items="ViewBag.Partner" disabled>
-                                                    <option value="">Seleccione partner</option>
-                                                </select>
+                                                <p class="form-control-plaintext badge bg-primary">@Model.PartnerNavigation?.Nombre</p>
+                                                <input type="hidden" asp-for="Partner" />
                                                 <span asp-validation-for="Partner" class="invalid-feedback"></span>
                                             </div>
                                         }
@@ -238,11 +256,9 @@
                         </div>
                     </form>
                 </div>
-
-                <!-- Attachments Column -->
                 <div class="col-lg-6">
                     <div class="sticky-top pt-3" style="top: 20px;">
-                        <!-- Carta de Cesión Card -->
+                        <!-- Carta de Cesión -->
                         <div class="card mb-4">
                             <div class="card-header bg-info text-white">
                                 <h5 class="mb-0">
@@ -435,6 +451,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+               
             </div>
         </div>
     </div>

@@ -56,6 +56,13 @@ public partial class Integracione
 
     public int Partner { get; set; }
 
+    [DisplayName("Último día en StandBy")]
+    public DateTime? UltimoDiaStandBy { get; set; } = DateTime.Today;
+
+    [DisplayName("Último día Integrando")]
+    public DateTime? UltimoDiaIntegrando { get; set; } = DateTime.Today;
+
+
     [InverseProperty("Integracion")]
     public virtual ICollection<Cartascesion> CartasCesion { get; set; } = new List<Cartascesion>();
 

@@ -153,8 +153,36 @@ namespace ElGantte.Controllers
             {
                 try
                 {
+                    //Obtener el registro original para comparación
+                    var original = await _context.Integraciones.AsNoTracking().FirstOrDefaultAsync(i => i.Id == integracione.Id);
+                    if (original == null)
+                    {
+                        TempData["Error"] = "Integración no encontrada";
+                        return NotFound();
+                    }
+
+                    //Asignar fechas de último día
+                    if (original.StandBy.GetValueOrDefault() == false && integracione.StandBy.GetValueOrDefault() == true && integracione.Certificado.GetValueOrDefault() == false)
+                    {
+                        integracione.UltimoDiaIntegrando = DateTime.Today;
+                        integracione.UltimoDiaStandBy = original.UltimoDiaStandBy;
+                    }
+                    else if (original.StandBy.GetValueOrDefault() == true && integracione.StandBy.GetValueOrDefault() == false && integracione.Certificado.GetValueOrDefault() == false)
+                    {
+                        integracione.UltimoDiaStandBy = DateTime.Today;
+                        integracione.UltimoDiaIntegrando = original.UltimoDiaIntegrando;
+                    }
+                    else
+                    {
+                        integracione.UltimoDiaIntegrando = original.UltimoDiaIntegrando;
+                        integracione.UltimoDiaStandBy = original.UltimoDiaStandBy;
+                    }
+
+
                     _context.Update(integracione);
                     await _context.SaveChangesAsync();
+                    TempData["Success"] = "Integración editada";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -168,14 +196,14 @@ namespace ElGantte.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id", integracione.Partner);
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Id", integracione.Solucion);
             ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Id", integracione.Status);
-            TempData["Success"] = "Integración editada";
             return View(integracione);
         }
+
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Integraciones/Delete/5
