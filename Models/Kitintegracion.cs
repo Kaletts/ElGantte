@@ -23,11 +23,11 @@ public partial class Kitintegracion
 
     [ForeignKey("Integracion")]
     [InverseProperty("Kitintegracions")]
-    public virtual Integracione IntegracionNavigation { get; set; } = null!;
+    public virtual Integracione? IntegracionNavigation { get; set; } = null!;
 
     [ForeignKey("Tarjetas")]
     [InverseProperty("Kitintegracions")]
-    public virtual Kittarjeta TarjetasNavigation { get; set; } = null!;
+    public virtual Kittarjeta? TarjetasNavigation { get; set; } = null!;
 
     [ForeignKey("Terminal")]
     [InverseProperty("Kitintegracions")]

@@ -60,13 +60,71 @@ namespace ElGantte.Controllers
                     .ToList();
             }
 
+            //Obtener la última etapa (sin subetapa)
+            var ultimaEtapa = integracione.Historicoetapas
+                .Where(h => h.SubEtapa == null)
+                .OrderByDescending(h => h.FechaCambio)
+                .FirstOrDefault();
+
+            //Obtener la última subetapa relacionada a esa etapa (si existe)
+            int? ultimaSubEtapaId = null;
+            if (ultimaEtapa != null)
+            {
+                var ultimaSubEtapa = integracione.Historicoetapas
+                    .Where(h => h.SubEtapa == ultimaEtapa.Id)
+                    .OrderByDescending(h => h.FechaCambio)
+                    .FirstOrDefault();
+
+                if (ultimaSubEtapa != null)
+                {
+                    ultimaSubEtapaId = ultimaSubEtapa.Id;
+                }
+            }
+
+            ViewBag.SubEtapasDiccionario = await _context.Etapasintegracions
+                .Where(e => e.Tipo == "Subetapa")
+                .ToDictionaryAsync(e => e.Id, e => e.Nombre);
 
             if (integracione == null)
             {
                 return NotFound();
             }
 
-            ViewBag.EtapasDisponibles = new SelectList(await _context.Etapasintegracions.ToListAsync(), "Nombre", "Nombre");
+            //Cargar listas para selects filtrando por tipo
+            var etapasNormales = await _context.Etapasintegracions
+                .Where(e => e.Tipo == "Normal")
+                .OrderBy(e => e.Nombre)
+                .ToListAsync();
+
+            var subEtapas = await _context.Etapasintegracions
+                .Where(e => e.Tipo == "Subetapa")
+                .OrderBy(e => e.Nombre)
+                .ToListAsync();
+
+            var model = _context.Integraciones
+               .Include(i => i.Kitintegracions)
+                   .ThenInclude(k => k.TarjetasNavigation)
+               .Include(i => i.Kitintegracions)
+                   .ThenInclude(k => k.TerminalNavigation)
+                   .FirstOrDefault(i => i.Id == id);
+
+            //Para la subetapa, se selecciona por Nombre si se tiene
+            string ultimaSubEtapaNombre = null;
+            if (ultimaSubEtapaId.HasValue)
+            {
+                var subEtapaEntity = subEtapas.FirstOrDefault(s => s.Id == ultimaSubEtapaId.Value);
+                if (subEtapaEntity != null)
+                {
+                    ultimaSubEtapaNombre = subEtapaEntity.Nombre;
+                }
+            }
+            ViewBag.SubEtapasDisponibles = new SelectList(subEtapas, "Id", "Nombre", ultimaSubEtapaNombre);
+            ViewBag.TarjetasDisponibles = new SelectList(_context.Kittarjetas.ToList(), "Id", "Numero");
+            ViewBag.TerminalesDisponibles = new SelectList(_context.Terminales.ToList(), "Id", "Serie");
+            ViewBag.EtapasDisponibles = new SelectList(etapasNormales, "Nombre", "Nombre", ultimaEtapa?.Etapa);
+            ViewBag.UltimaEtapaSeleccionada = ultimaEtapa?.Etapa;
+            ViewBag.UltimaSubEtapaSeleccionada = ultimaSubEtapaNombre;
+
 
             return View(integracione);
         }
@@ -306,54 +364,93 @@ namespace ElGantte.Controllers
         //Agregar nueva etapa desde integracion
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,Etapa,Integracion")] Historicoetapa etapaElegida)
+        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,Etapa,Integracion")] Historicoetapa etapaElegida, int? subEtapa)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var integracion = await _context.Integraciones.FindAsync(id);
-
-                // Si por alguna razón la etapa no tiene fecha, se pone la actual
-                if (etapaElegida.FechaCambio == DateOnly.MinValue)
-                {
-                    etapaElegida.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
-                }
-
-                if (integracion != null)
-                {
-                    //Guardo la fecha de la etapa
-                    DateOnly fechaBusqueda = etapaElegida.FechaCambio;
-
-                    //Busco el comentario existente previo
-                    var etapaExistente = await _context.Historicoetapas
-                        .FirstOrDefaultAsync(c => c.FechaCambio == fechaBusqueda && c.Integracion == integracion.Id);
-
-                    if (etapaExistente != null)
-                    {
-                        //No hace falta escribir la fecha porque se debería conservar la original
-                        etapaExistente.Etapa = etapaElegida.Etapa;
-                        _context.Update(etapaExistente);
-                        TempData["Warning"] = "Etapa actualizada";
-                    }
-                    else
-                    {
-                        etapaElegida.Integracion = integracion.Id; // Asociamos la etapa a la integración
-                        _context.Add(etapaElegida); // Agregamos la etapa a la base
-                        TempData["Success"] = "Etapa creada";
-                    }
-
-                    await _context.SaveChangesAsync(); // Guardamos cambios
-                }
-
-                return RedirectToAction("Details", new { id = id });
+                TempData["Error"] = string.Join(" | ", ModelState.SelectMany(
+                    kvp => kvp.Value.Errors.Select(e => $"Campo: {kvp.Key} - {e.ErrorMessage}")
+                ));
+                return RedirectToAction("Details", new { id });
             }
-            TempData["Error"] = string.Join(" | ", ModelState.SelectMany(
-    kvp => kvp.Value.Errors.Select(e => $"Campo: {kvp.Key} - {e.ErrorMessage}")
-));
 
+            var integracion = await _context.Integraciones.FindAsync(id);
+            if (integracion == null)
+            {
+                TempData["Error"] = "Integración no encontrada.";
+                return RedirectToAction("Details", new { id });
+            }
 
-            // Si el modelo no es válido, vuelve a cargar la vista con el formulario y los datos necesarios
-            return RedirectToAction("Details", new { id = id });
+            etapaElegida.Integracion = id;
+
+            if (etapaElegida.FechaCambio == DateOnly.MinValue)
+            {
+                etapaElegida.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+            }
+
+            // Guardamos el ID de la subetapa seleccionada (si aplica)
+            etapaElegida.SubEtapa = subEtapa;
+
+            // Verificamos si ya hay una etapa igual (solo si no es subetapa)
+            if (!subEtapa.HasValue)
+            {
+                var etapaExistente = await _context.Historicoetapas
+                    .FirstOrDefaultAsync(c => c.FechaCambio == etapaElegida.FechaCambio && c.Integracion == id && c.SubEtapa == null);
+
+                if (etapaExistente != null)
+                {
+                    etapaExistente.Etapa = etapaElegida.Etapa;
+                    _context.Update(etapaExistente);
+                    TempData["Warning"] = "Etapa actualizada";
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", new { id });
+                }
+            }
+
+            _context.Historicoetapas.Add(etapaElegida);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = subEtapa.HasValue ? "Subetapa agregada correctamente." : "Etapa creada";
+            return RedirectToAction("Details", new { id });
         }
+
+
+
+        //Metodo para subetapas
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgregarSubEtapa(int integracionId, int etapaPadreId, [Bind("FechaCambio,Etapa")] Historicoetapa subetapa)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Datos inválidos para subetapa.";
+                return RedirectToAction("Details", new { id = integracionId });
+            }
+
+            var integracion = await _context.Integraciones.FindAsync(integracionId);
+            var etapaPadre = await _context.Historicoetapas.FindAsync(etapaPadreId);
+
+            if (integracion == null || etapaPadre == null)
+            {
+                TempData["Error"] = "Integración o etapa padre no encontrados.";
+                return RedirectToAction("Details", new { id = integracionId });
+            }
+
+            if (subetapa.FechaCambio == DateOnly.MinValue)
+            {
+                subetapa.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+            }
+
+            subetapa.Integracion = integracionId;
+            subetapa.SubEtapa = etapaPadreId; // Indica que es subetapa de la etapa padre
+
+            _context.Historicoetapas.Add(subetapa);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Subetapa agregada correctamente.";
+            return RedirectToAction("Details", new { id = integracionId });
+        }
+
 
         //Método para obtener los datos del dashboard en formato JSON
         [HttpGet]
@@ -369,6 +466,25 @@ namespace ElGantte.Controllers
 
             return Json(datos);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgregarKitIntegracion(int id, Kitintegracion kit)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Formulario inválido.";
+                return RedirectToAction("Details", new { id });
+            }
+
+            kit.Integracion = id;
+            _context.Kitintegracions.Add(kit);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Kit de integración guardado correctamente.";
+            return RedirectToAction("Details", new { id });
+        }
+
 
         private bool IntegracioneExists(int id)
         {

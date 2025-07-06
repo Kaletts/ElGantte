@@ -54,7 +54,7 @@
 
                         <dt class="col-5">StandBy:</dt>
                         <dd class="col-7">
-                            @if(Model.StandBy == true)
+                            @if (Model.StandBy == true)
                             {
                                 <span class="badge bg-warning">Sí</span>
                             }
@@ -114,25 +114,64 @@
             </div>
         </div>
 
-        <!-- Columna 3: Etapas -->
         <div class="col-lg-4 col-md-12">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-primary text-white fw-bold">
                     Etapas
                 </div>
 
+                <!-- FORMULARIO PARA AGREGAR ETAPA + SUBETAPA -->
                 <form asp-action="AgregarEtapa" asp-route-id="@Model.Id" method="post" class="p-3">
+
+                    <!-- Etapa -->
                     <div class="input-group mb-3">
-                        <select class="form-select" name="Etapa" asp-items="ViewBag.EtapasDisponibles" required>
+                        <select class="form-select" name="Etapa" required>
                             <option value="">Elige una etapa</option>
+                            @foreach (var etapa in (SelectList)ViewBag.EtapasDisponibles)
+                            {
+                                if (etapa.Value == (string)ViewBag.UltimaEtapaSeleccionada)
+                                {
+                                    <option value="@etapa.Value" selected>@etapa.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@etapa.Value">@etapa.Text</option>
+                                }
+                            }
                         </select>
                     </div>
+
+                    <!-- Subetapa -->
                     <div class="input-group mb-3">
-                        <input type="date" class="form-control" id="fechaInputEtapa" name="FechaCambio" required value="@DateTime.Today.ToString("yyyy-MM-dd")">
-                        <input type="hidden" name="Integracion" value="@Model.Id">
+                        <select class="form-select" name="SubEtapa" required>
+                            <option value="">Elige una subetapa</option>
+                            @foreach (var subetapa in (SelectList)ViewBag.SubEtapasDisponibles)
+                            {
+                                if (subetapa.Value == (string)ViewBag.UltimaSubEtapaSeleccionada)
+                                {
+                                    <option value="@subetapa.Value" selected>@subetapa.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@subetapa.Value">@subetapa.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+
+                    <!-- Fecha -->
+                    <div class="input-group mb-3">
+                        <input type="date" class="form-control" name="FechaCambio" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" name="Integracion" value="@Model.Id" />
                         <button type="submit" class="btn btn-primary ms-2">Enviar</button>
                     </div>
+
                 </form>
+
+                @{
+                    var subetapasDict = ViewBag.SubEtapasDiccionario as Dictionary<int, string>;
+                }
 
                 <div class="card-body overflow-auto" style="max-height: 350px;">
                     <ul class="list-group list-group-flush">
@@ -140,7 +179,77 @@
                         {
                             <li class="list-group-item">
                                 <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy"):</small>
-                                <p>@etapa.Etapa</p>
+                                <p class="mb-0">
+                                    <strong>Etapa:</strong> @etapa.Etapa
+                                    @if (etapa.SubEtapa.HasValue && subetapasDict.ContainsKey(etapa.SubEtapa.Value))
+                                    {
+                                        <br />
+                                        <strong>Subetapa:</strong>
+ 
+                                        @subetapasDict[etapa.SubEtapa.Value]
+                                    }
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <hr />
+
+        <!-- Columna para Kits de Integración -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white fw-bold">
+                    Kit de Integración
+                </div>
+
+                <form asp-action="AgregarKitIntegracion" asp-route-id="@Model.Id" method="post" class="p-3">
+                    <!-- Selección de Tarjeta -->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">Tarjeta</label>
+                        <select class="form-select" name="Tarjetas" required>
+                            <option value="">Selecciona tarjeta</option>
+                            @foreach (var tarjeta in (SelectList)ViewBag.TarjetasDisponibles)
+                            {
+                                <option value="@tarjeta.Value">@tarjeta.Text</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Selección de Terminal -->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">Terminal</label>
+                        <select class="form-select" name="Terminal">
+                            <option value="">Sin terminal</option>
+                            @foreach (var terminal in (SelectList)ViewBag.TerminalesDisponibles)
+                            {
+                                <option value="@terminal.Value">@terminal.Text</option>
+                            }
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="Integracion" value="@Model.Id" />
+
+                    <button type="submit" class="btn btn-success w-100">Agregar Kit</button>
+                </form>
+
+                <!-- Listado de Kits -->
+                <div class="card-body overflow-auto" style="max-height: 350px;">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var kit in Model.Kitintegracions)
+                        {
+                            <li class="list-group-item">
+                                <strong>Tarjeta:</strong> @kit.TarjetasNavigation.Numero (@kit.TarjetasNavigation.Tipo)
+                                @if (kit.TerminalNavigation != null)
+                                {
+                                    <br />
+                                    <strong>Terminal:</strong>
+ 
+                                    @kit.TerminalNavigation.Serie
+                                                            }
                             </li>
                         }
                     </ul>
@@ -148,12 +257,12 @@
             </div>
         </div>
 
-    </div>
-    <div class="row g-4">
 
     </div>
-    <div class="mt-4 text-center">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary me-2">Editar</a>
-        <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
-    </div>
 </div>
+
+<div class="mt-4 text-center">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary me-2">Editar</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+</div>
+
