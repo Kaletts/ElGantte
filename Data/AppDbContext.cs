@@ -144,7 +144,7 @@ public partial class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Tarjetas");
 
-            entity.HasOne(d => d.TerminalNavigation).WithMany(p => p.Kitintegracions).HasConstraintName("FK_Terminal");
+            //entity.HasOne(d => d.TerminalNavigation).WithMany(p => p.Kitintegracions).HasConstraintName("FK_Terminal");
         });
 
         modelBuilder.Entity<Kittarjeta>(entity =>
@@ -178,7 +178,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.HasOne(d => d.IntegracionNavigation).WithMany(p => p.Terminales).HasConstraintName("FK_Integracion_M");
+            //entity.HasOne(d => d.IntegracionNavigation).WithMany(p => p.Terminales).HasConstraintName("FK_Integracion_M");
 
             entity.HasOne(d => d.ModeloNavigation).WithMany(p => p.Terminales)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -195,7 +195,7 @@ public partial class AppDbContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-public DbSet<ElGantte.Models.Cuadernosprueba> Cuadernosprueba { get; set; } = default!;
+    public DbSet<ElGantte.Models.Cuadernosprueba> Cuadernosprueba { get; set; } = default!;
 
-public DbSet<ElGantte.Models.Telecertificaciones> Telecertificaciones { get; set; } = default!;
+    public DbSet<ElGantte.Models.Telecertificaciones> Telecertificaciones { get; set; } = default!;
 }
