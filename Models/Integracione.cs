@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ElGantte.Migrations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -99,7 +100,11 @@ public partial class Integracione
     [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Terminale> Terminales { get; set; } = new List<Terminale>();
 
+    [InverseProperty("Integracion")]
+    public virtual Kittarjeta KitTarjeta { get; set; } = null!;
+
     [ForeignKey("ModeloTerminal")]
     [InverseProperty("Integraciones")]
     public Modelosterminal? ModeloTerminalNavigation { get; set; }
+
 }
