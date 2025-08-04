@@ -10,15 +10,14 @@ namespace ElGantte.Models
     public partial class Tarjetas
     {
         [Key]
-        public sbyte Id { get; set; }
+        public int Id { get; set; }
         public string Tipo { get; set; } = null!;
         public string Numero { get; set; } = null!;
         public string PIN { get; set; } = null!;
-        public int KitAsociado { get; set; }
+        public int KitTarjetaId { get; set; }
 
-        [ForeignKey("KitAsociado")]
-        [InverseProperty("Tarjetas")]
-        public virtual int KitAsociadoNavigation { get; set; }
+        [ForeignKey("KitTarjetaId")]
+        public virtual Kittarjeta KitTarjeta { get; set; }
 
     }
 }

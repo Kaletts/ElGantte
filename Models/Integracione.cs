@@ -81,9 +81,6 @@ public partial class Integracione
     [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Historicoreunione> Historicoreuniones { get; set; } = new List<Historicoreunione>();
 
-    [InverseProperty("IntegracionNavigation")]
-    public virtual ICollection<Kitintegracion> Kitintegracions { get; set; } = new List<Kitintegracion>();
-
     [DisplayName("Partner")]
     [ForeignKey("Partner")]
     [InverseProperty("Integraciones")]
@@ -104,5 +101,5 @@ public partial class Integracione
 
     [ForeignKey("ModeloTerminal")]
     [InverseProperty("Integraciones")]
-    public Modelosterminal? ModeloTerminalNavigation { get; set; } //navegación
+    public Modelosterminal? ModeloTerminalNavigation { get; set; }
 }

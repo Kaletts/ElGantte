@@ -7,26 +7,22 @@ using Microsoft.EntityFrameworkCore;
 namespace ElGantte.Models;
 
 [Table("terminales")]
-[Index("Integracion", Name = "FK_Integracion_idx")]
+[Index("IntegracionId", Name = "FK_Integracion_idx")]
 [Index("Modelo", Name = "FK_Modelo_idx")]
 public partial class Terminale
 {
     [Key]
     public int Id { get; set; }
 
-    [StringLength(45)]
+    [StringLength(90)]
     public string Serie { get; set; } = null!;
-
     public int Modelo { get; set; }
+    public DateTime FechaUltimoCambio { get; set; } = DateTime.Now;
+    public int IntegracionId { get; set; } 
 
-    public int? Integracion { get; set; }
-
-    [ForeignKey("Integracion")]
+    [ForeignKey("IntegracionId")]
     [InverseProperty("Terminales")]
-    public virtual Integracione? IntegracionNavigation { get; set; }
-
-    [InverseProperty("TerminalNavigation")]
-    public virtual ICollection<Kitintegracion> Kitintegracions { get; set; } = new List<Kitintegracion>();
+    public virtual Integracione IntegracionNavigation { get; set; } = null!;
 
     [ForeignKey("Modelo")]
     [InverseProperty("Terminales")]

@@ -34,10 +34,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Jira> Jiras { get; set; }
 
-    public virtual DbSet<Kitintegracion> Kitintegracions { get; set; }
-
-    public virtual DbSet<Kittarjeta> Kittarjetas { get; set; }
-
     public virtual DbSet<Modelosterminal> Modelosterminals { get; set; }
 
     public virtual DbSet<Partner> Partners { get; set; }
@@ -50,8 +46,14 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<Kittarjeta> KitTarjetas { get; set; }
+
+    public virtual DbSet<Tarjetas> Tarjetas { get; set; }
+
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=localhost;user=root;password=YaTuSabes25%?;database=lbase", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.41-mysql"));
+        => optionsBuilder.UseMySql("server=localhost;user=root;password=YaTuSabes25%?;database=lbase2", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.41-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -128,28 +130,6 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.PartnerNavigation).WithMany(p => p.Jiras)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("jiras_ibfk_1");
-        });
-
-        modelBuilder.Entity<Kitintegracion>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
-            entity.HasOne(d => d.IntegracionNavigation).WithMany(p => p.Kitintegracions)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Integracion");
-
-            entity.HasOne(d => d.TarjetasNavigation).WithMany(p => p.Kitintegracions)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Tarjetas");
-
-            //entity.HasOne(d => d.TerminalNavigation).WithMany(p => p.Kitintegracions).HasConstraintName("FK_Terminal");
-        });
-
-        modelBuilder.Entity<Kittarjeta>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
         });
 
         modelBuilder.Entity<Modelosterminal>(entity =>

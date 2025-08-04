@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250804192002_EstadoOk")]
+    partial class EstadoOk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -349,29 +352,6 @@ namespace ElGantte.Migrations
                     b.ToTable("jiras");
                 });
 
-            modelBuilder.Entity("ElGantte.Models.Kittarjeta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("FechaActualizacion")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Nombre")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("KitTarjetas");
-                });
-
             modelBuilder.Entity("ElGantte.Models.Modelosterminal", b =>
                 {
                     b.Property<int>("Id")
@@ -502,40 +482,6 @@ namespace ElGantte.Migrations
                         .HasDatabaseName("id_UNIQUE5");
 
                     b.ToTable("statuses");
-                });
-
-            modelBuilder.Entity("ElGantte.Models.Tarjetas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("KitTarjetaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PIN")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KitTarjetaId");
-
-                    b.HasIndex(new[] { "Id" }, "id_UNIQUE")
-                        .IsUnique()
-                        .HasDatabaseName("id_UNIQUE6");
-
-                    b.ToTable("tarjetas");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Telecertificaciones", b =>
@@ -731,17 +677,6 @@ namespace ElGantte.Migrations
                     b.Navigation("PartnerNavigation");
                 });
 
-            modelBuilder.Entity("ElGantte.Models.Tarjetas", b =>
-                {
-                    b.HasOne("ElGantte.Models.Kittarjeta", "KitTarjeta")
-                        .WithMany("Tarjetas")
-                        .HasForeignKey("KitTarjetaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("KitTarjeta");
-                });
-
             modelBuilder.Entity("ElGantte.Models.Telecertificaciones", b =>
                 {
                     b.HasOne("ElGantte.Models.Integracione", "Integracion")
@@ -792,11 +727,6 @@ namespace ElGantte.Migrations
                     b.Navigation("TeleCertificaciones");
 
                     b.Navigation("Terminales");
-                });
-
-            modelBuilder.Entity("ElGantte.Models.Kittarjeta", b =>
-                {
-                    b.Navigation("Tarjetas");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Modelosterminal", b =>

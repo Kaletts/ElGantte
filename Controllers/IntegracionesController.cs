@@ -99,14 +99,7 @@ namespace ElGantte.Controllers
             var subEtapas = await _context.Etapasintegracions
                 .Where(e => e.Tipo == "Subetapa")
                 .OrderBy(e => e.Nombre)
-                .ToListAsync();
-
-            var model = _context.Integraciones
-               .Include(i => i.Kitintegracions)
-                   .ThenInclude(k => k.TarjetasNavigation)
-               .Include(i => i.Kitintegracions)
-                   .ThenInclude(k => k.TerminalNavigation)
-                   .FirstOrDefault(i => i.Id == id);
+                .ToListAsync();               
 
             //Para la subetapa, se selecciona por Nombre si se tiene
             string ultimaSubEtapaNombre = null;
@@ -119,7 +112,7 @@ namespace ElGantte.Controllers
                 }
             }
             ViewBag.SubEtapasDisponibles = new SelectList(subEtapas, "Id", "Nombre", ultimaSubEtapaNombre);
-            ViewBag.TarjetasDisponibles = new SelectList(_context.Kittarjetas.ToList(), "Id", "Numero");
+            //ViewBag.TarjetasDisponibles = new SelectList(_context.Kittarjetas.ToList(), "Id", "Numero");
             ViewBag.TerminalesDisponibles = new SelectList(_context.Terminales.ToList(), "Id", "Serie");
             ViewBag.EtapasDisponibles = new SelectList(etapasNormales, "Nombre", "Nombre", ultimaEtapa?.Etapa);
             ViewBag.UltimaEtapaSeleccionada = ultimaEtapa?.Etapa;
@@ -467,23 +460,23 @@ namespace ElGantte.Controllers
             return Json(datos);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgregarKitIntegracion(int id, Kitintegracion kit)
-        {
-            if (!ModelState.IsValid)
-            {
-                TempData["Error"] = "Formulario inválido.";
-                return RedirectToAction("Details", new { id });
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AgregarKitIntegracion(int id, Kitintegracion kit)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        TempData["Error"] = "Formulario inválido.";
+        //        return RedirectToAction("Details", new { id });
+        //    }
 
-            kit.Integracion = id;
-            _context.Kitintegracions.Add(kit);
-            await _context.SaveChangesAsync();
+        //    kit.Integracion = id;
+        //    _context.Kitintegracions.Add(kit);
+        //    await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Kit de integración guardado correctamente.";
-            return RedirectToAction("Details", new { id });
-        }
+        //    TempData["Success"] = "Kit de integración guardado correctamente.";
+        //    return RedirectToAction("Details", new { id });
+        //}
 
 
         private bool IntegracioneExists(int id)

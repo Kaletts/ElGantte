@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ElGantte.Models;
-
-[Table("kittarjetas")]
-[Index("Id", Name = "id_UNIQUE", IsUnique = true)]
-public partial class Kittarjeta
+namespace ElGantte.Models
 {
-    [Key]
-    public sbyte Id { get; set; }
+    public class Kittarjeta
+    {
+        public int Id { get; set; }
 
-    [StringLength(50)]
-    public string Numero { get; set; } = null!;
+        [MaxLength(100)]
+        public string? Nombre { get; set; }
 
-    [StringLength(50)]
-    public string Tipo { get; set; } = null!;
+        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+        public DateTime FechaActualizacion { get; set; } = DateTime.UtcNow;
 
-    [Column("PIN")]
-    public short? Pin { get; set; }
-
-    [InverseProperty("TarjetasNavigation")]
-    public virtual ICollection<Kitintegracion> Kitintegracions { get; set; } = new List<Kitintegracion>();
+        public virtual ICollection<Tarjetas> Tarjetas { get; set; } = new List<Tarjetas>();
+    }
 }

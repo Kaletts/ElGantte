@@ -208,7 +208,7 @@
 
                 <form asp-action="AgregarKitIntegracion" asp-route-id="@Model.Id" method="post" class="p-3">
                     <!-- Selección de Tarjeta -->
-                    <div class="input-group mb-3">
+                    @* <div class="input-group mb-3">
                         <label class="input-group-text">Tarjeta</label>
                         <select class="form-select" name="Tarjetas" required>
                             <option value="">Selecciona tarjeta</option>
@@ -217,7 +217,7 @@
                                 <option value="@tarjeta.Value">@tarjeta.Text</option>
                             }
                         </select>
-                    </div>
+                    </div> *@
 
                     <!-- Selección de Terminal -->
                     <div class="input-group mb-3">
@@ -237,7 +237,7 @@
                 </form>
 
                 <!-- Listado de Kits -->
-                <div class="card-body overflow-auto" style="max-height: 350px;">
+                @* <div class="card-body overflow-auto" style="max-height: 350px;">
                     <ul class="list-group list-group-flush">
                         @foreach (var kit in Model.Kitintegracions)
                         {
@@ -253,7 +253,7 @@
                             </li>
                         }
                     </ul>
-                </div>
+                </div> *@
             </div>
         </div>
 
