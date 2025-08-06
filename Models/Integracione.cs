@@ -97,11 +97,9 @@ public partial class Integracione
     [InverseProperty("Integraciones")]
     public virtual Status? StatusNavigation { get; set; }
 
-    [InverseProperty("IntegracionNavigation")]
     public virtual ICollection<Terminale> Terminales { get; set; } = new List<Terminale>();
 
-    [InverseProperty("Integracion")]
-    public virtual Kittarjeta KitTarjeta { get; set; } = null!;
+    public virtual ICollection<Kittarjeta> KitsTarjetas { get; set; } = new List<Kittarjeta>();
 
     [ForeignKey("ModeloTerminal")]
     [InverseProperty("Integraciones")]

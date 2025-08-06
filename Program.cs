@@ -1,4 +1,5 @@
 using ElGantte.Data;
+using ElGantte.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -22,6 +23,10 @@ builder.Services.AddAuthentication("MiCookieAuth")
     });
 
 builder.Services.AddAuthorization();
+
+//Actualización de standby e integrando
+builder.Services.AddHostedService<ActualizacionDiariaStatus>();
+
 
 
 var app = builder.Build();

@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250806192506_KitTarjetasIntegracionNull")]
+    partial class KitTarjetasIntegracionNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,8 +185,8 @@ namespace ElGantte.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("FechaCambio")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("FechaCambio")
+                        .HasColumnType("date");
 
                     b.Property<int>("Integracion")
                         .HasColumnType("int");
@@ -372,7 +375,8 @@ namespace ElGantte.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegracionId");
+                    b.HasIndex("IntegracionId")
+                        .IsUnique();
 
                     b.ToTable("KitTarjetas");
                 });
@@ -581,7 +585,7 @@ namespace ElGantte.Migrations
                     b.Property<DateTime>("FechaUltimoCambio")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("IntegracionId")
+                    b.Property<int>("IntegracionId")
                         .HasColumnType("int");
 
                     b.Property<int>("Modelo")
@@ -739,8 +743,8 @@ namespace ElGantte.Migrations
             modelBuilder.Entity("ElGantte.Models.Kittarjeta", b =>
                 {
                     b.HasOne("ElGantte.Models.Integracione", "Integracion")
-                        .WithMany("KitsTarjetas")
-                        .HasForeignKey("IntegracionId");
+                        .WithOne("KitTarjeta")
+                        .HasForeignKey("ElGantte.Models.Kittarjeta", "IntegracionId");
 
                     b.Navigation("Integracion");
                 });
@@ -771,7 +775,9 @@ namespace ElGantte.Migrations
                 {
                     b.HasOne("ElGantte.Models.Integracione", "IntegracionNavigation")
                         .WithMany("Terminales")
-                        .HasForeignKey("IntegracionId");
+                        .HasForeignKey("IntegracionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ElGantte.Models.Modelosterminal", "ModeloNavigation")
                         .WithMany("Terminales")
@@ -801,7 +807,8 @@ namespace ElGantte.Migrations
 
                     b.Navigation("Historicoreuniones");
 
-                    b.Navigation("KitsTarjetas");
+                    b.Navigation("KitTarjeta")
+                        .IsRequired();
 
                     b.Navigation("TeleCertificaciones");
 

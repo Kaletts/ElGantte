@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250806194627_KitTarjetasIndexUnicoFuera")]
+    partial class KitTarjetasIndexUnicoFuera
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,8 +185,8 @@ namespace ElGantte.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("FechaCambio")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("FechaCambio")
+                        .HasColumnType("date");
 
                     b.Property<int>("Integracion")
                         .HasColumnType("int");
@@ -581,7 +584,7 @@ namespace ElGantte.Migrations
                     b.Property<DateTime>("FechaUltimoCambio")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("IntegracionId")
+                    b.Property<int>("IntegracionId")
                         .HasColumnType("int");
 
                     b.Property<int>("Modelo")
@@ -771,7 +774,9 @@ namespace ElGantte.Migrations
                 {
                     b.HasOne("ElGantte.Models.Integracione", "IntegracionNavigation")
                         .WithMany("Terminales")
-                        .HasForeignKey("IntegracionId");
+                        .HasForeignKey("IntegracionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ElGantte.Models.Modelosterminal", "ModeloNavigation")
                         .WithMany("Terminales")

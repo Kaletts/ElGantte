@@ -162,7 +162,7 @@
 
                     <!-- Fecha -->
                     <div class="input-group mb-3">
-                        <input type="date" class="form-control" name="FechaCambio" required value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <input type="datetime-local" class="form-control" name="FechaCambio" required value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"/>
                         <input type="hidden" name="Integracion" value="@Model.Id" />
                         <button type="submit" class="btn btn-primary ms-2">Enviar</button>
                     </div>
@@ -178,7 +178,7 @@
                         @foreach (var etapa in Model.Historicoetapas.OrderByDescending(e => e.FechaCambio))
                         {
                             <li class="list-group-item">
-                                <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy"):</small>
+                                <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy HH:mm")</small>
                                 <p class="mb-0">
                                     <strong>Etapa:</strong> @etapa.Etapa
                                     @if (etapa.SubEtapa.HasValue && subetapasDict.ContainsKey(etapa.SubEtapa.Value))
@@ -203,27 +203,76 @@
         <div class="col-lg-4 col-md-12">
             <div class="card shadow-sm h-100">
                 <div class="card-header bg-success text-white fw-bold">
-                    Kit de Integración
+                    Asignar Kit de Tarjetas
                 </div>
 
-                <form asp-action="AgregarKitIntegracion" asp-route-id="@Model.Id" method="post" class="p-3">
-                    <!-- Selección de Tarjeta -->
-                    @* <div class="input-group mb-3">
-                        <label class="input-group-text">Tarjeta</label>
-                        <select class="form-select" name="Tarjetas" required>
-                            <option value="">Selecciona tarjeta</option>
-                            @foreach (var tarjeta in (SelectList)ViewBag.TarjetasDisponibles)
+                <!-- Formulario para asignar un kit disponible -->
+                <form asp-action="AsignarKit" asp-route-id="@Model.Id" method="post" class="p-3">
+                    <div class="input-group mb-3">
+                        <label class="input-group-text">Kit disponibles</label>
+                        <select class="form-select" name="KitTarjetaId" required>
+                            <option value="">Selecciona un kit</option>
+                            @foreach (var kit in (SelectList)ViewBag.KitsDisponibles)
                             {
-                                <option value="@tarjeta.Value">@tarjeta.Text</option>
+                                <option value="@kit.Value">@kit.Text</option>
                             }
                         </select>
-                    </div> *@
+                    </div>
 
-                    <!-- Selección de Terminal -->
+                    <button type="submit" class="btn btn-success w-100">Asignar Kit</button>
+                </form>
+
+                <!-- Listado de kits ya asignados -->
+                <div class="card-body overflow-auto" style="max-height: 350px;">
+                    <!-- Kits asignados -->
+                    @if (Model.KitsTarjetas != null && Model.KitsTarjetas.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var kit in Model.KitsTarjetas)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong>Kit:</strong> @kit.Nombre
+                                        <strong>Fecha:</strong> @kit.FechaActualizacion
+                                        <ul class="mt-2">
+                                            @foreach (var tarjeta in kit.Tarjetas)
+                                            {
+                                                <li>
+                                                    <strong>Tarjeta:</strong> @tarjeta.Numero (@tarjeta.Tipo)
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <form asp-action="QuitarKit" asp-route-integracionId="@Model.Id" asp-route-kitId="@kit.Id" method="post" class="ms-3">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Quitar kit">
+                                            X
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay kits asignados a esta integración.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna para Terminales de Integración -->
+        <div class="col-lg-4 col-md-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-white fw-bold">
+                    Asignar Terminal
+                </div>
+
+                <!-- Formulario para asignar una terminal disponible -->
+                <form asp-action="AsignarTerminal" asp-route-id="@Model.Id" method="post" class="p-3">
                     <div class="input-group mb-3">
-                        <label class="input-group-text">Terminal</label>
-                        <select class="form-select" name="Terminal">
-                            <option value="">Sin terminal</option>
+                        <label class="input-group-text">Terminales disponibles</label>
+                        <select class="form-select" name="TerminalId" required>
+                            <option value="">Selecciona una terminal</option>
                             @foreach (var terminal in (SelectList)ViewBag.TerminalesDisponibles)
                             {
                                 <option value="@terminal.Value">@terminal.Text</option>
@@ -231,31 +280,38 @@
                         </select>
                     </div>
 
-                    <input type="hidden" name="Integracion" value="@Model.Id" />
-
-                    <button type="submit" class="btn btn-success w-100">Agregar Kit</button>
+                    <button type="submit" class="btn btn-info w-100">Asignar Terminal</button>
                 </form>
 
-                <!-- Listado de Kits -->
-                @* <div class="card-body overflow-auto" style="max-height: 350px;">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var kit in Model.Kitintegracions)
-                        {
-                            <li class="list-group-item">
-                                <strong>Tarjeta:</strong> @kit.TarjetasNavigation.Numero (@kit.TarjetasNavigation.Tipo)
-                                @if (kit.TerminalNavigation != null)
-                                {
-                                    <br />
-                                    <strong>Terminal:</strong>
- 
-                                    @kit.TerminalNavigation.Serie
-                                                            }
-                            </li>
-                        }
-                    </ul>
-                </div> *@
+                <!-- Listado de terminales ya asignadas -->
+                <div class="card-body overflow-auto" style="max-height: 350px;">
+                    @if (Model.Terminales != null && Model.Terminales.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var terminal in Model.Terminales)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><strong>Terminal:</strong> @terminal.Serie</span>
+                                    <span><strong>Fecha:</strong> @terminal.FechaUltimoCambio</span>
+                                    <form asp-action="QuitarTerminal" asp-route-integracionId="@Model.Id" asp-route-terminalId="@terminal.Id" method="post">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Quitar terminal">
+                                            X
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay terminales asignadas a esta integración.</p>
+                    }
+                </div>
             </div>
         </div>
+
+
+
 
 
     </div>

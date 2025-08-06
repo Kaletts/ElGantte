@@ -18,11 +18,11 @@ public partial class Terminale
     public string Serie { get; set; } = null!;
     public int Modelo { get; set; }
     public DateTime FechaUltimoCambio { get; set; } = DateTime.Now;
-    public int IntegracionId { get; set; } 
+    public int? IntegracionId { get; set; } 
 
     [ForeignKey("IntegracionId")]
     [InverseProperty("Terminales")]
-    public virtual Integracione IntegracionNavigation { get; set; } = null!;
+    public virtual Integracione? IntegracionNavigation { get; set; } = null!;
 
     [ForeignKey("Modelo")]
     [InverseProperty("Terminales")]

@@ -1,7 +1,48 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\services\\actualizaciondiariastatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:services\\actualizaciondiariastatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:controllers\\integracionescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\integracione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\integracione.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\views\\integraciones\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:views\\integraciones\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\historicoetapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\historicoetapa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\terminale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\terminale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\migrations\\20250806194627_kittarjetasindexunicofuera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:migrations\\20250806194627_kittarjetasindexunicofuera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|c:\\users\\kaled\\documents\\proyectos web\\elgantte\\models\\kittarjeta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7993B275-BCE2-4E72-9C54-0331128A2F09}|ElGantte.csproj|solutionrelative:models\\kittarjeta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +50,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T21:54:27.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ActualizacionDiariaStatus.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Services\\ActualizacionDiariaStatus.cs",
+              "RelativeDocumentMoniker": "Services\\ActualizacionDiariaStatus.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Services\\ActualizacionDiariaStatus.cs",
+              "RelativeToolTip": "Services\\ActualizacionDiariaStatus.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAmwDIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T21:51:15.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20250806194627_KitTarjetasIndexUnicoFuera.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250806194627_KitTarjetasIndexUnicoFuera.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250806194627_KitTarjetasIndexUnicoFuera.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Migrations\\20250806194627_KitTarjetasIndexUnicoFuera.cs",
+              "RelativeToolTip": "Migrations\\20250806194627_KitTarjetasIndexUnicoFuera.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwD0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T19:46:39.161Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T19:22:01.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Integracione.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Integracione.cs",
+              "RelativeDocumentMoniker": "Models\\Integracione.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Integracione.cs",
+              "RelativeToolTip": "Models\\Integracione.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAmwGwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T19:36:00.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Kittarjeta.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Kittarjeta.cs",
+              "RelativeDocumentMoniker": "Models\\Kittarjeta.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Kittarjeta.cs",
+              "RelativeToolTip": "Models\\Kittarjeta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T19:35:41.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Integraciones\\Details.cshtml",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Views\\Integraciones\\Details.cshtml",
+              "RelativeToolTip": "Views\\Integraciones\\Details.cshtml",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAowLQAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-04T19:29:20.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IntegracionesController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\IntegracionesController.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Controllers\\IntegracionesController.cs",
+              "RelativeToolTip": "Controllers\\IntegracionesController.cs",
+              "ViewState": "AgIAABUCAAAAAAAAAAAqwCwCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T19:29:01.497Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Historicoetapa.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Historicoetapa.cs",
+              "RelativeDocumentMoniker": "Models\\Historicoetapa.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Historicoetapa.cs",
+              "RelativeToolTip": "Models\\Historicoetapa.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBMAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T21:27:47.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Terminale.cs",
+              "DocumentMoniker": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Terminale.cs",
+              "RelativeDocumentMoniker": "Models\\Terminale.cs",
+              "ToolTip": "C:\\Users\\Kaled\\Documents\\Proyectos Web\\ElGantte\\Models\\Terminale.cs",
+              "RelativeToolTip": "Models\\Terminale.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAYwB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T19:57:24.488Z",
+              "EditorCaption": ""
             }
           ]
         }

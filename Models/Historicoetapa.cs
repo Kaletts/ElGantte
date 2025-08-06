@@ -17,7 +17,7 @@ public partial class Historicoetapa
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public DateOnly FechaCambio { get; set; }
+    public DateTime FechaCambio { get; set; }
 
     [StringLength(255)]
     public string Etapa { get; set; } = null!;

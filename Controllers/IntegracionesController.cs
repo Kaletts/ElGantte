@@ -43,9 +43,16 @@ namespace ElGantte.Controllers
                 .Include(i => i.StatusNavigation)
                 .Include(i => i.ModeloTerminalNavigation)
                 .Include(i => i.Historicoetapas)
+                .Include(i => i.Terminales)
+                .Include(i => i.KitsTarjetas)
+                .ThenInclude(k => k.Tarjetas)
                 .Include(i => i.Comentarios)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            
+
+            var kitsDisponibles = await _context.KitTarjetas
+                .Where(k => k.IntegracionId == null)
+                .ToListAsync();
+
             if (integracione != null)
             {
                 integracione.Comentarios = integracione.Comentarios
@@ -112,8 +119,8 @@ namespace ElGantte.Controllers
                 }
             }
             ViewBag.SubEtapasDisponibles = new SelectList(subEtapas, "Id", "Nombre", ultimaSubEtapaNombre);
-            //ViewBag.TarjetasDisponibles = new SelectList(_context.Kittarjetas.ToList(), "Id", "Numero");
-            ViewBag.TerminalesDisponibles = new SelectList(_context.Terminales.ToList(), "Id", "Serie");
+            ViewBag.KitsDisponibles = new SelectList(kitsDisponibles, "Id", "Nombre");
+            ViewBag.TerminalesDisponibles = new SelectList(_context.Terminales.Where(t => t.IntegracionId == null).ToList(), "Id", "Serie");
             ViewBag.EtapasDisponibles = new SelectList(etapasNormales, "Nombre", "Nombre", ultimaEtapa?.Etapa);
             ViewBag.UltimaEtapaSeleccionada = ultimaEtapa?.Etapa;
             ViewBag.UltimaSubEtapaSeleccionada = ultimaSubEtapaNombre;
@@ -376,9 +383,9 @@ namespace ElGantte.Controllers
 
             etapaElegida.Integracion = id;
 
-            if (etapaElegida.FechaCambio == DateOnly.MinValue)
+            if (etapaElegida.FechaCambio == DateTime.MinValue)
             {
-                etapaElegida.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+                etapaElegida.FechaCambio = DateTime.Today;
             }
 
             // Guardamos el ID de la subetapa seleccionada (si aplica)
@@ -429,9 +436,9 @@ namespace ElGantte.Controllers
                 return RedirectToAction("Details", new { id = integracionId });
             }
 
-            if (subetapa.FechaCambio == DateOnly.MinValue)
+            if (subetapa.FechaCambio == DateTime.MinValue)
             {
-                subetapa.FechaCambio = DateOnly.FromDateTime(DateTime.Today);
+                subetapa.FechaCambio = DateTime.Today;
             }
 
             subetapa.Integracion = integracionId;
@@ -460,23 +467,103 @@ namespace ElGantte.Controllers
             return Json(datos);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AgregarKitIntegracion(int id, Kitintegracion kit)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["Error"] = "Formulario inválido.";
-        //        return RedirectToAction("Details", new { id });
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> AsignarKit(int id, int KitTarjetaId)
+        {
+            var kit = await _context.KitTarjetas.FindAsync(KitTarjetaId);
+            if (kit != null)
+            {
+                kit.IntegracionId = id;
+                kit.FechaActualizacion = DateTime.Now;
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Kit Asignado";
+            }
 
-        //    kit.Integracion = id;
-        //    _context.Kitintegracions.Add(kit);
-        //    await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id });
+        }
 
-        //    TempData["Success"] = "Kit de integración guardado correctamente.";
-        //    return RedirectToAction("Details", new { id });
-        //}
+        [HttpPost]
+        public async Task<IActionResult> AsignarTerminal(int id, int TerminalId)
+        {
+            var terminal = await _context.Terminales.FindAsync(TerminalId);
+            if (terminal != null)
+            {
+                terminal.IntegracionId = id;
+                terminal.FechaUltimoCambio = DateTime.Now;
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Terminal Asignado";
+            }
+            return RedirectToAction("Details", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult QuitarKit(int integracionId, int kitId)
+        {
+            var kit = _context.KitTarjetas.FirstOrDefault(k => k.Id == kitId);
+
+            if (kit == null || kit.IntegracionId != integracionId)
+                return NotFound();
+
+            // Desasignar el kit
+            kit.IntegracionId = null;
+            kit.FechaActualizacion = DateTime.Now;
+
+            _context.SaveChanges();
+
+            TempData["Error"] = "Kit Desasignado";
+
+            return RedirectToAction("Details", new { id = integracionId });
+        }
+
+        [HttpPost]
+        public IActionResult QuitarTerminal(int integracionId, int terminalId)
+        {
+            var terminal = _context.Terminales.FirstOrDefault(t => t.Id == terminalId && t.IntegracionId == integracionId);
+
+            if (terminal == null)
+                return NotFound();
+
+            // Desasignar terminal
+            terminal.IntegracionId = null;
+            terminal.FechaUltimoCambio = DateTime.Now;
+
+            _context.SaveChanges();
+
+            TempData["Error"] = "Terminal Desasignado";
+
+            return RedirectToAction("Details", new { id = integracionId });
+        }
+
+        public void ActualizarDiasIntegracion(Integracione integracion)
+        {
+            DateTime hoy = DateTime.Today;
+
+            // Si está en standby, sumar días desde la última vez que se registró
+            if (integracion.StandBy == true && integracion.UltimoDiaStandBy.HasValue)
+            {
+                int diasPasados = (hoy - integracion.UltimoDiaStandBy.Value.Date).Days;
+
+                if (diasPasados > 0)
+                {
+                    integracion.DiasStandBy += diasPasados;
+                    integracion.UltimoDiaStandBy = hoy;
+                }
+            }
+
+            // Si NO está en standby, significa que está integrando
+            if (integracion.StandBy == false && integracion.UltimoDiaIntegrando.HasValue)
+            {
+                int diasPasados = (hoy - integracion.UltimoDiaIntegrando.Value.Date).Days;
+
+                if (diasPasados > 0)
+                {
+                    integracion.DiasIntegrando += diasPasados;
+                    integracion.UltimoDiaIntegrando = hoy;
+                }
+            }
+        }
+
+
 
 
         private bool IntegracioneExists(int id)
