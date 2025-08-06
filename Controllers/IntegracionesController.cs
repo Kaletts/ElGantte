@@ -563,6 +563,37 @@ namespace ElGantte.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ActivarStandby(int id)
+        {
+            var integracion = await _context.Integraciones.FindAsync(id);
+            if (integracion == null)
+            {
+                return NotFound();
+            }
+
+            if (integracion.StandBy == true)
+            {
+                integracion.StandBy = false;
+                integracion.UltimoDiaIntegrando = DateTime.Today;
+                integracion.Status = 1;
+                TempData["Success"] = "Integración cambiada a Standby";
+            }
+            else
+            {
+                integracion.StandBy = true;
+                integracion.UltimoDiaStandBy = DateTime.Today;
+                integracion.Status = 2;
+                TempData["Success"] = "Integración cambiada a Activa";
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
 
 
 

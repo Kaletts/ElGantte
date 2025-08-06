@@ -4,6 +4,11 @@
     ViewData["Title"] = "Details";
 }
 
+<form id="antiForgeryForm">
+    @Html.AntiForgeryToken()
+</form>
+
+
 <h1 class="text-center mb-4">Integración @Model.PartnerNavigation.Nombre @Model.ModeloTerminalNavigation.Modelo</h1>
 
 @await Html.PartialAsync("_TempDataMensajes")
@@ -54,14 +59,15 @@
 
                         <dt class="col-5">StandBy:</dt>
                         <dd class="col-7">
-                            @if (Model.StandBy == true)
-                            {
-                                <span class="badge bg-warning">Sí</span>
+                            @{
+                                var standbyText = Model.StandBy == true ? "Sí" : "No";
+                                var badgeColor = Model.StandBy == true ? "bg-warning text-dark" : "bg-success";
                             }
-                            else
-                            {
-                                <span class="badge bg-success">No</span>
-                            }
+                            <span class="badge @badgeColor"
+                                  style="cursor: pointer;"
+                                  onclick="activarStandby(@Model.Id)">
+                                @standbyText
+                            </span>
                         </dd>
 
                         <dt class="col-5">Caso SF:</dt>
@@ -322,3 +328,28 @@
     <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
 </div>
 
+
+@section Scripts {
+    <script>
+
+            function activarStandby(id) {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            fetch('/Integraciones/ActivarStandby/' + id, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': token
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Error al cambiar el estado StandBy.');
+                }
+            })
+            .catch(() => alert('Error en la conexión.'));
+        }
+
+
+    </script>
+}

@@ -39,6 +39,7 @@ namespace ElGantte.Services
                     integracion.UltimoDiaStandBy.HasValue &&
                     integracion.UltimoDiaStandBy.Value.Date < hoy)
                 {
+                    //AddDays(1) Para evitar contar dos veces el mismo día (el día en que se actualizó por última vez). Así, solo se cuentan los días posteriores al último guardado.
                     int dias = DiasLaborables.CalcularDiasLaborales(integracion.UltimoDiaStandBy.Value.Date.AddDays(1), hoy);
                     if (dias > 0)
                     {
