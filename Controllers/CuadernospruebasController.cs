@@ -89,41 +89,41 @@ namespace ElGantte.Controllers
             return View(cuadernosprueba);
         }
 
-        // POST: Cuadernospruebas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CartasCesion1,Fecha,NombreArchivo,TipoMime,IntegracioneId")] Cuadernosprueba cuadernosprueba)
-        {
-            if (id != cuadernosprueba.Id)
-            {
-                return NotFound();
-            }
+        //// POST: Cuadernospruebas/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,CartasCesion1,Fecha,NombreArchivo,TipoMime,IntegracioneId")] Cuadernosprueba cuadernosprueba)
+        //{
+        //    if (id != cuadernosprueba.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cuadernosprueba);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CuadernospruebaExists(cuadernosprueba.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IntegracioneId"] = new SelectList(_context.Integraciones, "Id", "Id", cuadernosprueba.IntegracioneId);
-            return View(cuadernosprueba);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(cuadernosprueba);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!CuadernospruebaExists(cuadernosprueba.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["IntegracioneId"] = new SelectList(_context.Integraciones, "Id", "Id", cuadernosprueba.IntegracioneId);
+        //    return View(cuadernosprueba);
+        //}
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Cuadernospruebas/Delete/5
@@ -163,7 +163,6 @@ namespace ElGantte.Controllers
             return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubirCuaderno(IFormFile ArchivoCuadernoPrueba, int integracionId)
@@ -174,15 +173,25 @@ namespace ElGantte.Controllers
                 return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
             }
 
-            using var memoryStream = new MemoryStream();
-            await ArchivoCuadernoPrueba.CopyToAsync(memoryStream);
+            var fileName = Path.GetFileName(ArchivoCuadernoPrueba.FileName);
+            var folderPath = Path.Combine("/app/cuadernos", integracionId.ToString()); //Ruta DENTRO del contenedor
+            Directory.CreateDirectory(folderPath); //Crea la carpeta si no existe
 
+            var fullPath = Path.Combine(folderPath, fileName);
+
+            // Guardar el archivo físico
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                await ArchivoCuadernoPrueba.CopyToAsync(stream);
+            }
+
+            // Guardar metadata en BD
             var cuaderno = new Cuadernosprueba
             {
-                CuadernoPrueba = memoryStream.ToArray(),
-                NombreArchivo = Path.GetFileName(ArchivoCuadernoPrueba.FileName),
+                RutaArchivo = fullPath,
+                NombreArchivo = fileName,
                 TipoMime = ArchivoCuadernoPrueba.ContentType,
-                Fecha = DateOnly.FromDateTime(DateTime.Today),
+                Fecha = DateTime.Today,
                 IntegracioneId = integracionId
             };
 
@@ -193,25 +202,27 @@ namespace ElGantte.Controllers
             return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
         }
 
-        //Metodo para descargar el cuaderno de pruebas
         public async Task<IActionResult> Descargar(int id)
         {
             var cuaderno = await _context.Cuadernosprueba.FindAsync(id);
-            if (cuaderno == null || cuaderno.CuadernoPrueba == null)
+            if (cuaderno == null || string.IsNullOrWhiteSpace(cuaderno.RutaArchivo))
             {
                 return NotFound();
             }
 
+            if (!System.IO.File.Exists(cuaderno.RutaArchivo))
+            {
+                return NotFound("El archivo no existe en el sistema.");
+            }
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(cuaderno.RutaArchivo);
             var nombre = cuaderno.NombreArchivo ?? $"Cuaderno_{id}.xlsx";
-            var tipo = cuaderno.TipoMime ?? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            var tipo = cuaderno.TipoMime ?? "application/octet-stream";
 
-            TempData["Success"] = "Cuaderno de pruebas descargado correctamente";
-            return File(cuaderno.CuadernoPrueba, tipo, nombre);
+            TempData["Success"] = "Cuaderno de pruebas descargado correctamente.";
+            return File(bytes, tipo, nombre);
         }
 
-        private bool CuadernospruebaExists(int id)
-        {
-            return _context.Cuadernosprueba.Any(e => e.Id == id);
-        }
+
     }
 }

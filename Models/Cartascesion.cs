@@ -13,10 +13,10 @@ public partial class Cartascesion
     [Key]
     public int Id { get; set; }
 
-    [Column("CartasCesion")]
-    public byte[] CartasCesion1 { get; set; } = null!;
+    [StringLength(500)]
+    public string RutaArchivo { get; set; } = string.Empty;
 
-    public DateOnly Fecha { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+    public DateTime Fecha { get; set; } = DateTime.Today;
 
     [StringLength(255)]
     public string NombreArchivo { get; set; }

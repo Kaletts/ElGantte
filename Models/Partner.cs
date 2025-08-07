@@ -37,6 +37,8 @@ public partial class Partner
     [DisplayName("Fecha Cambio")]
     public DateOnly? FechaCambio { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
+    public virtual ICollection<ApiKey> ApiKeys { get; set; } = new List<ApiKey>();
+
     [StringLength(255)]
     [DisplayName("AM")]
     public string? AccountManager { get; set; }

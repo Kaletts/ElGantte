@@ -266,7 +266,7 @@
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <form asp-controller="Cartascesion" asp-action="SubirCarta" method="post" enctype="multipart/form-data" class="mb-4">
+                                <form asp-controller="Cartascesion" asp-action="SubirCartaCesion" method="post" enctype="multipart/form-data" class="mb-4">
                                     <input type="hidden" name="integracionId" value="@Model.Id" />
                                     <div class="input-group">
                                         <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
@@ -320,7 +320,7 @@
                             </div>
                         </div>
 
-                        <!-- Cuaderno de Pruebas Card -->
+                       <!-- Cuaderno de Pruebas Card -->
                         <div class="card mb-4">
                             <div class="card-header bg-warning text-dark">
                                 <h5 class="mb-0">
@@ -351,7 +351,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var cuaderno in Model.CuadernosPrueba)
+                                                @foreach (var cuaderno in Model.CuadernosPrueba.OrderByDescending(c => c.Fecha))
                                                 {
                                                     <tr>
                                                         <td>@cuaderno.Fecha.ToString("dd/MM/yyyy")</td>
@@ -488,5 +488,53 @@
                     }, false)
                 })
         })()
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const standbySelect = document.querySelector('[name="StandBy"]');
+            const statusSelect = document.querySelector('[name="Status"]');
+
+            function updateStatusBasedOnStandBy() {
+                if (!standbySelect || !statusSelect) return;
+
+                const standbyValue = standbySelect.value;
+
+                if (standbyValue === "true") {
+                    statusSelect.value = "2"; // Stand-by
+                } else if (standbyValue === "false") {
+                    statusSelect.value = "1"; // Integración
+                }
+            }
+
+            standbySelect.addEventListener("change", updateStatusBasedOnStandBy);
+        });
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("ArchivoCuadernoPrueba");
+            const maxSizeMB = 50;
+
+            fileInput.addEventListener("change", function () {
+                if (fileInput.files.length > 0) {
+                    const fileSizeMB = fileInput.files[0].size / (1024 * 1024); // convertir a MB
+
+                    if (fileSizeMB > maxSizeMB) {
+                        alert("El archivo supera el tamaño máximo permitido de 50 MB.");
+                        fileInput.value = ""; // limpiar el input
+                    }
+                }
+            });
+        });
+
+               document.addEventListener('DOMContentLoaded', () => {
+          const form = document.querySelector('form[asp-action="SubirCarta"]');
+          const inputFile = form.querySelector('input[type="file"][name="ArchivoCartaCesion"]');
+
+          form.addEventListener('submit', (e) => {
+            const file = inputFile.files[0];
+            if (file && file.size > 50 * 1024 * 1024) {  // 50 MB en bytes
+              e.preventDefault();
+              alert('El archivo no puede superar los 50 MB.');
+            }
+          });
+        });
     </script>
 }

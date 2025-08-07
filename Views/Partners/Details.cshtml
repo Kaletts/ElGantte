@@ -86,7 +86,7 @@
                                 @foreach (var integracion in (List<ElGantte.Models.Integracione>)ViewBag.Integraciones)
                                 {
                                     <tr>
-                                        <td>@integracion.ModeloTerminal</td>
+                                        <td>@integracion.ModeloTerminalNavigation.Modelo</td>
                                         <td class="@(integracion.Certificado == true ? "bg-success text-white" : "bg-warning text-dark")">
                                             @(integracion.Certificado == true ? "Certificado" : "Integrando")
                                         </td>

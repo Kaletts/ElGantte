@@ -51,12 +51,9 @@ namespace ElGantte.Controllers
             return View();
         }
 
-        // POST: Cartascesion/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SubirCarta(int integracionId, IFormFile ArchivoCartaCesion)
+        public async Task<IActionResult> SubirCartaCesion(IFormFile ArchivoCartaCesion, int integracionId)
         {
             if (ArchivoCartaCesion == null || ArchivoCartaCesion.Length == 0)
             {
@@ -66,34 +63,31 @@ namespace ElGantte.Controllers
 
             if (ArchivoCartaCesion.Length > 50 * 1024 * 1024)
             {
-                TempData["Error"] = "El archivo excede los 50MB permitidos.";
+                TempData["Error"] = "El archivo supera el tamaño máximo permitido de 50 MB.";
                 return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
             }
 
-            using var memoryStream = new MemoryStream();
-            await ArchivoCartaCesion.CopyToAsync(memoryStream);
+            var nombreArchivo = Path.GetFileName(ArchivoCartaCesion.FileName);
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "CartasCesion", integracionId.ToString());
+            Directory.CreateDirectory(folderPath);
 
-            //Buscar la integración con sus cartas
-            var integracion = await _context.Integraciones
-                .Include(i => i.CartasCesion)
-                .FirstOrDefaultAsync(i => i.Id == integracionId);
+            var rutaCompleta = Path.Combine(folderPath, nombreArchivo);
 
-            if (integracion == null)
+            using (var stream = new FileStream(rutaCompleta, FileMode.Create))
             {
-                TempData["Error"] = "No se encontró la integración.";
-                return RedirectToAction("Index", "Integraciones");
+                await ArchivoCartaCesion.CopyToAsync(stream);
             }
 
             var carta = new Cartascesion
             {
-                CartasCesion1 = memoryStream.ToArray(),
-                NombreArchivo = Path.GetFileName(ArchivoCartaCesion.FileName),
+                RutaArchivo = rutaCompleta,
+                NombreArchivo = nombreArchivo,
                 TipoMime = ArchivoCartaCesion.ContentType,
-                Fecha = DateOnly.FromDateTime(DateTime.Today),
-                Integracion = integracion
+                Fecha = DateTime.Today,
+                IntegracioneId = integracionId
             };
 
-            integracion.CartasCesion.Add(carta);//Asociar a la integración
+            _context.Cartascesions.Add(carta);
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Carta de cesión subida correctamente.";
@@ -101,74 +95,22 @@ namespace ElGantte.Controllers
         }
 
 
-        //Metodo para descargar la carta de cesión
-        public async Task<IActionResult> Descargar(int id)
+
+        public async Task<IActionResult> DescargarCarta(int id)
         {
             var carta = await _context.Cartascesions.FindAsync(id);
-            if (carta == null || carta.CartasCesion1 == null)
+            if (carta == null || string.IsNullOrWhiteSpace(carta.RutaArchivo) || !System.IO.File.Exists(carta.RutaArchivo))
             {
-                return NotFound();
+                return NotFound("Archivo no encontrado.");
             }
 
-            var nombre = carta.NombreArchivo ?? $"Carta_{id}.pdf";
+            var bytes = await System.IO.File.ReadAllBytesAsync(carta.RutaArchivo);
             var tipo = carta.TipoMime ?? "application/octet-stream";
+            var nombre = carta.NombreArchivo ?? $"Carta_{id}.pdf";
 
-            TempData["Success"] = "Carta de cesión descargada";
-            return File(carta.CartasCesion1, tipo, nombre);
+            return File(bytes, tipo, nombre);
         }
 
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
-        // GET: Cartascesion/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cartascesion = await _context.Cartascesions.FindAsync(id);
-            if (cartascesion == null)
-            {
-                return NotFound();
-            }
-            return View(cartascesion);
-        }
-
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
-        // POST: Cartascesion/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CartasCesion1,Fecha")] Cartascesion cartascesion)
-        {
-            if (id != cartascesion.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cartascesion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartascesionExists(cartascesion.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(cartascesion);
-        }
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Cartascesion/Delete/5
@@ -194,20 +136,20 @@ namespace ElGantte.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, int integracionId)
         {
-            var cartascesion = await _context.Cartascesions.FindAsync(id);
-            if (cartascesion != null)
+            var carta = await _context.Cartascesions.FindAsync(id);
+            if (carta != null)
             {
-                _context.Cartascesions.Remove(cartascesion);
-                TempData["Error"] = "Carta de cesión eliminada";
+                if (!string.IsNullOrWhiteSpace(carta.RutaArchivo) && System.IO.File.Exists(carta.RutaArchivo))
+                {
+                    System.IO.File.Delete(carta.RutaArchivo);
+                }
+
+                _context.Cartascesions.Remove(carta);
                 await _context.SaveChangesAsync();
             }
 
+            TempData["Error"] = "Carta de cesión eliminada correctamente.";
             return RedirectToAction("Edit", "Integraciones", new { id = integracionId });
-        }
-
-        private bool CartascesionExists(int id)
-        {
-            return _context.Cartascesions.Any(e => e.Id == id);
         }
     }
 }

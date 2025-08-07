@@ -1,4 +1,4 @@
-﻿@model ElGantte.Models.Cuadernosprueba
+﻿@model ElGantte.Models.Jira
 
 @{
     ViewData["Title"] = "Details";
@@ -7,38 +7,38 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Cuadernosprueba</h4>
+    <h4>Jira</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CuadernoPrueba)
+            @Html.DisplayNameFor(model => model.Codigo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CuadernoPrueba)
+            @Html.DisplayFor(model => model.Codigo)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
+            @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
+            @Html.DisplayFor(model => model.Descripcion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreArchivo)
+            @Html.DisplayNameFor(model => model.Asunto)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreArchivo)
+            @Html.DisplayFor(model => model.Asunto)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoMime)
+            @Html.DisplayNameFor(model => model.Finalizado)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoMime)
+            @Html.DisplayFor(model => model.Finalizado)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Integracion)
+            @Html.DisplayNameFor(model => model.PartnerNavigation)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Integracion.Id)
+            @Html.DisplayFor(model => model.PartnerNavigation.Id)
         </dd>
     </dl>
 </div>

@@ -10,9 +10,10 @@ namespace ElGantte.Models
         [Key]
         public int Id { get; set; }
 
-        [Column("CuadernoPrueba")]
-        public byte[] CuadernoPrueba { get; set; } = null!;
-        public DateOnly Fecha { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+        [StringLength(500)]
+        public string RutaArchivo { get; set; } = string.Empty;
+
+        public DateTime Fecha { get; set; } = DateTime.Today;
 
         [StringLength(255)]
         public string NombreArchivo { get; set; }

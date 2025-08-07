@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250807165636_GuardarCartasCesionEnDisco")]
+    partial class GuardarCartasCesionEnDisco
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,36 +26,6 @@ namespace ElGantte.Migrations
 
             MySqlModelBuilderExtensions.HasCharSet(modelBuilder, "utf8mb4");
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("ElGantte.Models.ApiKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(512)");
-
-                    b.Property<string>("Nivel")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("PartnerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PartnerId");
-
-                    b.ToTable("apikeys");
-                });
 
             modelBuilder.Entity("ElGantte.Models.Cartascesion", b =>
                 {
@@ -361,12 +334,6 @@ namespace ElGantte.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("FechaFin")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<bool?>("Finalizado")
                         .HasColumnType("tinyint(1)");
 
@@ -664,17 +631,6 @@ namespace ElGantte.Migrations
                     b.ToTable("usuarios");
                 });
 
-            modelBuilder.Entity("ElGantte.Models.ApiKey", b =>
-                {
-                    b.HasOne("ElGantte.Models.Partner", "Partner")
-                        .WithMany("ApiKeys")
-                        .HasForeignKey("PartnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Partner");
-                });
-
             modelBuilder.Entity("ElGantte.Models.Cartascesion", b =>
                 {
                     b.HasOne("ElGantte.Models.Integracione", "Integracion")
@@ -869,8 +825,6 @@ namespace ElGantte.Migrations
 
             modelBuilder.Entity("ElGantte.Models.Partner", b =>
                 {
-                    b.Navigation("ApiKeys");
-
                     b.Navigation("Integraciones");
 
                     b.Navigation("Jiras");

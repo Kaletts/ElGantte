@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewData["Title"] = "XieGenerator";
+}
+
+<link rel="stylesheet" href="~/css/XieGenerator.css" />
+
+
+<div class="bg-light cuerpoXie">
+    <div class="row">
+        <h1 class="animated-title">Generador XIE</h1>
+        <div class="row">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <!-- ALTAS -->
+                    <div class="col-md-4">
+                        <div class="card shadow fixed-card">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title mb-4">Alta Terminales TEM - <span class="badge bg-success">Altas</span></h3>
+                                <div class="alert alert-warning">
+                                    Agrega terminales a TEM:
+                                    <ul>
+                                        <li>Ruta mínima: sponsor + carpeta.</li>
+                                        <li>Evita terminales repetidos.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="technology" class="form-label">Tecnología</label>
+                                    <input type="text" id="technology" class="form-control" placeholder="Ej: ITOS">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="folder" class="form-label">Ruta completa (incluye sponsor)</label>
+                                    <input type="text" id="folder" class="form-control"
+                                           placeholder="Ej: /ITOS_Soluciones Integradas/STOCK-ALTAS/CM5X">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="serialList" class="form-label">Series (una por línea)</label>
+                                    <textarea id="serialList" class="form-control" rows="4"></textarea>
+                                </div>
+
+                                <div class="mt-auto d-grid">
+                                    <button onclick="generateXIE()" class="btn btn-primary">Generar XML de configuración</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAJAS -->
+                    <div class="col-md-4">
+                        <div class="card shadow fixed-card">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title mb-4">Baja Terminales TEM - <span class="badge bg-danger">Bajas</span></h3>
+                                <div class="alert alert-danger">
+                                    Elimina terminales existentes:
+                                    <ul>
+                                        <li>Requiere ruta y series válidas.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="folderDelete" class="form-label">Ruta completa (incluye sponsor)</label>
+                                    <input type="text" id="folderDelete" class="form-control"
+                                           placeholder="Ej: /Soluciones Integradas/Prueba/Ejemplo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="serialListDelete" class="form-label">Series a eliminar</label>
+                                    <textarea id="serialListDelete" class="form-control" rows="4"></textarea>
+                                </div>
+
+                                <div class="mt-auto d-grid">
+                                    <button onclick="generateDeleteXIE()" class="btn btn-danger">Generar XML de configuración</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPAÑAS -->
+                    <div class="col-md-4">
+                        <div class="card shadow fixed-card">
+                            <div class="card-body d-flex flex-column">
+                                <h3 class="card-title mb-4">Campañas - <span class="badge bg-info text-dark">Altas/Bajas</span></h3>
+                                <div class="alert alert-info">Crear o eliminar terminales de una campaña TEM.</div>
+
+                                <div class="mb-3">
+                                    <label for="campaignSponsor" class="form-label">Sponsor</label>
+                                    <input type="text" id="campaignSponsor" class="form-control"
+                                           placeholder="Ej: ITOS_Soluciones Integradas">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="campaignName" class="form-label">Nombre de campaña</label>
+                                    <input type="text" id="campaignName" class="form-control"
+                                           placeholder="Ej: 20250723_SC_COMERCIA2.0_1028">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="campaignType" class="form-label">Tipo de campaña</label>
+                                    <select id="campaignType" class="form-select">
+                                        <option value="CLASSIC">CLASSIC</option>
+                                        <option value="DT">DT</option>
+                                        <option value="RTS">RTS</option>
+                                        <option value="MESSAGE">MESSAGE</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="campaignSeries" class="form-label">Series (una por línea)</label>
+                                    <textarea id="campaignSeries" class="form-control" rows="4"></textarea>
+                                </div>
+
+                                <div class="mt-auto d-grid gap-2">
+                                    <button onclick="generateCampaignXIE()" class="btn btn-info text-white">Agregar a campaña</button>
+                                    <button onclick="generateDeleteFromCampaignXIE()" class="btn btn-outline-danger">
+                                        Eliminar de
+                                        campaña
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MID/TID -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h3 class="card-title mb-4">Configuración remota - <span class="badge bg-dark">MID y TID</span></h3>
+                                <p class="alert alert-info">
+                                    Sube un archivo CSV con la <strong>rutacompleta</strong>,
+                                    <strong>serie</strong>, <strong>terminal</strong>, y <strong>comercio</strong> que quieras telecargar.
+                                </p>
+                                <ul class="small">
+                                    <li><strong>Formato de columnas:</strong> rutacompleta,serie,terminal,comercio</li>
+                                    <li>Separador aceptado: <code>,</code> o <code>;</code></li>
+                                    <li>La primera carpeta de la ruta se toma como sponsor.</li>
+                                    <li>Verificar siempre que Excel no agregue separadores al final del archivo</li>
+                                    <li>Ejemplo de .csv válido: <a href="#" id="downloadCsvLink">Descargar ejemplo</a></li>
+                                </ul>
+                                <div class="mb-3">
+                                    <label for="csvFile" class="form-label">Archivo CSV</label>
+                                    <input class="form-control" type="file" id="csvFile" accept=".csv">
+                                </div>
+                                <div class="d-grid">
+                                    <button onclick="generateAdvancedConfigXIE()" class="btn btn-dark">
+                                        Generar XML de
+                                        configuración
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row bg-secondary text-white text-center rounded-pill py-3 mt-3 ms-1">
+                <div class="container">
+                    <small>© 2025 Generador XIE - Kaled Emanuel Jaluf</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@section Scripts {
+
+    <script src="~/js/XieGenerator.js"></script>
+
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const csvContent = `rutacompleta,serie,terminal,comercio
+        /ITOS_Soluciones Integradas/Prueba/Ejemplo,CM35200555,91900088604,008043853
+        /ITOS_Soluciones Integradas/Prueba/Ejemplo,CM35200554,91900088603,008043853
+        /ITOS_Soluciones Integradas/Prueba/Ejemplo,CM35200553,91900088602,008043853`;
+
+              const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+              const url = URL.createObjectURL(blob);
+
+              const link = document.getElementById("downloadCsvLink");
+              link.setAttribute("href", url);
+              link.setAttribute("download", "EjemploMidTid.csv");
+            });
+
+    </script>
+}
+

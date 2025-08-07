@@ -45,6 +45,7 @@ namespace ElGantte.Controllers
             }
 
             var integraciones = await _context.Integraciones
+            .Include(i => i.ModeloTerminalNavigation)
             .Where(i => i.Partner == id)
             .ToListAsync();
 

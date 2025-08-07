@@ -27,6 +27,10 @@ public partial class Jira
 
     public bool? Finalizado { get; set; }
 
+    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+    public DateTime? FechaFin { get; set; }
+
     [ForeignKey("Partner")]
     [InverseProperty("Jiras")]
     public virtual Partner? PartnerNavigation { get; set; }
