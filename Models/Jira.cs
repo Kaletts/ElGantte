@@ -25,6 +25,9 @@ public partial class Jira
     [StringLength(255)]
     public string? Asunto { get; set; }
 
+    [StringLength(255)]
+    public string? Responsable { get; set; }
+
     public bool? Finalizado { get; set; }
 
     public DateTime FechaCreacion { get; set; } = DateTime.Now;

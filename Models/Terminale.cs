@@ -12,6 +12,7 @@ namespace ElGantte.Models;
 public partial class Terminale
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [StringLength(90)]
@@ -26,5 +27,5 @@ public partial class Terminale
 
     [ForeignKey("Modelo")]
     [InverseProperty("Terminales")]
-    public virtual Modelosterminal ModeloNavigation { get; set; } = null!;
+    public virtual Modelosterminal? ModeloNavigation { get; set; } = null!;
 }

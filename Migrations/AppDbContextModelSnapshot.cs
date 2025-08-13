@@ -373,6 +373,10 @@ namespace ElGantte.Migrations
                     b.Property<int?>("Partner")
                         .HasColumnType("int");
 
+                    b.Property<string>("Responsable")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 

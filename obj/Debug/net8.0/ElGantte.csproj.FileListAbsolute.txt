@@ -239,3 +239,4 @@ C:\Users\Kaled\Documents\Proyectos Web\ElGantte\bin\Debug\net8.0\runtimes\win\li
 C:\Users\Kaled\Documents\Proyectos Web\ElGantte\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\Kaled\Documents\Proyectos Web\ElGantte\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Kaled\Documents\Proyectos Web\ElGantte\obj\Debug\net8.0\ElGantte.sourcelink.json
+C:\Users\Kaled\Documents\Proyectos Web\ElGantte\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<ElGantte.Models.Terminale>
+
+@{
+    ViewData["Title"] = "Gestión de Terminales";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Gestión de Terminales</h2>
+
+    <div class="row g-4">
+        <!-- Formulario -->
+        <div class="col-12 col-md-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    Crear / Editar Terminal
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label>Serie</label>
+                            <input name="Serie" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Modelo</label>
+                            <select name="Modelo" class="form-control" asp-items="ViewBag.Modelo" required></select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listado -->
+        <div class="col-12 col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-secondary text-white">
+                    Lista de Terminales
+                </div>
+                <div class="card-body">
+                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar..." />
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Serie</th>
+                                <th>Modelo</th>
+                                <th>Integración Asociada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="terminalTable">
+                            @foreach (var item in Model)
+                            {
+                                var integracion = item.IntegracionNavigation;
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.Serie</td>
+                                    <td>@(@item.ModeloNavigation?.Modelo ?? "No asignado")</td>
+                                    <td>
+                                        @if (integracion != null)
+                                        {
+                                            <button type="button" class="btn btn-sm btn-info"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalIntegracion_@integracion.Id">
+                                                @integracion.Id - @integracion.CasoSf
+                                            </button>
+
+                                            <!-- Modal de integración -->
+                                            <div class="modal fade" id="modalIntegracion_@integracion.Id" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-info text-white">
+                                                            <h5 class="modal-title">Detalles de Integración</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>ID:</strong> @integracion.Id</p>
+                                                            <p><strong>Solución:</strong> @(integracion.SolucionNavigation?.Nombre ?? "No asignada")</p>
+                                                            <p><strong>Fecha Creación:</strong> @(integracion.FechaInicio?.ToString("dd/MM/yyyy") ?? "Sin fecha")</p>
+                                                            <p><strong>Estado:</strong> @(integracion.StatusNavigation?.Nombre ?? "No asignado")</p>
+                                                            <p><strong>Partner:</strong> @(integracion.PartnerNavigation?.Nombre ?? "No asignado")</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Sin integración</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline-block" onsubmit="return confirm('¿Eliminar este terminal?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Buscador rápido
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#terminalTable tr");
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
+    </script>
+}

@@ -2,7 +2,216 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Resumen ejecutivo</h1>
+
+    <div class="row">
+
+        <!-- Tarjeta 1: Integraciones por Status -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Estado de las Integraciones</h5>
+                    <canvas id="statusChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 2: Integraciones por Etapa Actual -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Distribución por Etapas</h5>
+                    <canvas id="etapaActualChart" height="300"></canvas>
+                    <!-- Aquí irá el listado -->
+                    <div id="integracionesListado" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Tarjeta 3: Tipo de integración -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Tipo de Integración</h5>
+                    <canvas id="solucionChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 </div>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/Home/GetStatusSummary')
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(item => item.status);
+                    const counts = data.map(item => item.count);
+
+                    const ctx = document.getElementById('statusChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Integraciones por Estado',
+                                data: counts,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al obtener datos:', error));
+        });
+    </script>
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/Home/GetIntegracionesPorSolucion')
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(item => item.solucion);
+                    const counts = data.map(item => item.count);
+
+                    const ctx = document.getElementById('solucionChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar', // Cambia a 'pie' si prefieres
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Integraciones por Solución',
+                                data: counts,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al cargar integraciones por solución:', error));
+        });
+
+    </script>
+
+    <script>
+              let etapaChartInstance = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/Home/GetIntegracionesPorEtapaActual')
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(item => item.etapa);
+                    const counts = data.map(item => item.total);
+                    const ctx = document.getElementById('etapaActualChart').getContext('2d');
+
+                    if (etapaChartInstance) {
+                        etapaChartInstance.destroy(); // Evita el error de canvas en uso
+                    }
+
+                    etapaChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Integraciones actuales por etapa',
+                                data: counts,
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Etapa actual de las integraciones'
+                                },
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0
+                                    }
+                                }
+                            },
+                                    onClick: function (evt, elements) {
+            if (!elements.length) return;
+
+            const segmentIndex = elements[0].index;
+            const etapaSeleccionada = this.data.labels[segmentIndex];
+
+            fetch(`/Home/GetIntegracionesPorEtapa?etapa=${encodeURIComponent(etapaSeleccionada)}`)
+                .then(res => res.json())
+                .then(integraciones => {
+                    const contenedor = document.getElementById('integracionesListado');
+
+                    if (integraciones.length === 0) {
+                        contenedor.innerHTML = `<p>No hay integraciones para la etapa <strong>${etapaSeleccionada}</strong>.</p>`;
+                        return;
+                    }
+
+                    let html = `<h6>Integraciones en etapa <strong>${etapaSeleccionada}</strong>:</h6><ul class="list-group">`;
+                    integraciones.forEach(i => {
+                        html += `<li class="list-group-item">
+                            <a href="/Integraciones/Details/${i.integracion}">
+                                <strong>${i.nombre}</strong> — ${i.integrador}
+                            </a>
+                        </li>`;
+                    });
+                    html += '</ul>';
+
+                    contenedor.innerHTML = html;
+                })
+                .catch(err => {
+                    console.error('Error al cargar integraciones:', err);
+                });
+        }
+
+                        }
+                    });
+                })
+                .catch(error => console.error('Error al cargar integraciones por etapa actual:', error));
+        });
+    </script>
+
+    </script>
+
+
+
+}
+
+

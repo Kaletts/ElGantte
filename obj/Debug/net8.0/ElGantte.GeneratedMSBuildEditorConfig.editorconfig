@@ -100,6 +100,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSmlyYXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Kittarjetas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0dGFyamV0YXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Kittarjetas/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0dGFyamV0YXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Kittarjetas/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0dGFyamV0YXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Kittarjetas/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0dGFyamV0YXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Kittarjetas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0dGFyamV0YXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Partners/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGFydG5lcnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -154,6 +174,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Telecertificaciones/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVsZWNlcnRpZmljYWNpb25lc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Terminales/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVybWluYWxlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Terminales/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVybWluYWxlc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/_ViewImports.cshtml]

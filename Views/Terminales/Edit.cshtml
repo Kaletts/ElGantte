@@ -1,0 +1,52 @@
+﻿@model ElGantte.Models.Terminale
+
+@{
+    ViewData["Title"] = "Editar Terminal";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="card shadow-lg rounded-4 w-100" style="max-width: 500px;">
+            <div class="card-header bg-primary text-white text-center">
+                <h4>Editar Terminal</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Serie" class="form-label"></label>
+                        <input asp-for="Serie" class="form-control" />
+                        <span asp-validation-for="Serie" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Modelo" class="form-label"></label>
+                        <select asp-for="Modelo" class="form-select" asp-items="ViewBag.Modelo"></select>
+                        <span asp-validation-for="Modelo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FechaUltimoCambio" class="form-label"></label>
+                        <input asp-for="FechaUltimoCambio" class="form-control" />
+                        <span asp-validation-for="FechaUltimoCambio" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="IntegracionId" class="form-label"></label>
+                        <select asp-for="IntegracionId" class="form-select" asp-items="ViewBag.IntegracionId"></select>
+                        <span asp-validation-for="IntegracionId" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-action="Index" class="text-decoration-none">Volver al listado</a>
+            </div>
+        </div>
+    </div>
+</div>

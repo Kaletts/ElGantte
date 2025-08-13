@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ElGantte.Models.Kittarjeta>
+
+@{
+    ViewData["Title"] = "Kits y Tarjetas";
+}
+@await Html.PartialAsync("_TempDataMensajes")
+<h1 class="mb-4 text-center">Kits y Tarjetas</h1>
+
+<div class="container" style="max-width: 85%;">
+    <!-- Formulario Crear Kit Inline -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-2">
+            <form asp-action="CreateKit" method="post" class="d-flex gap-2">
+                <input name="Nombre" class="form-control" placeholder="Nombre del Kit" required />
+                <button class="btn btn-primary">Crear Kit</button>
+            </form>
+        </div>
+
+        <!-- Formulario Crear Tarjeta Inline -->
+        <div class="col-md-6 mb-2">
+            <form asp-action="CreateTarjeta" method="post" class="d-flex gap-2">
+                <input name="Numero" class="form-control" placeholder="Número" required />
+                <input name="Tipo" class="form-control" placeholder="Tipo" required />
+                <input name="PIN" class="form-control" placeholder="PIN" required />
+                <select name="KitTarjetaId" class="form-select" required>
+                    <option value="">-- Selecciona Kit --</option>
+                    @foreach (var kit in Model)
+                    {
+                        <option value="@kit.Id">@kit.Nombre</option>
+                    }
+                </select>
+                <button class="btn btn-success">Crear Tarjeta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Listado de Kits -->
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach (var kit in Model)
+        {
+            var integracion = kit.Integracion;
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex justify-content-between">
+                            @kit.Nombre
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <form asp-controller="Tarjetas" asp-action="DeleteKit" asp-route-id="@kit.Id" method="post" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar este kit?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar Kit</button>
+                                </form>
+
+                            }
+
+                        </h5>
+                        <p class="card-text">
+                            <strong>Integración:</strong>
+                            @(integracion != null ? $"{integracion.Id} ({integracion.PartnerNavigation?.Nombre ?? "No asignado"})" : "Disponible")
+                        </p>
+                        <p class="card-text"><strong>Tarjetas:</strong> @kit.Tarjetas.Count</p>
+
+                        @if (kit.Tarjetas.Any())
+                        {
+                            <table class="table table-bordered mt-2">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Numero</th>
+                                        <th>PIN</th>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <th>Acciones</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tarjeta in kit.Tarjetas)
+                                    {
+                                        <tr>
+                                            <td>@tarjeta.Tipo</td>
+                                            <td>@tarjeta.Numero</td>
+                                            <td>@tarjeta.PIN</td>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <td>
+                                                    <form asp-action="DeleteTarjeta" asp-route-id="@tarjeta.Id" method="post" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar esta tarjeta?');">
+                                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                                    </form>
+                                                    <a class="btn btn-warning btn-sm" href="@Url.Action("EditTarjeta", new { id = tarjeta.Id })">Editar</a>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No hay tarjetas asignadas.</p>
+                        }
+
+                        <!-- Formulario Crear Tarjeta Inline para este Kit -->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <form asp-action="CreateTarjeta" method="post" class="d-flex gap-2 mt-2">
+                                <input type="hidden" name="KitTarjetaId" value="@kit.Id" />
+                                <input name="Numero" class="form-control" placeholder="Número" required />
+                                <input name="Tipo" class="form-control" placeholder="Tipo" required />
+                                <input name="PIN" class="form-control" placeholder="PIN" required />
+                                <button class="btn btn-success">Agregar Tarjeta</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

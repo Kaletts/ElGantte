@@ -295,7 +295,7 @@
                                                         <td>@carta.Fecha.ToString("dd/MM/yyyy")</td>
                                                         <td class="text-truncate" style="max-width: 150px;" title="@carta.NombreArchivo">@carta.NombreArchivo</td>
                                                         <td class="text-nowrap">
-                                                            <a asp-controller="Cartascesion" asp-action="Descargar" asp-route-id="@carta.Id" class="btn btn-sm btn-outline-primary" title="Descargar">
+                                                            <a asp-controller="Cartascesion" asp-action="DescargarCarta" asp-route-id="@carta.Id" class="btn btn-sm btn-outline-primary" title="Descargar">
                                                                 <i class="fas fa-download"></i>
                                                             </a>
                                                             @if (User.IsInRole("Admin"))
