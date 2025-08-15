@@ -19,8 +19,8 @@
         <!-- Formulario Crear Tarjeta Inline -->
         <div class="col-md-6 mb-2">
             <form asp-action="CreateTarjeta" method="post" class="d-flex gap-2">
-                <input name="Numero" class="form-control" placeholder="Número" required />
                 <input name="Tipo" class="form-control" placeholder="Tipo" required />
+                <input name="Numero" class="form-control" placeholder="Número" required />
                 <input name="PIN" class="form-control" placeholder="PIN" required />
                 <select name="KitTarjetaId" class="form-select" required>
                     <option value="">-- Selecciona Kit --</option>
@@ -34,12 +34,13 @@
         </div>
     </div>
 
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Buscar..." />
     <!-- Listado de Kits -->
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 g-4" id="kitsContainer">
         @foreach (var kit in Model)
         {
             var integracion = kit.Integracion;
-            <div class="col">
+            <div class="col kit-card">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-between">
@@ -56,40 +57,68 @@
                         </h5>
                         <p class="card-text">
                             <strong>Integración:</strong>
-                            @(integracion != null ? $"{integracion.Id} ({integracion.PartnerNavigation?.Nombre ?? "No asignado"})" : "Disponible")
+                            @if (integracion != null)
+                            {
+                                <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@integracion.Id">
+                                    @integracion.Id (@(integracion.PartnerNavigation?.Nombre ?? "No asignado"))
+                                </a>
+                            }
+                            else
+                            {
+                                @:Disponible
+                            }
                         </p>
+
                         <p class="card-text"><strong>Tarjetas:</strong> @kit.Tarjetas.Count</p>
 
                         @if (kit.Tarjetas.Any())
                         {
-                            <table class="table table-bordered mt-2">
+                            <table class="table table-bordered mt-2 tarjetaTable">
                                 <thead>
                                     <tr>
                                         <th>Tipo</th>
                                         <th>Numero</th>
                                         <th>PIN</th>
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <th>Acciones</th>
-                                        }
+                                        <th colspan="2">Acciones</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var tarjeta in kit.Tarjetas)
                                     {
                                         <tr>
-                                            <td>@tarjeta.Tipo</td>
-                                            <td>@tarjeta.Numero</td>
-                                            <td>@tarjeta.PIN</td>
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <td>
+                                            <form asp-action="EditTarjeta" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@tarjeta.Id" />
+                                            <td>
+                                                <input name="tipo" value="@tarjeta.Tipo" class="form-control"
+                                                       @(User.IsInRole("Admin") ? "" : "disabled") />
+                                            </td>
+                                            <td>
+                                                <input name="numero" value="@tarjeta.Numero" class="form-control"
+                                                       @(User.IsInRole("Admin") ? "" : "disabled") />
+                                            </td>
+                                            <td>
+                                                <input name="pin" value="@tarjeta.PIN" class="form-control"
+                                                       @(User.IsInRole("Admin") ? "" : "disabled") />
+                                            </td>
+                                            <td>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                }
+
+                                            </td>
+                                            </form>
+                                            <td>
+                                                @if (User.IsInRole("Admin"))
+                                                {
                                                     <form asp-action="DeleteTarjeta" asp-route-id="@tarjeta.Id" method="post" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar esta tarjeta?');">
-                                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                                     </form>
-                                                    <a class="btn btn-warning btn-sm" href="@Url.Action("EditTarjeta", new { id = tarjeta.Id })">Editar</a>
-                                                </td>
-                                            }
+                                                }
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -101,19 +130,32 @@
                         }
 
                         <!-- Formulario Crear Tarjeta Inline para este Kit -->
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <form asp-action="CreateTarjeta" method="post" class="d-flex gap-2 mt-2">
-                                <input type="hidden" name="KitTarjetaId" value="@kit.Id" />
-                                <input name="Numero" class="form-control" placeholder="Número" required />
-                                <input name="Tipo" class="form-control" placeholder="Tipo" required />
-                                <input name="PIN" class="form-control" placeholder="PIN" required />
-                                <button class="btn btn-success">Agregar Tarjeta</button>
-                            </form>
-                        }
+
+                        <form asp-action="CreateTarjeta" method="post" class="d-flex gap-2 mt-2">
+                            <input name="Tipo" class="form-control" placeholder="Tipo" required />
+                            <input name="Numero" class="form-control" placeholder="Número" required />
+                            <input name="PIN" class="form-control" placeholder="PIN" required />
+                            <input type="hidden" name="KitTarjetaId" value="@kit.Id" />
+                            <button class="btn btn-success">Agregar Tarjeta</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
+
+@section Scripts {
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function () {
+    let filter = this.value.toLowerCase();
+
+    document.querySelectorAll("#kitsContainer .kit-card").forEach(card => {
+        let kitName = card.querySelector(".card-title").innerText.toLowerCase();
+        card.style.display = kitName.includes(filter) ? "" : "none";
+    });
+});
+</script>
+}

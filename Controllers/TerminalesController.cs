@@ -124,7 +124,7 @@ namespace ElGantte.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Serie,Modelo,FechaUltimoCambio,IntegracionId")] Terminale terminale)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Serie,Modelo,IntegracionId")] Terminale terminale)
         {
             if (id != terminale.Id)
             {
@@ -135,7 +135,20 @@ namespace ElGantte.Controllers
             {
                 try
                 {
-                    _context.Update(terminale);
+                    // Obtener el terminal existente desde la base de datos
+                    var terminalExistente = await _context.Terminales.FindAsync(id);
+                    if (terminalExistente == null)
+                        return NotFound();
+
+                    // Actualizar solo los campos que vienen del formulario
+                    terminalExistente.Serie = terminale.Serie;
+                    terminalExistente.Modelo = terminale.Modelo;
+                    terminalExistente.IntegracionId = terminale.IntegracionId; // puede ser null
+
+                    // Actualizar la fecha automáticamente
+                    terminalExistente.FechaUltimoCambio = DateTime.Now;
+
+                    _context.Update(terminalExistente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -151,10 +164,12 @@ namespace ElGantte.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["IntegracionId"] = new SelectList(_context.Integraciones, "Id", "Id", terminale.IntegracionId);
             ViewData["Modelo"] = new SelectList(_context.Modelosterminals, "Id", "Id", terminale.Modelo);
             return View(terminale);
         }
+
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Terminales/Delete/5

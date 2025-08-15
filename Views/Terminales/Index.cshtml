@@ -12,7 +12,7 @@
         <div class="col-12 col-md-4">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    Crear / Editar Terminal
+                    Crear Terminal
                 </div>
                 <div class="card-body">
                     <form asp-action="Create" method="post">
@@ -79,7 +79,10 @@
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p><strong>ID:</strong> @integracion.Id</p>
+                                                            <strong>ID:</strong>
+                                                            <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@integracion.Id">
+                                                                @integracion.Id
+                                                            </a>
                                                             <p><strong>Solución:</strong> @(integracion.SolucionNavigation?.Nombre ?? "No asignada")</p>
                                                             <p><strong>Fecha Creación:</strong> @(integracion.FechaInicio?.ToString("dd/MM/yyyy") ?? "Sin fecha")</p>
                                                             <p><strong>Estado:</strong> @(integracion.StatusNavigation?.Nombre ?? "No asignado")</p>

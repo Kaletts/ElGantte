@@ -1,62 +1,96 @@
-﻿
+﻿@model ElGantte.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Registro";
 }
 
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-    <div class="row overflow-hidden" style="max-width: 900px; width: 100%;">
-        <!-- SVG o imagen a la izquierda -->
-        <div class="col-md-6 bg-light d-flex justify-content-center align-items-center p-4">
-            <svg width="300px" height="300px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 9H4V8h14zm-5 3H4v1h9zm8-8v9h-1V5H2v13h9v1H1V4zm2.07 11.637l-.707-.707-5.863 5.863-2.863-2.863-.707.707 3.57 3.57z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+@await Html.PartialAsync("_TempDataMensajes")
+
+<div class="container vh-100 d-flex justify-content-center align-items-start mt-5">
+    <div class="row overflow-hidden" style="max-width: 1200px; width: 100%;">
+
+        <!-- SVG representativo a la izquierda -->
+        <div class="col-md-2 d-none d-md-flex justify-content-center align-items-center bg-light p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-8 0v2" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M20 8v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8" />
+            </svg>
         </div>
 
-        <!-- Formulario a la derecha -->
-        <div class="col-md-6 bg-white p-5">
+        <!-- Formulario para crear usuarios -->
+        <div class="col-md-5 bg-white p-5">
             <h2 class="text-center mb-4">Crear una cuenta</h2>
 
-            <form method="post" novalidate>
+            <form method="post" asp-action="Register" novalidate>
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email"
-                           class="form-control"
-                           id="email"
-                           name="email"
-                           placeholder="tucorreo@ejemplo.com"
-                           required />
-                    <div class="invalid-feedback">
-                        Por favor ingresa un correo válido.
-                    </div>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="tucorreo@ejemplo.com" required />
+                    <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password"
-                           class="form-control"
-                           id="password"
-                           name="password"
-                           placeholder="Contraseña"
-                           required
-                           minlength="6" />
-                    <div class="invalid-feedback">
-                        La contraseña es obligatoria (mínimo 6 caracteres).
-                    </div>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required minlength="6" />
+                    <div class="invalid-feedback">La contraseña es obligatoria (mínimo 6 caracteres).</div>
                 </div>
 
                 <div class="mb-4">
                     <label for="role" class="form-label">Rol</label>
-                    <select class="form-select" id="role" name="role" required>
-                        <option value="">Selecciona un rol</option>
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Por favor selecciona un rol.
+                    <div class="d-flex gap-2">
+                        <select class="form-select flex-grow-1" id="role" name="role" required>
+                            <option value="">Selecciona un rol</option>
+                            <option value="User">User</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
                     </div>
+                    <div class="invalid-feedback">Por favor selecciona un rol.</div>
                 </div>
-
-                <button type="submit" class="btn btn-primary w-100">Registrar</button>
             </form>
         </div>
+
+        <!-- Lista de usuarios -->
+        @if (User.IsInRole("superUser"))
+        {
+            <div class="col-md-5 bg-light p-5">
+                <h2 class="text-center mb-4">Usuarios existentes</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Usuarios)
+                        {
+                            <tr>
+                                <td>@user.Email</td>
+                                <td>
+                                    <form method="post" asp-action="EditUsuario" class="d-flex align-items-center gap-2">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <select name="role" class="form-select w-auto">
+                                            <option value="User" selected="@(user.Role == "User")">User</option>
+                                            <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-action="ResetPassword" class="d-inline">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="submit" class="btn btn-sm btn-warning">Reiniciar contraseña</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        }
     </div>
 </div>
 

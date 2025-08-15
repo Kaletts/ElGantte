@@ -93,37 +93,7 @@ namespace ElGantte.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Eliminar Tarjeta
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteTarjeta(int id)
-        {
-            var tarjeta = await _context.Tarjetas.FindAsync(id);
-            if (tarjeta != null)
-            {
-                _context.Tarjetas.Remove(tarjeta);
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Tarjeta eliminada correctamente.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
 
-        // POST: Editar Tarjeta Inline
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditTarjeta(int id, string tipo, string numero, string pin)
-        {
-            var tarjeta = await _context.Tarjetas.FindAsync(id);
-            if (tarjeta != null)
-            {
-                tarjeta.Tipo = tipo;
-                tarjeta.Numero = numero;
-                tarjeta.PIN = pin;
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Tarjeta actualizada correctamente.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
 
         // GET: Tarjetas/Details/5
         public async Task<IActionResult> Details(int? id)
