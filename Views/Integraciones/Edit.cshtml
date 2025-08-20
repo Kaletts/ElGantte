@@ -6,28 +6,25 @@
 
 <div class="container-fluid py-4">
     <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-dark bg-gradient text-white">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="h4 mb-0">
                     <i class="fas fa-puzzle-piece me-2"></i>Editando integración
                 </h2>
-                <a asp-action="Index" class="btn btn-light btn-sm">
-                    <i class="fas fa-arrow-left me-1"></i> Volver al listado
-                </a>
             </div>
         </div>
 
         <div class="card-body">
             @await Html.PartialAsync("_TempDataMensajes")
 
-            <div class="alert alert-info mb-4">
+            <div class="alert alert-warning mb-4">
                 <h5 class="alert-heading">
                     <strong>@Html.DisplayFor(model => model.PartnerNavigation.Nombre)</strong>
                     <span class="text-muted">|</span>
                     <em>@Html.DisplayFor(model => model.ModeloTerminalNavigation.Modelo)</em>
                 </h5>
                 <hr>
-                <p class="mb-0">Complete los detalles de la integración a continuación.</p>
+                <p class="mb-0">Aquí se puede editar la integración y sus valores.</p>
             </div>
 
             <div class="row g-4">
@@ -37,230 +34,222 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                         <input type="hidden" asp-for="Id" />
 
-                        <div class="accordion mb-4" id="integrationAccordion">
-                            <!-- Basic Information Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingBasic">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="true" aria-controls="collapseBasic">
-                                        <i class="fas fa-info-circle me-2"></i> Información Básica
-                                    </button>
-                                </h2>
-                                <div id="collapseBasic" class="accordion-collapse collapse show" aria-labelledby="headingBasic" data-bs-parent="#integrationAccordion">
-                                    <div class="accordion-body">
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <label asp-for="ModeloTerminal" class="form-label"></label>
-                                                <select asp-for="ModeloTerminal" class="form-select" asp-items="ViewBag.ModelosTerminales">
-                                                    <option value="">Seleccione un modelo</option>
-                                                </select>
-                                                <span asp-validation-for="ModeloTerminal" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="SoftwareIntegrado" class="form-label"></label>
-                                                <select asp-for="SoftwareIntegrado" class="form-select" required>
-                                                    <option value="">Seleccione software</option>
-                                                    <option value="APK">APK</option>
-                                                    <option value="SOFT.CAJA + APK">SOFT.CAJA + APK</option>
-                                                    <option value="SOFT.CAJA">SOFT.CAJA</option>
-                                                    <option value="TNA">TNA</option>
-                                                </select>
-                                                <span asp-validation-for="SoftwareIntegrado" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="NombreSwapp" class="form-label"></label>
-                                                <input asp-for="NombreSwapp" class="form-control" />
-                                                <span asp-validation-for="NombreSwapp" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="Certificado" class="form-label"></label>
-                                                <select asp-for="Certificado" class="form-select">
-                                                    @if (Model.Certificado.HasValue && Model.Certificado.Value)
-                                                    {
-                                                        <option value="true" selected>Sí</option>
-                                                        <option value="false">No</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="true">Sí</option>
-                                                        <option value="false" selected>No</option>
-                                                    }
-                                                </select>
-                                                <span asp-validation-for="Certificado" class="invalid-feedback"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Basic Information Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-info-circle me-2"></i> Información Básica
+                                </h5>
                             </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="ModeloTerminal" class="form-label"></label>
+                                        <select asp-for="ModeloTerminal" class="form-select" asp-items="ViewBag.ModelosTerminales">
+                                            <option value="">Seleccione un modelo</option>
+                                        </select>
+                                        <span asp-validation-for="ModeloTerminal" class="invalid-feedback"></span>
+                                    </div>
 
-                            <!-- Dates Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingDates">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDates" aria-expanded="false" aria-controls="collapseDates">
-                                        <i class="far fa-calendar-alt me-2"></i> Fechas y Tiempos
-                                    </button>
-                                </h2>
-                                <div id="collapseDates" class="accordion-collapse collapse" aria-labelledby="headingDates" data-bs-parent="#integrationAccordion">
-                                    <div class="accordion-body">
-                                        <div class="row g-3">
-                                            @if (User.IsInRole("Admin"))
+                                    <div class="col-md-6">
+                                        <label asp-for="SoftwareIntegrado" class="form-label"></label>
+                                        <select asp-for="SoftwareIntegrado" class="form-select" required>
+                                            <option value="">Seleccione software</option>
+                                            <option value="APK">APK</option>
+                                            <option value="SOFT.CAJA + APK">SOFT.CAJA + APK</option>
+                                            <option value="SOFT.CAJA">SOFT.CAJA</option>
+                                            <option value="TNA">TNA</option>
+                                        </select>
+                                        <span asp-validation-for="SoftwareIntegrado" class="invalid-feedback"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="NombreSwapp" class="form-label"></label>
+                                        <input asp-for="NombreSwapp" class="form-control" />
+                                        <span asp-validation-for="NombreSwapp" class="invalid-feedback"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Certificado" class="form-label"></label>
+                                        <select asp-for="Certificado" class="form-select" id="certificadoSelect">
+                                            @if (Model.Certificado.HasValue && Model.Certificado.Value)
                                             {
-                                                <div class="col-md-6">
-                                                    <label asp-for="FechaInicio" class="form-label"></label>
-                                                    <input asp-for="FechaInicio" class="form-control" type="date" />
-                                                    <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
-                                                </div>
+                                                <option value="true" selected>Sí</option>
+                                                <option value="false">No</option>
                                             }
                                             else
                                             {
-                                                <div class="col-md-6">
-                                                    <label asp-for="FechaInicio" class="form-label"></label>
-                                                    <p class="form-control-plaintext">@Model.FechaInicio?.ToString("yyyy-MM-dd")</p>
-                                                    <input type="hidden" asp-for="FechaInicio" />
-                                                    <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
-                                                </div>
+                                                <option value="true">Sí</option>
+                                                <option value="false" selected>No</option>
                                             }
-
-                                            <div class="col-md-6">
-                                                <label asp-for="FechaFin" class="form-label"></label>
-                                                <input asp-for="FechaFin" class="form-control" type="date" />
-                                                <span asp-validation-for="FechaFin" class="invalid-feedback"></span>
-                                            </div>
-
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <div class="col-md-6">
-                                                    <label asp-for="DiasIntegrando" class="form-label"></label>
-                                                    <input asp-for="DiasIntegrando" class="form-control" />
-                                                    <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label asp-for="DiasStandBy" class="form-label"></label>
-                                                    <input asp-for="DiasStandBy" class="form-control" />
-                                                    <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="col-md-6">
-                                                    <label asp-for="DiasIntegrando" class="form-label"></label>
-                                                    <p class="form-control-plaintext">@Model.DiasIntegrando</p>
-                                                    <input type="hidden" asp-for="DiasIntegrando" />
-                                                    <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label asp-for="DiasStandBy" class="form-label"></label>
-                                                    <p class="form-control-plaintext">@Model.DiasStandBy</p>
-                                                    <input type="hidden" asp-for="DiasStandBy" />
-                                                    <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Status Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingStatus">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
-                                        <i class="fas fa-tasks me-2"></i> Estado y Solución
-                                    </button>
-                                </h2>
-                                <div id="collapseStatus" class="accordion-collapse collapse" aria-labelledby="headingStatus" data-bs-parent="#integrationAccordion">
-                                    <div class="accordion-body">
-                                        <div class="row g-3">
-                                            <div class="col-md-6">
-                                                <label asp-for="StandBy" class="form-label"></label>
-                                                <select asp-for="StandBy" class="form-select">
-                                                    @if (Model.StandBy.HasValue && Model.StandBy.Value)
-                                                    {
-                                                        <option value="true" selected>Sí</option>
-                                                        <option value="false">No</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="true">Sí</option>
-                                                        <option value="false" selected>No</option>
-                                                    }
-                                                </select>
-                                                <span asp-validation-for="StandBy" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="CasoSf" class="form-label"></label>
-                                                <input asp-for="CasoSf" class="form-control" placeholder="Número de caso" />
-                                                <span asp-validation-for="CasoSf" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="Status" class="form-label"></label>
-                                                <select asp-for="Status" class="form-select" asp-items="ViewBag.Status">
-                                                    <option value="">Seleccione estado</option>
-                                                </select>
-                                                <span asp-validation-for="Status" class="invalid-feedback"></span>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label asp-for="Solucion" class="form-label"></label>
-                                                <select asp-for="Solucion" class="form-select" asp-items="ViewBag.Solucion">
-                                                    <option value="">Seleccione solución</option>
-                                                </select>
-                                                <span asp-validation-for="Solucion" class="invalid-feedback"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Partner Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingPartner">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePartner" aria-expanded="false" aria-controls="collapsePartner">
-                                        <i class="fas fa-handshake me-2"></i> Partner
-                                    </button>
-                                </h2>
-                                <div id="collapsePartner" class="accordion-collapse collapse" aria-labelledby="headingPartner" data-bs-parent="#integrationAccordion">
-                                    <div class="accordion-body">
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <div class="mb-3">
-                                                <label asp-for="Partner" class="form-label"></label>
-                                                <select asp-for="Partner" class="form-select" asp-items="ViewBag.Partner">
-                                                    <option value="">Seleccione partner</option>
-                                                </select>
-                                                <span asp-validation-for="Partner" class="invalid-feedback"></span>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="mb-3">
-                                                <p class="form-control-plaintext badge bg-primary">@Model.PartnerNavigation?.Nombre</p>
-                                                <input type="hidden" asp-for="Partner" />
-                                                <span asp-validation-for="Partner" class="invalid-feedback"></span>
-                                            </div>
-                                        }
+                                        </select>
+                                        <span asp-validation-for="Certificado" class="invalid-feedback"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Dates Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="far fa-calendar-alt me-2"></i> Fechas y Tiempos
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="col-md-6">
+                                            <label asp-for="FechaInicio" class="form-label"></label>
+                                            <input asp-for="FechaInicio" class="form-control" type="date" />
+                                            <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-6">
+                                            <label asp-for="FechaInicio" class="form-label"></label>
+                                            <p class="form-control-plaintext">@Model.FechaInicio?.ToString("yyyy-MM-dd")</p>
+                                            <input type="hidden" asp-for="FechaInicio" />
+                                            <span asp-validation-for="FechaInicio" class="invalid-feedback"></span>
+                                        </div>
+                                    }
+
+                                    <div class="col-md-6">
+                                        <label asp-for="FechaFin" class="form-label"></label>
+                                        <input asp-for="FechaFin" class="form-control" type="date" />
+                                        <span asp-validation-for="FechaFin" class="invalid-feedback"></span>
+                                    </div>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="col-md-6">
+                                            <label asp-for="DiasIntegrando" class="form-label"></label>
+                                            <input asp-for="DiasIntegrando" class="form-control" />
+                                            <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="DiasStandBy" class="form-label"></label>
+                                            <input asp-for="DiasStandBy" class="form-control" />
+                                            <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-6">
+                                            <label asp-for="DiasIntegrando" class="form-label"></label>
+                                            <p class="form-control-plaintext">@Model.DiasIntegrando</p>
+                                            <input type="hidden" asp-for="DiasIntegrando" />
+                                            <span asp-validation-for="DiasIntegrando" class="invalid-feedback"></span>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label asp-for="DiasStandBy" class="form-label"></label>
+                                            <p class="form-control-plaintext">@Model.DiasStandBy</p>
+                                            <input type="hidden" asp-for="DiasStandBy" />
+                                            <span asp-validation-for="DiasStandBy" class="invalid-feedback"></span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-tasks me-2"></i> Estado y Solución
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label asp-for="StandBy" class="form-label"></label>
+                                        <select asp-for="StandBy" class="form-select" id="standbySelect">
+                                            @if (Model.StandBy.HasValue && Model.StandBy.Value)
+                                            {
+                                                <option value="true" selected>Sí</option>
+                                                <option value="false">No</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="true">Sí</option>
+                                                <option value="false" selected>No</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="StandBy" class="invalid-feedback"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="CasoSf" class="form-label"></label>
+                                        <input asp-for="CasoSf" class="form-control" placeholder="Número de caso" />
+                                        <span asp-validation-for="CasoSf" class="invalid-feedback"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Status" class="form-label"></label>
+                                        <select asp-for="Status" class="form-select" id="statusSelect" asp-items="ViewBag.Status">
+                                            <option value="">Seleccione estado</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="invalid-feedback"></span>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label asp-for="Solucion" class="form-label"></label>
+                                        <select asp-for="Solucion" class="form-select" asp-items="ViewBag.Solucion">
+                                            <option value="">Seleccione solución</option>
+                                        </select>
+                                        <span asp-validation-for="Solucion" class="invalid-feedback"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Partner Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-handshake me-2"></i> Partner
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="mb-3">
+                                        <label asp-for="Partner" class="form-label"></label>
+                                        <select asp-for="Partner" class="form-select" asp-items="ViewBag.Partner">
+                                            <option value="">Seleccione partner</option>
+                                        </select>
+                                        <span asp-validation-for="Partner" class="invalid-feedback"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">
+                                        <p class="form-control-plaintext badge p-4 bg-primary bg-gradient fs-2">@Model.PartnerNavigation?.Nombre</p>
+                                        <input type="hidden" asp-for="Partner" />
+                                        <span asp-validation-for="Partner" class="invalid-feedback"></span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
                         <div class="d-grid mt-3">
-                            <button type="submit" class="btn btn-success btn-lg">
+                            <button type="submit" class="btn btn-outline-success btn-lg">
                                 <i class="fas fa-save me-2"></i> Guardar Cambios
                             </button>
                         </div>
                     </form>
                 </div>
+
+                <!-- Right Column (Documentation) -->
                 <div class="col-lg-6">
                     <div class="sticky-top pt-3" style="top: 20px;">
                         <!-- Carta de Cesión -->
                         <div class="card mb-4">
-                            <div class="card-header bg-info text-white">
+                            <div class="card-header bg-dark text-white">
                                 <h5 class="mb-0">
                                     <i class="fas fa-file-signature me-2"></i> Carta de Cesión
                                 </h5>
@@ -270,7 +259,7 @@
                                     <input type="hidden" name="integracionId" value="@Model.Id" />
                                     <div class="input-group">
                                         <input type="file" name="ArchivoCartaCesion" id="ArchivoCartaCesion" class="form-control" required accept=".pdf,.doc,.docx,.png,.jpeg,.jpg,.heic" />
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit" class="btn btn-outline-success">
                                             <i class="fas fa-upload me-1"></i> Subir
                                         </button>
                                     </div>
@@ -320,9 +309,9 @@
                             </div>
                         </div>
 
-                       <!-- Cuaderno de Pruebas Card -->
+                        <!-- Cuaderno de Pruebas Card -->
                         <div class="card mb-4">
-                            <div class="card-header bg-warning text-dark">
+                            <div class="card-header bg-dark text-white">
                                 <h5 class="mb-0">
                                     <i class="fas fa-clipboard-check me-2"></i> Cuaderno de Pruebas
                                 </h5>
@@ -332,7 +321,7 @@
                                     <input type="hidden" name="integracionId" value="@Model.Id" />
                                     <div class="input-group">
                                         <input type="file" name="ArchivoCuadernoPrueba" id="ArchivoCuadernoPrueba" class="form-control" required accept=".xls,.xlsx,.pdf,.doc,.docx,.ods" />
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit" class="btn btn-outline-success">
                                             <i class="fas fa-upload me-1"></i> Subir
                                         </button>
                                     </div>
@@ -384,7 +373,7 @@
 
                         <!-- Telecertificaciones Card -->
                         <div class="card">
-                            <div class="card-header bg-success text-white">
+                            <div class="card-header bg-dark text-white">
                                 <h5 class="mb-0">
                                     <i class="fas fa-video me-2"></i> Telecertificaciones
                                 </h5>
@@ -407,7 +396,7 @@
                                         <label class="form-label">Descripción</label>
                                         <textarea name="Descripcion" class="form-control" rows="3" placeholder="Agregue una descripción..."></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success w-100">
+                                    <button type="submit" class="btn btn-outline-success w-100">
                                         <i class="fas fa-plus-circle me-1"></i> Agregar Telecertificación
                                     </button>
                                 </form>
@@ -453,17 +442,27 @@
                 </div>
             </div>
 
-
-               
-            </div>
         </div>
+
     </div>
+</div>
+
+<div class="action-bar bg-light shadow-sm border-top py-2 pe-2 d-flex justify-content-end gap-2">
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-sm btn-primary d-flex align-items-center">
+        <i class="fas fa-edit me-1" aria-hidden="true"></i>
+        Detalles
+    </a>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-flex align-items-center">
+        <i class="fas fa-arrow-left me-1" aria-hidden="true"></i>
+        Volver
+    </a>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
         // Enable Bootstrap tooltips
         $(function () {
@@ -473,9 +472,7 @@
         // Form validation
         (function () {
             'use strict'
-
             var forms = document.querySelectorAll('.needs-validation')
-
             Array.prototype.slice.call(forms)
                 .forEach(function (form) {
                     form.addEventListener('submit', function (event) {
@@ -483,58 +480,64 @@
                             event.preventDefault()
                             event.stopPropagation()
                         }
-
                         form.classList.add('was-validated')
                     }, false)
                 })
-        })()
+        })();
 
-            document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const standbySelect = document.querySelector('[name="StandBy"]');
             const statusSelect = document.querySelector('[name="Status"]');
+            const certificado = document.getElementById("certificadoSelect");
 
+            // Función para actualizar status según StandBy
             function updateStatusBasedOnStandBy() {
                 if (!standbySelect || !statusSelect) return;
-
-                const standbyValue = standbySelect.value;
-
-                if (standbyValue === "true") {
+                if (standbySelect.value === "true") {
                     statusSelect.value = "2"; // Stand-by
-                } else if (standbyValue === "false") {
+                } else if (standbySelect.value === "false") {
                     statusSelect.value = "1"; // Integración
                 }
             }
 
-            standbySelect.addEventListener("change", updateStatusBasedOnStandBy);
-        });
+            // Evento StandBy
+            if (standbySelect) standbySelect.addEventListener("change", updateStatusBasedOnStandBy);
 
-            document.addEventListener("DOMContentLoaded", function () {
-            const fileInput = document.getElementById("ArchivoCuadernoPrueba");
-            const maxSizeMB = 50;
-
-            fileInput.addEventListener("change", function () {
-                if (fileInput.files.length > 0) {
-                    const fileSizeMB = fileInput.files[0].size / (1024 * 1024); // convertir a MB
-
-                    if (fileSizeMB > maxSizeMB) {
-                        alert("El archivo supera el tamaño máximo permitido de 50 MB.");
-                        fileInput.value = ""; // limpiar el input
+            // Evento Certificado
+            if (certificado && statusSelect && standbySelect) {
+                certificado.addEventListener("change", function () {
+                    if (certificado.value === "true") {
+                        statusSelect.value = "4"; // Certificado
+                        standbySelect.value = "false";
                     }
-                }
-            });
-        });
-
-               document.addEventListener('DOMContentLoaded', () => {
-          const form = document.querySelector('form[asp-action="SubirCarta"]');
-          const inputFile = form.querySelector('input[type="file"][name="ArchivoCartaCesion"]');
-
-          form.addEventListener('submit', (e) => {
-            const file = inputFile.files[0];
-            if (file && file.size > 50 * 1024 * 1024) {  // 50 MB en bytes
-              e.preventDefault();
-              alert('El archivo no puede superar los 50 MB.');
+                });
             }
-          });
+
+            // Validación tamaño archivo Cuadernos
+            const cuadernoInput = document.getElementById("ArchivoCuadernoPrueba");
+            if (cuadernoInput) {
+                cuadernoInput.addEventListener("change", function () {
+                    if (cuadernoInput.files.length > 0) {
+                        const fileSizeMB = cuadernoInput.files[0].size / (1024 * 1024);
+                        if (fileSizeMB > 50) {
+                            alert("El archivo supera el tamaño máximo permitido de 50 MB.");
+                            cuadernoInput.value = "";
+                        }
+                    }
+                });
+            }
+
+            // Validación tamaño archivo Carta de Cesión
+            const cartaForm = document.querySelector('form[asp-action="SubirCartaCesion"]');
+            if (cartaForm) {
+                const cartaInput = cartaForm.querySelector('input[type="file"][name="ArchivoCartaCesion"]');
+                cartaForm.addEventListener('submit', function (e) {
+                    if (cartaInput.files[0] && cartaInput.files[0].size > 50 * 1024 * 1024) {
+                        e.preventDefault();
+                        alert('El archivo no puede superar los 50 MB.');
+                    }
+                });
+            }
         });
     </script>
 }

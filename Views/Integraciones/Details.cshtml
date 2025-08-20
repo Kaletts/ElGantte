@@ -18,7 +18,7 @@
 
         <!-- Columna 1: Vista General -->
         <div class="col-lg-4 col-md-6">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow bg-white rounded h-100">
                 <div class="card-header bg-primary text-white fw-bold">
                     Vista General
                 </div>
@@ -90,7 +90,7 @@
 
         <!-- Columna 2: Comentarios -->
         <div class="col-lg-4 col-md-6">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow bg-white rounded h-100">
                 <div class="card-header bg-primary text-white fw-bold">
                     Comentarios
                 </div>
@@ -121,93 +121,147 @@
         </div>
 
         <div class="col-lg-4 col-md-12">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow bg-white rounded h-100">
                 <div class="card-header bg-primary text-white fw-bold">
                     Etapas
                 </div>
 
-                <!-- FORMULARIO PARA AGREGAR ETAPA + SUBETAPA -->
+                <!-- FORMULARIO PARA AGREGAR / EDITAR ETAPA + SUBETAPA -->
                 <form asp-action="AgregarEtapa" asp-route-id="@Model.Id" method="post" class="p-3">
 
+                    <!-- Hidden input para EtapaId (si se va a editar una etapa existente) -->
+                    <input type="hidden" name="EtapaId" id="EtapaId" />
+
                     <!-- Etapa -->
-                    <div class="input-group mb-3">
-                        <select class="form-select" name="Etapa" required>
+                    <div class="mb-3">
+                        <label class="form-label">Etapa</label>
+                        <select class="form-select" name="Etapa" id="formEtapa" required>
                             <option value="">Elige una etapa</option>
                             @foreach (var etapa in (SelectList)ViewBag.EtapasDisponibles)
                             {
-                                if (etapa.Value == (string)ViewBag.UltimaEtapaSeleccionada)
-                                {
-                                    <option value="@etapa.Value" selected>@etapa.Text</option>
-                                }
-                                else
-                                {
-                                    <option value="@etapa.Value">@etapa.Text</option>
-                                }
+                                <option value="@etapa.Value">@etapa.Text</option>
                             }
                         </select>
                     </div>
 
                     <!-- Subetapa -->
-                    <div class="input-group mb-3">
-                        <select class="form-select" name="SubEtapa" required>
+                    <div class="mb-3">
+                        <label class="form-label">Subetapa (opcional)</label>
+                        <select class="form-select" name="SubEtapaId" id="formSubEtapa">
                             <option value="">Elige una subetapa</option>
                             @foreach (var subetapa in (SelectList)ViewBag.SubEtapasDisponibles)
                             {
-                                if (subetapa.Value == (string)ViewBag.UltimaSubEtapaSeleccionada)
-                                {
-                                    <option value="@subetapa.Value" selected>@subetapa.Text</option>
-                                }
-                                else
-                                {
-                                    <option value="@subetapa.Value">@subetapa.Text</option>
-                                }
+                                <option value="@subetapa.Value">@subetapa.Text</option>
                             }
                         </select>
                     </div>
 
-
                     <!-- Fecha -->
                     <div class="input-group mb-3">
-                        <input type="datetime-local" class="form-control" name="FechaCambio" required value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"/>
+                        <input type="datetime-local" class="form-control" id="formFechaCambioVisible"
+                               required value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        <input type="hidden" name="FechaCambio" id="formFechaCambio" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" />
                         <input type="hidden" name="Integracion" value="@Model.Id" />
                         <button type="submit" class="btn btn-primary ms-2">Enviar</button>
                     </div>
 
                 </form>
 
+                @* Mostrar histórico de etapas con botón de edición *@
                 @{
                     var subetapasDict = ViewBag.SubEtapasDiccionario as Dictionary<int, string>;
                 }
-
                 <div class="card-body overflow-auto" style="max-height: 350px;">
                     <ul class="list-group list-group-flush">
                         @foreach (var etapa in Model.Historicoetapas.OrderByDescending(e => e.FechaCambio))
                         {
-                            <li class="list-group-item">
-                                <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy HH:mm")</small>
-                                <p class="mb-0">
-                                    <strong>Etapa:</strong> @etapa.Etapa
-                                    @if (etapa.SubEtapa.HasValue && subetapasDict.ContainsKey(etapa.SubEtapa.Value))
-                                    {
-                                        <br />
-                                        <strong>Subetapa:</strong>
- 
-                                        @subetapasDict[etapa.SubEtapa.Value]
-                                    }
-                                </p>
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                data-etapa-id="@etapa.Id">
+                                <div>
+                                    <small class="text-muted">@etapa.FechaCambio.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                                    <p class="mb-0">
+                                        <strong>Etapa:</strong> @etapa.Etapa
+                                        @if (etapa.SubEtapa.HasValue && subetapasDict.ContainsKey(etapa.SubEtapa.Value))
+                                        {
+                                            <br />
+                                            <strong>Subetapa:</strong>
+
+                                            @subetapasDict[etapa.SubEtapa.Value]
+                                        }
+                                    </p>
+                                </div>
+
+                                <button type="button" class="btn btn-sm btn-outline-primary btn-editar-etapa"
+                                        data-bs-toggle="modal" data-bs-target="#editarEtapaModal"
+                                        data-etapa-id="@etapa.Id"
+                                        data-etapa="@etapa.Etapa"
+                                        data-subetapa="@etapa.SubEtapa"
+                                        data-fecha="@etapa.FechaCambio.ToString("o")">
+                                    Editar
+                                </button>
+
                             </li>
                         }
                     </ul>
                 </div>
 
+                @* Modal para editar etapa (rellena automáticamente con JS) *@
+                <div class="modal fade" id="editarEtapaModal" tabindex="-1" aria-labelledby="editarEtapaLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" asp-action="AgregarEtapa" asp-route-id="@Model.Id">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editarEtapaLabel">Editar Etapa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="EtapaId" id="modalEtapaId" />
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Etapa</label>
+                                        <select class="form-select" name="Etapa" id="modalEtapa" required>
+                                            <option value="">Elige una etapa</option>
+                                            @foreach (var e in (SelectList)ViewBag.EtapasDisponibles)
+                                            {
+                                                <option value="@e.Value">@e.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Subetapa (opcional)</label>
+                                        <select class="form-select" name="SubEtapaId" id="modalSubEtapa">
+                                            <option value="">Elige una subetapa</option>
+                                            @foreach (var s in (SelectList)ViewBag.SubEtapasDisponibles)
+                                            {
+                                                <option value="@s.Value">@s.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Fecha</label>
+                                        <input type="datetime-local" class="form-control" id="modalFechaCambioVisible" required />
+                                        <input type="hidden" name="FechaCambio" id="modalFechaCambio" />
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <hr />
-
+    </div>
+    <hr />
+    <div class="row g-4">
         <!-- Columna para Kits de Integración -->
         <div class="col-lg-4 col-md-12">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow bg-white rounded h-100">
                 <div class="card-header bg-success text-white fw-bold">
                     Asignar Kit de Tarjetas
                 </div>
@@ -268,7 +322,7 @@
 
         <!-- Columna para Terminales de Integración -->
         <div class="col-lg-4 col-md-12">
-            <div class="card shadow-sm h-100">
+            <div class="card shadow bg-white rounded h-100">
                 <div class="card-header bg-info text-white fw-bold">
                     Asignar Terminal
                 </div>
@@ -315,18 +369,20 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
 </div>
 
-<div class="mt-4 text-center">
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary me-2">Editar</a>
-    <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+<div class="action-bar bg-light shadow-sm border-top py-2 pe-2 d-flex justify-content-end gap-2">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-primary d-flex align-items-center">
+        <i class="fas fa-edit me-1" aria-hidden="true"></i>
+        Editar
+    </a>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary d-flex align-items-center">
+        <i class="fas fa-arrow-left me-1" aria-hidden="true"></i>
+        Volver
+    </a>
 </div>
+
 
 
 @section Scripts {
@@ -352,4 +408,71 @@
 
 
     </script>
+
+    <script>
+                       document.addEventListener('DOMContentLoaded', function () {
+
+            // --- Para el modal ---
+            document.querySelectorAll('.btn-editar-etapa').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const etapaId = this.dataset.etapaId;
+                    const etapa = this.dataset.etapa;
+                    const subetapa = this.dataset.subetapa;
+                    const fecha = this.dataset.fecha;
+
+                    document.getElementById('modalEtapaId').value = etapaId;
+                    document.getElementById('modalEtapa').value = etapa;
+                    document.getElementById('modalSubEtapa').value = subetapa || "";
+
+                    if (fecha) {
+                        const dateObj = new Date(fecha);
+                        const yyyy = dateObj.getFullYear();
+                        const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+                        const dd = String(dateObj.getDate()).padStart(2, '0');
+                        const hh = String(dateObj.getHours()).padStart(2, '0');
+                        const min = String(dateObj.getMinutes()).padStart(2, '0');
+                        const ss = String(dateObj.getSeconds()).padStart(2, '0');
+
+                        // visible
+                        document.getElementById('modalFechaCambioVisible').value = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+                        // oculto con segundos
+                        document.getElementById('modalFechaCambio').value = `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}`;
+                    }
+                });
+            });
+
+            // --- Actualiza hidden al cambiar input visible (modal) ---
+            const modalVisible = document.getElementById('modalFechaCambioVisible');
+            const modalHidden = document.getElementById('modalFechaCambio');
+            modalVisible.addEventListener('change', function () {
+                const date = new Date(this.value);
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                const hh = String(date.getHours()).padStart(2, '0');
+                const min = String(date.getMinutes()).padStart(2, '0');
+                const ss = String(date.getSeconds()).padStart(2, '0');
+                modalHidden.value = `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}`;
+            });
+
+            // --- Para nueva etapa ---
+            const formVisible = document.getElementById('formFechaCambioVisible');
+            const formHidden = document.getElementById('formFechaCambio');
+            formVisible.addEventListener('change', function () {
+                const date = new Date(this.value);
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                const hh = String(date.getHours()).padStart(2, '0');
+                const min = String(date.getMinutes()).padStart(2, '0');
+                const ss = String(date.getSeconds()).padStart(2, '0');
+                formHidden.value = `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}`;
+            });
+
+        });
+
+
+    </script>
+
+
 }

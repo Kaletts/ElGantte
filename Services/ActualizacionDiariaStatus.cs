@@ -31,40 +31,57 @@ namespace ElGantte.Services
 
             var integraciones = await context.Integraciones.ToListAsync();
 
+            DateTime hoy = DateTime.Today;
+
             foreach (var integracion in integraciones)
             {
-                DateTime hoy = DateTime.Today;
+                // Obtener status de la integración
+                string status = integracion.StatusNavigation?.Nombre ?? "";
 
-                if (integracion.StandBy == true &&
-                    integracion.UltimoDiaStandBy.HasValue &&
-                    integracion.UltimoDiaStandBy.Value.Date < hoy)
+                // 1. Si está certificada -> no sumar nada
+                if (status.Equals("Certificada", StringComparison.OrdinalIgnoreCase))
                 {
-                    //AddDays(1) Para evitar contar dos veces el mismo día (el día en que se actualizó por última vez). Así, solo se cuentan los días posteriores al último guardado.
-                    int dias = DiasLaborables.CalcularDiasLaborales(integracion.UltimoDiaStandBy.Value.Date.AddDays(1), hoy);
-                    if (dias > 0)
+                    continue;
+                }
+
+                // 2. Si está en StandBy o KO -> solo sumar StandBy
+                if (integracion.StandBy == true || status.Equals("KO", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (integracion.UltimoDiaStandBy.HasValue && integracion.UltimoDiaStandBy.Value.Date < hoy)
                     {
-                        integracion.DiasStandBy += dias;
-                        integracion.UltimoDiaStandBy = hoy;
+                        int dias = DiasLaborables.CalcularDiasLaborales(integracion.UltimoDiaStandBy.Value.Date.AddDays(1), hoy);
+                        if (dias > 0)
+                        {
+                            integracion.DiasStandBy += dias;
+                            integracion.UltimoDiaStandBy = hoy;
+                        }
+                    }
+                    // No sumar días integrando
+                    continue;
+                }
+
+                // 3. Si está integrando -> sumar solo días integrando
+                if (integracion.StandBy.GetValueOrDefault() == false &&
+                    status.Equals("Integrando", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (integracion.UltimoDiaIntegrando.HasValue && integracion.UltimoDiaIntegrando.Value.Date < hoy)
+                    {
+                        int dias = DiasLaborables.CalcularDiasLaborales(integracion.UltimoDiaIntegrando.Value.Date.AddDays(1), hoy);
+                        if (dias > 0)
+                        {
+                            integracion.DiasIntegrando += dias;
+                            integracion.UltimoDiaIntegrando = hoy;
+                        }
                     }
                 }
 
 
-                if (integracion.StandBy == false &&
-                    integracion.UltimoDiaIntegrando.HasValue &&
-                    integracion.UltimoDiaIntegrando.Value.Date < hoy)
-                {
-                    int dias = DiasLaborables.CalcularDiasLaborales(integracion.UltimoDiaIntegrando.Value.Date.AddDays(1), hoy);
-                    if (dias > 0)
-                    {
-                        integracion.DiasIntegrando += dias;
-                        integracion.UltimoDiaIntegrando = hoy;
-                    }
-                }
-
+                // Otros status → no sumar nada o agregar reglas según sea necesario
             }
 
             await context.SaveChangesAsync();
         }
+
     }
     public static class DiasLaborables
     {

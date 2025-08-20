@@ -361,11 +361,17 @@ namespace ElGantte.Controllers
                 return RedirectToAction("Details", new { id = id });
         }
 
-        //Agregar nueva etapa desde integracion
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgregarEtapa(int id, [Bind("FechaCambio,Etapa,Integracion")] Historicoetapa etapaElegida, int? subEtapa)
+        public async Task<IActionResult> AgregarEtapa(int id, [Bind("Etapa,FechaCambio")] Historicoetapa etapaElegida, int? SubEtapaId, int? EtapaId)
         {
+            var integracion = await _context.Integraciones.FindAsync(id);
+            if (integracion == null)
+            {
+                TempData["Error"] = "Integración no encontrada.";
+                return RedirectToAction("Details", new { id });
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData["Error"] = string.Join(" | ", ModelState.SelectMany(
@@ -374,49 +380,40 @@ namespace ElGantte.Controllers
                 return RedirectToAction("Details", new { id });
             }
 
-            var integracion = await _context.Integraciones.FindAsync(id);
-            if (integracion == null)
-            {
-                TempData["Error"] = "Integración no encontrada.";
-                return RedirectToAction("Details", new { id });
-            }
+            // Fecha por defecto si no se indica
+            if (etapaElegida.FechaCambio == DateTime.MinValue)
+                etapaElegida.FechaCambio = DateTime.Now;
 
             etapaElegida.Integracion = id;
+            etapaElegida.SubEtapa = SubEtapaId;
 
-            if (etapaElegida.FechaCambio == DateTime.MinValue)
+            // Si se pasa un EtapaId, actualizamos la etapa existente
+            if (EtapaId.HasValue)
             {
-                etapaElegida.FechaCambio = DateTime.Today;
-            }
-
-            // Guardamos el ID de la subetapa seleccionada (si aplica)
-            etapaElegida.SubEtapa = subEtapa;
-
-            // Verificamos si ya hay una etapa igual (solo si no es subetapa)
-            if (!subEtapa.HasValue)
-            {
-                var etapaExistente = await _context.Historicoetapas
-                    .FirstOrDefaultAsync(c => c.FechaCambio == etapaElegida.FechaCambio && c.Integracion == id && c.SubEtapa == null);
-
+                var etapaExistente = await _context.Historicoetapas.FindAsync(EtapaId.Value);
                 if (etapaExistente != null)
                 {
                     etapaExistente.Etapa = etapaElegida.Etapa;
+                    etapaExistente.SubEtapa = SubEtapaId;
+                    etapaExistente.FechaCambio = etapaElegida.FechaCambio;
                     _context.Update(etapaExistente);
-                    TempData["Warning"] = "Etapa actualizada";
+                    TempData["Success"] = "Etapa actualizada correctamente.";
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", new { id });
                 }
+                TempData["Error"] = "Etapa no encontrada para editar.";
+                return RedirectToAction("Details", new { id });
             }
 
+            // Si no hay EtapaId, agregamos nueva
             _context.Historicoetapas.Add(etapaElegida);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = subEtapa.HasValue ? "Subetapa agregada correctamente." : "Etapa creada";
+            TempData["Success"] = SubEtapaId.HasValue ? "Subetapa agregada correctamente." : "Etapa creada correctamente.";
             return RedirectToAction("Details", new { id });
         }
 
 
-
-        //Metodo para subetapas
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AgregarSubEtapa(int integracionId, int etapaPadreId, [Bind("FechaCambio,Etapa")] Historicoetapa subetapa)
@@ -438,7 +435,7 @@ namespace ElGantte.Controllers
 
             if (subetapa.FechaCambio == DateTime.MinValue)
             {
-                subetapa.FechaCambio = DateTime.Today;
+                subetapa.FechaCambio = DateTime.Now;
             }
 
             subetapa.Integracion = integracionId;
@@ -450,6 +447,7 @@ namespace ElGantte.Controllers
             TempData["Success"] = "Subetapa agregada correctamente.";
             return RedirectToAction("Details", new { id = integracionId });
         }
+
 
 
         //Método para obtener los datos del dashboard en formato JSON
