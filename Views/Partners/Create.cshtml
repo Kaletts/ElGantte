@@ -4,65 +4,80 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Crear nuevo Partner</h1>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow p-4 w-75">
+        <div class="row g-3">
+            <div class="col-md-7">
+                <h2 class="mb-3">Crear nuevo Partner</h2>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
-<h4>Partners</h4>
-<hr />
-<div class="row">
-    <div class="container-fluid">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" required />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" required />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Direccion" class="form-label"></label>
+                        <input asp-for="Direccion" class="form-control" />
+                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Tipo" class="form-label">Tipo</label>
+                        <select asp-for="Tipo" class="form-select">
+                            <option value="true">Partner</option>
+                            <option value="false">Cliente</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FechaRegistro" class="form-label"></label>
+                        <input asp-for="FechaRegistro" class="form-control" required type="date" id="fechaInicio" max="" />
+                        <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Correo" class="form-label"></label>
+                        <input asp-for="Correo" class="form-control" required type="email" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Notas" class="form-label"></label>
+                        <textarea asp-for="Notas" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Notas" class="text-danger"></span>
+                    </div>
+
+                    <input asp-for="FechaCambio" hidden id="fechaCambio" />
+
+                    <div class="mb-3">
+                        <label asp-for="AccountManager" class="form-label"></label>
+                        <input asp-for="AccountManager" class="form-control" />
+                        <span asp-validation-for="AccountManager" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-3">
+                        <input type="submit" value="Crear" class="btn btn-success" />
+                        <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
+
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L12 22M2 12L22 12" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="12" cy="12" r="10" stroke="#0d6efd" stroke-width="2" />
+                </svg>
             </div>
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label">Tipo</label>
-                <select asp-for="Tipo" class="form-control">
-                    <option value="true">Partner</option>
-                    <option value="false">Cliente</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" required id="fechaInicio" type="date" max="" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" required type="email" />
-                <span asp-validation-for="Correo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notas" class="control-label"></label>
-                <textarea asp-for="Notas" class="form-control" rows="6"></textarea>
-                <span asp-validation-for="Notas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCambio" class="control-label" hidden></label>
-                <input asp-for="FechaCambio" class="form-control" id="fechaCambio" hidden />
-            </div>
-            <div class="form-group">
-                <label asp-for="AccountManager" class="control-label"></label>
-                <input asp-for="AccountManager" class="form-control" />
-                <span asp-validation-for="AccountManager" class="text-danger"></span>
-            </div>
-            <div class="form-group m-4">
-                <input type="submit" value="Crear" class="btn btn-outline-success w-100" />
-                <a asp-action="Index" class="btn btn-outline-primary mt-1 w-100">Volver al inicio</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -84,16 +99,12 @@
         const fechaCambio = document.getElementById("fechaCambio");
         if (fechaCambio) {
             fechaCambio.value = formattedDate;
-            fechaCambio.max = formattedDate;
         }
     });
 </script>
 
-
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
     }
 }

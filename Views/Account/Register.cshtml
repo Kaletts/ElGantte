@@ -5,90 +5,104 @@
 
 @await Html.PartialAsync("_TempDataMensajes")
 
-<div class="container vh-100 d-flex justify-content-center align-items-start mt-5">
-    <div class="row overflow-hidden" style="max-width: 1200px; width: 100%;">
+<div class="container mt-5">
+    <div class="row g-4">
 
-        <!-- SVG representativo a la izquierda -->
-        <div class="col-md-2 d-none d-md-flex justify-content-center align-items-center bg-light p-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-8 0v2" />
-                <circle cx="12" cy="7" r="4" />
-                <path d="M20 8v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8" />
-            </svg>
+        <!-- Card 1: SVG representativo -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 text-center p-4">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    <svg width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.4" d="M21.0901 21.5C21.0901 21.78 20.8701 22 20.5901 22H3.41016C3.13016 22 2.91016 21.78 2.91016 21.5C2.91016 17.36 6.99015 14 12.0002 14C13.0302 14 14.0302 14.14 14.9502 14.41C14.3602 15.11 14.0002 16.02 14.0002 17C14.0002 17.75 14.2101 18.46 14.5801 19.06C14.7801 19.4 15.0401 19.71 15.3401 19.97C16.0401 20.61 16.9702 21 18.0002 21C19.1202 21 20.1302 20.54 20.8502 19.8C21.0102 20.34 21.0901 20.91 21.0901 21.5Z" fill="#292D32" />
+                        <path d="M20.97 14.33C20.25 13.51 19.18 13 18 13C16.88 13 15.86 13.46 15.13 14.21C14.43 14.93 14 15.92 14 17C14 17.75 14.21 18.46 14.58 19.06C14.78 19.4 15.04 19.71 15.34 19.97C16.04 20.61 16.97 21 18 21C19.46 21 20.73 20.22 21.42 19.06C21.63 18.72 21.79 18.33 21.88 17.93C21.96 17.63 22 17.32 22 17C22 15.98 21.61 15.04 20.97 14.33ZM19.5 17.73H18.75V18.51C18.75 18.92 18.41 19.26 18 19.26C17.59 19.26 17.25 18.92 17.25 18.51V17.73H16.5C16.09 17.73 15.75 17.39 15.75 16.98C15.75 16.57 16.09 16.23 16.5 16.23H17.25V15.52C17.25 15.11 17.59 14.77 18 14.77C18.41 14.77 18.75 15.11 18.75 15.52V16.23H19.5C19.91 16.23 20.25 16.57 20.25 16.98C20.25 17.39 19.91 17.73 19.5 17.73Z" fill="#292D32" />
+                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#292D32" />
+                    </svg>
+                    <h5 class="mt-3 fw-bold">Gestión de usuarios</h5>
+                    <p class="text-muted">Administra cuentas, roles y contraseñas de forma segura.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Formulario para crear usuarios -->
-        <div class="col-md-5 bg-white p-5">
-            <h2 class="text-center mb-4">Crear una cuenta</h2>
+        <!-- Card 2: Formulario -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4">Crear una cuenta</h4>
 
-            <form method="post" asp-action="Register" novalidate>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="tucorreo@ejemplo.com" required />
-                    <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
-                </div>
+                    <form method="post" asp-action="Register" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="tucorreo@ejemplo.com" required />
+                            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required minlength="6" />
-                    <div class="invalid-feedback">La contraseña es obligatoria (mínimo 6 caracteres).</div>
-                </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required minlength="6" />
+                            <div class="invalid-feedback">La contraseña es obligatoria (mínimo 6 caracteres).</div>
+                        </div>
 
-                <div class="mb-4">
-                    <label for="role" class="form-label">Rol</label>
-                    <div class="d-flex gap-2">
-                        <select class="form-select flex-grow-1" id="role" name="role" required>
-                            <option value="">Selecciona un rol</option>
-                            <option value="User">User</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary">Registrar</button>
-                    </div>
-                    <div class="invalid-feedback">Por favor selecciona un rol.</div>
+                        <div class="mb-4">
+                            <label for="role" class="form-label">Rol</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="">Selecciona un rol</option>
+                                <option value="User">User</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                            <div class="invalid-feedback">Por favor selecciona un rol.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
 
-        <!-- Lista de usuarios -->
-        @if (User.IsInRole("superUser"))
+        <!-- Card 3: Lista de usuarios -->
+        @if (User.IsInRole("GodMode"))
         {
-            <div class="col-md-5 bg-light p-5">
-                <h2 class="text-center mb-4">Usuarios existentes</h2>
+            <div class="col-md-12">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h4 class="card-title text-center mb-4">Usuarios existentes</h4>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Rol</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in Model.Usuarios)
-                        {
-                            <tr>
-                                <td>@user.Email</td>
-                                <td>
-                                    <form method="post" asp-action="EditUsuario" class="d-flex align-items-center gap-2">
-                                        <input type="hidden" name="id" value="@user.Id" />
-                                        <select name="role" class="form-select w-auto">
-                                            <option value="User" selected="@(user.Role == "User")">User</option>
-                                            <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="post" asp-action="ResetPassword" class="d-inline">
-                                        <input type="hidden" name="id" value="@user.Id" />
-                                        <button type="submit" class="btn btn-sm btn-warning">Reiniciar contraseña</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model.Usuarios)
+                                    {
+                                        <tr>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                <form method="post" asp-action="EditUsuario" class="d-flex align-items-center gap-2">
+                                                    <input type="hidden" name="id" value="@user.Id" />
+                                                    <select name="role" class="form-select form-select-sm w-auto">
+                                                        <option value="User" selected="@(user.Role == "User")">User</option>
+                                                        <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="post" asp-action="ResetPassword" class="d-inline">
+                                                    <input type="hidden" name="id" value="@user.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-warning">Reset</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         }
     </div>

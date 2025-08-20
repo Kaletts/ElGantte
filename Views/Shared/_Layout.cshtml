@@ -44,7 +44,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kittarjetas" asp-action="Index">Kit Tarjetas</a>
                         </li>
-                        @if (User.IsInRole("Admin"))
+                       @*  <authorize policy="SuperAccess"> ESTO SE PUEDE MEJORAR A FUTURO TODO POR POLITICAS DE AUTORIZACIÓN
+                            <p>Contenido solo para Admin o GodMode</p> Si bien ya esta en el controlador, se puede hacer en la vista.
+                        </authorize> *@
+                        @if (User.IsInRole("Admin") || (User.IsInRole("GodMode")))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registro</a>

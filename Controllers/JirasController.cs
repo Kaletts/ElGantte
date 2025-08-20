@@ -1,5 +1,6 @@
 ﻿using ElGantte.Data;
 using ElGantte.Models;
+using ElGantte.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace ElGantte.Controllers
 {
@@ -25,6 +27,11 @@ namespace ElGantte.Controllers
         public async Task<IActionResult> Index()
         {
             var appDbContext = _context.Jiras.Include(j => j.PartnerNavigation);
+            var partners = await _context.Partners.ToListAsync();
+
+            ViewBag.PartnerList = new SelectList(partners, "Id", "Nombre");
+            ViewBag.Partners = partners;
+
             return View(await appDbContext.ToListAsync());
         }
 
@@ -59,7 +66,7 @@ namespace ElGantte.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Codigo,Descripcion,Partner,Asunto,Finalizado")] Jira jira)
+        public async Task<IActionResult> Create([Bind("Id,Codigo,Descripcion,Partner,Asunto,Responsable,Finalizado,FechaCreacion,FechaFin,Url")] Jira jira)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +100,7 @@ namespace ElGantte.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Codigo,Descripcion,Partner,Asunto,Finalizado")] Jira jira)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Codigo,Descripcion,Partner,Asunto,Responsable,Finalizado,FechaCreacion,FechaFin,Url")] Jira jira)
         {
             if (id != jira.Id)
             {
@@ -157,6 +164,70 @@ namespace ElGantte.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRow([FromBody] JiraUpdateDto data)
+        {
+            if (data == null || data.Id == 0)
+                return BadRequest();
+
+            var jira = await _context.Jiras.FindAsync(data.Id);
+            if (jira == null)
+                return NotFound();
+
+            foreach (var kvp in data.Values)
+            {
+                switch (kvp.Key)
+                {
+                    case "Codigo":
+                        jira.Codigo = kvp.Value;
+                        break;
+                    case "Descripcion":
+                        jira.Descripcion = kvp.Value;
+                        break;
+                    case "Asunto":
+                        jira.Asunto = kvp.Value;
+                        break;
+                    case "Responsable":
+                        jira.Responsable = kvp.Value;
+                        break;
+                    case "Finalizado":
+                        jira.Finalizado = kvp.Value == "1";
+                        break;
+                    case "FechaCreacion":
+                        if (DateTime.TryParse(kvp.Value, out var fechaCreacion))
+                            jira.FechaCreacion = fechaCreacion;
+                        break;
+
+                    case "FechaFin":
+                        if (DateTime.TryParse(kvp.Value, out var fechaFin))
+                            jira.FechaFin = fechaFin;
+                        else
+                            jira.FechaFin = null;
+                        break;
+
+                    case "Url":
+                        jira.Url = kvp.Value;
+                        break;
+                    case "Partner":
+                        if (int.TryParse(kvp.Value, out var partnerId))
+                            jira.Partner = partnerId;
+                        break;
+                }
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error guardando en DB: {ex.Message}");
+            }
+        }
+
 
         private bool JiraExists(int id)
         {

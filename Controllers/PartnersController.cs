@@ -87,6 +87,13 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
+            ViewBag.TipoList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "true", Text = "Partner" },
+                new SelectListItem { Value = "false", Text = "Cliente" }
+            };
+
+
             var partner = await _context.Partners.FindAsync(id);
             if (partner == null)
             {

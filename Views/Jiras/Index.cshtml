@@ -1,59 +1,218 @@
 ﻿@model IEnumerable<ElGantte.Models.Jira>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Jiras";
+    var partners = ViewBag.Partners as List<ElGantte.Models.Partner>;
 }
 
-<h1>Index</h1>
+<h1>Jiras</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Nuevo Jira</a>
 </p>
-<table class="table">
+
+@await Html.PartialAsync("_TempDataMensajes")
+<input type="text" id="buscarEntrada" class="form-control mb-3" placeholder="Buscar lo que sea...">
+
+<table class="table table-striped table-hover" id="tablaJiras" data-partners='@System.Text.Json.JsonSerializer.Serialize(partners.Select(p => new { p.Id, p.Nombre }))'>
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Codigo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Asunto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Finalizado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PartnerNavigation)
-            </th>
-            <th></th>
+        <tr class="text-center">
+            <th>@Html.DisplayNameFor(model => model.Codigo)</th>
+            <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th>@Html.DisplayNameFor(model => model.Asunto)</th>
+            <th>@Html.DisplayNameFor(model => model.Responsable)</th>
+            <th>@Html.DisplayNameFor(model => model.Finalizado)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaCreacion)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaFin)</th>
+            <th>@Html.DisplayNameFor(model => model.Url)</th>
+            <th>@Html.DisplayNameFor(model => model.PartnerNavigation)</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asunto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Finalizado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PartnerNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+    <tbody id="dataTable">
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.Id">
+                <td class="editable" data-field="Codigo">@item.Codigo</td>
+                <td class="editable" data-field="Descripcion">@item.Descripcion</td>
+                <td class="editable" data-field="Asunto">@item.Asunto</td>
+                <td class="editable" data-field="Responsable">@item.Responsable</td>
+                <td class="editable-finalizado" data-field="Finalizado">@(item.Finalizado.HasValue ? (item.Finalizado.Value ? "Sí" : "No") : "No especificado")</td>
+                <td class="editable-fecha" data-field="FechaCreacion">@item.FechaCreacion.ToString("yyyy-MM-dd")</td>
+                <td class="editable-fecha" data-field="FechaFin">@(item.FechaFin.HasValue? item.FechaFin.Value.ToString("yyyy-MM-dd") : "")</td>
+                <td class="editable" data-field="Url">
+                    @if (!string.IsNullOrEmpty(item.Url))
+                    {
+                        <a href="@item.Url" target="_blank">@item.Url</a>
+                    }
+                </td>
+                <td class="editable-partner" data-field="Partner" data-partner-id="@item.Partner">@item.PartnerNavigation?.Nombre</td>
+                <td class="acciones"></td>
+            </tr>
+        }
     </tbody>
+
+
 </table>
+
+<script defer>
+    // -------------------------------
+    // Función para restaurar fila completa
+    // -------------------------------
+    function restoreRow(row, originalValues) {
+        let cells = row.querySelectorAll("td");
+        originalValues.forEach((val, i) => {
+            if (!cells[i].classList.contains("acciones")) {
+                cells[i].innerHTML = val;
+            }
+        });
+        row.querySelector(".acciones").innerHTML = "";
+    }
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+        // -------------------------------
+        // Edición inline solo en tbody
+        // -------------------------------
+        document.querySelectorAll("#tablaJiras tbody td.editable, #tablaJiras tbody td.editable-fecha, #tablaJiras tbody td.editable-finalizado, #tablaJiras tbody td.editable-partner").forEach(cell => {
+            cell.addEventListener("click", function () {
+                if (this.querySelector("input") || this.querySelector("select")) return;
+
+                let row = this.closest("tr");
+                let acciones = row.querySelector(".acciones");
+
+                if (!row.dataset.original) {
+                    row.dataset.original = JSON.stringify(Array.from(row.cells).map(c => c.innerHTML));
+                }
+
+                let field = this.dataset.field;
+
+                if (this.classList.contains("editable-partner")) {
+                    let partners = JSON.parse(document.getElementById("tablaJiras").dataset.partners);
+                    let currentId = this.dataset.partnerId;
+                    let select = document.createElement("select");
+                    select.classList.add("form-select", "form-select-sm");
+                    partners.forEach(p => {
+                        let opt = document.createElement("option");
+                        opt.value = p.Id;
+                        opt.textContent = p.Nombre;
+                        if (p.Id == currentId) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    this.innerHTML = "";
+                    this.appendChild(select);
+
+                } else if (this.classList.contains("editable-fecha")) {
+                    let val = this.innerText.trim();
+                    let input = document.createElement("input");
+                    input.type = "date";
+                    input.value = val;
+                    input.classList.add("form-control", "form-control-sm");
+                    this.innerHTML = "";
+                    this.appendChild(input);
+
+                } else if (this.classList.contains("editable-finalizado")) {
+                    let val = this.innerText.trim();
+                    let select = document.createElement("select");
+                    select.classList.add("form-select", "form-select-sm");
+                    let opciones = [
+                        { text: "Sí", value: "1" },
+                        { text: "No", value: "0" }
+                    ];
+                    opciones.forEach(o => {
+                        let opt = document.createElement("option");
+                        opt.value = o.value;
+                        opt.textContent = o.text;
+                        if ((val === "Sí" && o.value === "1") || (val === "No" && o.value === "0")) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    this.innerHTML = "";
+                    this.appendChild(select);
+
+                } else {
+                    let original = this.innerText.trim();
+                    let input = document.createElement("input");
+                    input.type = "text";
+                    input.value = original;
+                    input.classList.add("form-control", "form-control-sm");
+                    this.innerHTML = "";
+                    this.appendChild(input);
+                }
+
+                if (!acciones.querySelector(".btn-guardar")) {
+                    acciones.innerHTML = `
+                        <button class="btn btn-success btn-sm btn-guardar">Guardar</button>
+                        <button class="btn btn-secondary btn-sm btn-cancelar">Cancelar</button>
+                    `;
+
+                    acciones.querySelector(".btn-cancelar").addEventListener("click", () => {
+                        let original = JSON.parse(row.dataset.original);
+                        row.querySelectorAll("td").forEach((c, i) => {
+                            if (!c.classList.contains("acciones")) c.innerHTML = original[i];
+                        });
+                        acciones.innerHTML = "";
+                        delete row.dataset.original;
+                    });
+
+                    acciones.querySelector(".btn-guardar").addEventListener("click", () => {
+                        let id = row.dataset.id;
+                        let updatedValues = {};
+                        row.querySelectorAll("td.editable, td.editable-fecha, td.editable-finalizado, td.editable-partner").forEach(c => {
+                            let f = c.dataset.field;
+                            if (c.querySelector("input")) updatedValues[f] = c.querySelector("input").value;
+                            if (c.querySelector("select")) updatedValues[f] = c.querySelector("select").value;
+                        });
+
+                        fetch(`/Jiras/UpdateRow`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']").value
+                            },
+                            body: JSON.stringify({ id: id, values: updatedValues })
+                        }).then(r => {
+                            if (r.ok) location.reload();
+                            else alert("Error al guardar");
+                        });
+                    });
+                }
+            });
+        });
+
+        // -------------------------------
+        // Ordenamiento de columnas
+        // -------------------------------
+        let orderDirection = {};
+        document.querySelectorAll("#tablaJiras thead th").forEach((th, index) => {
+            th.style.cursor = "pointer";
+            th.addEventListener("click", () => sortTable(index));
+        });
+
+        function sortTable(colIndex, isDate = false) {
+            let table = document.getElementById("tablaJiras");
+            let tbody = table.querySelector("tbody");
+            let rows = Array.from(tbody.rows);
+
+            let isAscending = orderDirection[colIndex] === "asc";
+            orderDirection[colIndex] = isAscending ? "desc" : "asc";
+
+            let sortedRows = rows.sort((a, b) => {
+                let aText = a.cells[colIndex].textContent.trim();
+                let bText = b.cells[colIndex].textContent.trim();
+
+                if (isDate) {
+                    let parseDate = s => s ? new Date(s) : new Date(0);
+                    return isAscending ? parseDate(aText) - parseDate(bText) : parseDate(bText) - parseDate(aText);
+                } else {
+                    return isAscending ? aText.localeCompare(bText, undefined, { numeric: true }) : bText.localeCompare(aText, undefined, { numeric: true });
+                }
+            });
+
+            tbody.innerHTML = "";
+            sortedRows.forEach(r => tbody.appendChild(r));
+        }
+
+    });
+
+
+</script>

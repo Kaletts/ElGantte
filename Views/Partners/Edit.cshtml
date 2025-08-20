@@ -1,72 +1,78 @@
 ﻿@model ElGantte.Models.Partner
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Partner";
 }
 
-<h1>Editar Partner <strong>@Html.DisplayFor(Model => Model.Nombre)</strong></h1>
+<div class="d-flex justify-content-center mt-5">
+    <div class="card shadow-sm w-75">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Editar Partner: <strong>@Html.DisplayFor(model => Model.Nombre)</strong></h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="Id" />
 
-<h4>Partner</h4>
-<hr />
-<div class="row">
-    <div class="container-fluid">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label">Tipo</label>
-                <select asp-for="Tipo" class="form-control">
-                    <option value="true">Partner</option>
-                    <option value="false">Cliente</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
-                <span asp-validation-for="FechaRegistro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
-                <span asp-validation-for="Correo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notas" class="control-label"></label>
-                <input asp-for="Notas" class="form-control" />
-                <span asp-validation-for="Notas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaCambio" class="control-label"></label>
-                <input asp-for="FechaCambio" class="form-control" />
-                <span asp-validation-for="FechaCambio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AccountManager" class="control-label"></label>
-                <input asp-for="AccountManager" class="form-control" />
-                <span asp-validation-for="AccountManager" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar Cambios" class="btn btn-outline-success mt-1 w-100" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Direccion" class="form-label"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Tipo" class="form-label">Tipo</label>
+                    <select asp-for="Tipo" asp-items="ViewBag.TipoList" class="form-select"></select>
+                </div>
+
+
+                <div class="mb-3">
+                    <label asp-for="FechaRegistro" class="form-label"></label>
+                    <input asp-for="FechaRegistro" type="date" class="form-control" />
+                    <span asp-validation-for="FechaRegistro" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Correo" class="form-label"></label>
+                    <input asp-for="Correo" type="email" class="form-control" />
+                    <span asp-validation-for="Correo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Telefono" class="form-label"></label>
+                    <input asp-for="Telefono" class="form-control" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Notas" class="form-label"></label>
+                    <textarea asp-for="Notas" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Notas" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FechaCambio" class="form-label"></label>
+                    <input asp-for="FechaCambio" type="date" class="form-control" />
+                    <span asp-validation-for="FechaCambio" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="AccountManager" class="form-label"></label>
+                    <input asp-for="AccountManager" class="form-control" />
+                    <span asp-validation-for="AccountManager" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="btn btn-outline-primary mt-2 w-100">Volver al inicio</a>
 </div>

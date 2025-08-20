@@ -46,7 +46,7 @@ namespace ElGantte.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin,superUser")]
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin,GodMode")]
         public async Task<IActionResult> Register()
         {
             var model = new RegisterViewModel
@@ -79,7 +79,7 @@ namespace ElGantte.Controllers
             return RedirectToAction("Login");
         }
 
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "superUser")]
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "GodMode")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUsuario(int id, string email, string role, string password)
@@ -102,7 +102,7 @@ namespace ElGantte.Controllers
         }
 
 
-        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "superUser")]
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "GodMode")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(int id)
@@ -119,7 +119,7 @@ namespace ElGantte.Controllers
             await _context.SaveChangesAsync();
 
             // Mostrar la nueva contraseña en pantalla (temporal)
-            TempData["Success"] = nuevaPassword;
+            TempData["Success"] = "La nueva contraseña es: " + "nuevaPassword";
 
             return RedirectToAction(nameof(Register));
         }

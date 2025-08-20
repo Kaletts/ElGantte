@@ -34,6 +34,10 @@ public partial class Jira
 
     public DateTime? FechaFin { get; set; }
 
+    [Url]
+    [Column(TypeName = "text")]
+    public string? Url { get; set; }
+
     [ForeignKey("Partner")]
     [InverseProperty("Jiras")]
     public virtual Partner? PartnerNavigation { get; set; }
