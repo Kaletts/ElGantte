@@ -35,6 +35,7 @@ namespace ElGantte.Controllers
             return View(await appDbContext.ToListAsync());
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Jiras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,7 +58,7 @@ namespace ElGantte.Controllers
         // GET: Jiras/Create
         public IActionResult Create()
         {
-            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Id");
+            ViewData["Partner"] = new SelectList(_context.Partners, "Id", "Nombre");
             return View();
         }
 
@@ -78,6 +79,7 @@ namespace ElGantte.Controllers
             return View(jira);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Jiras/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -95,6 +97,7 @@ namespace ElGantte.Controllers
             return View(jira);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // POST: Jiras/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -131,6 +134,7 @@ namespace ElGantte.Controllers
             return View(jira);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // GET: Jiras/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -150,6 +154,7 @@ namespace ElGantte.Controllers
             return View(jira);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin")]
         // POST: Jiras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

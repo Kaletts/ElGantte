@@ -52,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Home/InformeServicio.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmZvcm1lU2VydmljaW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,14 +90,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Jiras/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSmlyYXNcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Jiras/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSmlyYXNcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Jiras/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSmlyYXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Kaled/Documents/Proyectos Web/ElGantte/Views/Jiras/Index.cshtml]

@@ -1,0 +1,216 @@
+﻿@model IEnumerable<ElGantte.Models.Integracione>
+
+@{
+    ViewData["Title"] = "Informe Servicio";
+}
+
+<h1>Integradores Certificados ✅</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha registro</th>
+            <th>Tipo</th>
+            <th>Partners</th>
+            <th>Status</th>
+            <th>Observaciones</th>
+            <th>Etapa</th>
+            <th>Tipo de Terminal</th>
+            <th>Solución</th>
+            <th>Tipo Solución</th>
+            <th>Nombre APK-Software</th>
+            <th>Certificado</th>
+            <th>Fecha estimada Certificación</th>
+            <th>Time</th>
+            <th>Fecha certificación/KO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "Certificada"))
+        {
+            <tr>
+                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                <td>@item.PartnerNavigation?.Tipo</td>
+                <td>@item.PartnerNavigation?.Nombre</td>
+                <td>@item.StatusNavigation?.Nombre</td>
+                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
+                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
+                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@item.SolucionNavigation?.Nombre</td>
+                <td>@item.SoftwareIntegrado</td>
+                <td>@item.NombreSwapp</td>
+                <td>
+                    @if (item.Certificado == true)
+                    {
+                        <span class="badge bg-success">Sí</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+                <td>@($"{item.DiasIntegrando} días")</td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h1>Integradores KO ❌</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha registro</th>
+            <th>Tipo</th>
+            <th>Partners</th>
+            <th>Status</th>
+            <th>Observaciones</th>
+            <th>Etapa</th>
+            <th>Tipo de Terminal</th>
+            <th>Solución</th>
+            <th>Tipo Solución</th>
+            <th>Nombre APK-Software</th>
+            <th>Certificado</th>
+            <th>Fecha estimada Certificación</th>
+            <th>Time</th>
+            <th>Fecha certificación/KO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "KO"))
+        {
+            <tr>
+                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                <td>@item.PartnerNavigation?.Tipo</td>
+                <td>@item.PartnerNavigation?.Nombre</td>
+                <td>@item.StatusNavigation?.Nombre</td>
+                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
+                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
+                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@item.SolucionNavigation?.Nombre</td>
+                <td>@item.SoftwareIntegrado</td>
+                <td>@item.NombreSwapp</td>
+                <td>
+                    @if (item.Certificado == true)
+                    {
+                        <span class="badge bg-success">Sí</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+                <td>@($"{item.DiasStandBy} días")</td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h1>Integradores en Curso 🔄</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha registro</th>
+            <th>Tipo</th>
+            <th>Partners</th>
+            <th>Status</th>
+            <th>Observaciones</th>
+            <th>Etapa</th>
+            <th>Tipo de Terminal</th>
+            <th>Solución</th>
+            <th>Tipo Solución</th>
+            <th>Nombre APK-Software</th>
+            <th>Certificado</th>
+            <th>Fecha estimada Certificación</th>
+            <th>Time</th>
+            <th>Fecha certificación/KO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "Integrando"))
+        {
+            <tr>
+                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                <td>@item.PartnerNavigation?.Tipo</td>
+                <td>@item.PartnerNavigation?.Nombre</td>
+                <td>@item.StatusNavigation?.Nombre</td>
+                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
+                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
+                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@item.SolucionNavigation?.Nombre</td>
+                <td>@item.SoftwareIntegrado</td>
+                <td>@item.NombreSwapp</td>
+                <td>
+                    @if (item.Certificado == true)
+                    {
+                        <span class="badge bg-success">Sí</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+                <td>@($"{item.DiasIntegrando} días")</td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h1>Integradores en StandBy ⏸</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Fecha registro</th>
+            <th>Tipo</th>
+            <th>Partners</th>
+            <th>Status</th>
+            <th>Observaciones</th>
+            <th>Etapa</th>
+            <th>Tipo de Terminal</th>
+            <th>Solución</th>
+            <th>Tipo Solución</th>
+            <th>Nombre APK-Software</th>
+            <th>Certificado</th>
+            <th>Fecha estimada Certificación</th>
+            <th>Time</th>
+            <th>Fecha certificación/KO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(i => i.StandBy == true))
+        {
+            <tr>
+                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                <td>@item.PartnerNavigation?.Tipo</td>
+                <td>@item.PartnerNavigation?.Nombre</td>
+                <td>@item.StatusNavigation?.Nombre</td>
+                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
+                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
+                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@item.SolucionNavigation?.Nombre</td>
+                <td>@item.SoftwareIntegrado</td>
+                <td>@item.NombreSwapp</td>
+                <td>
+                    @if (item.Certificado == true)
+                    {
+                        <span class="badge bg-success">Sí</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">No</span>
+                    }
+                </td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+                <td>@($"{item.DiasStandBy} días")</td>
+                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

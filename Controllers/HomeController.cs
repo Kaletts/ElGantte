@@ -138,6 +138,21 @@ namespace ElGantte.Controllers
             return Json(integraciones);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        public async Task<IActionResult> Informeservicio()
+        {
+            var integraciones = await _context.Integraciones
+               .Include(i => i.PartnerNavigation)
+               .Include(i => i.StatusNavigation)
+               .Include(i => i.SolucionNavigation)
+               .Include(i => i.ModeloTerminalNavigation)
+               .Include(i => i.Comentarios)
+               .Include(i => i.Historicoetapas)
+               .ToListAsync();
+
+            return View(integraciones);
+        }
+
 
     }
 }

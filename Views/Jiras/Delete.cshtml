@@ -4,72 +4,33 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h1>Eliminar Jira <b>@Html.DisplayFor(model => model.Codigo)</b> @Html.DisplayFor(model => model.Url)</h1>
+<h2>¿Esta finalizado?
+    @if (Model.Finalizado.HasValue)
+    {
+        if (Model.Finalizado.Value)
+        {
+            <span class="badge bg-success">Sí</span>
+        }
+        else
+        {
+            <span class="badge bg-danger">No</span>
+        }
+    }
+    else
+    {
+        <span class="badge bg-secondary">No especificado</span>
+    }
+</h2>
+@await Html.PartialAsync("_TempDataMensajes")
+<h3>¿Esta seguro de eliminar este JIRA?</h3>
+<hr />
+
 <div>
-    <h4>Jira</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Codigo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Codigo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Asunto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Asunto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Responsable)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Responsable)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Finalizado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Finalizado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaCreacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaCreacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaFin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaFin)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Url)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Url)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PartnerNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PartnerNavigation.Id)
-        </dd>
-    </dl>
-    
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar 💣" class="btn btn-outline-danger" /> |
+        <a asp-action="Index" class="btn btn-outline-primary">Volver al inicio</a>
     </form>
 </div>
