@@ -4,7 +4,6 @@
 
 <div class="container mt-4">
     <h1 class="display-4 text-center mb-4">Resumen ejecutivo</h1>
-
     <div class="row">
 
         <!-- Tarjeta 1: Integraciones por Status -->
@@ -39,13 +38,64 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Resumen Integraciones</h1>
+    <div class="row">
+
+        <!-- Gráfico 1: StandBy vs Activas -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Integraciones StandBy vs Activas</h5>
+                    <canvas id="standbyChart" height="300"></canvas>
+                    <button class="btn btn-sm btn-outline-primary mt-3" id="exportStandby">📥 Exportar CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 2: Partners vs Clientes Activos -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Integraciones Activas (Partners vs Clientes)</h5>
+                    <canvas id="partnersClientesChart" height="300"></canvas>
+                    <button class="btn btn-sm btn-outline-primary mt-3" id="exportPartnersClientes">📥 Exportar CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 3: Integraciones por Año (Partners vs Clientes) -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Integraciones Activas este Año</h5>
+                    <canvas id="anoChart" height="300"></canvas>
+                    <button class="btn btn-sm btn-outline-primary mt-3" id="exportAno">📥 Exportar CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 4: Certificados (Año vs Histórico) -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Certificados</h5>
+                    <canvas id="certificadosChart" height="300"></canvas>
+                    <button class="btn btn-sm btn-outline-primary mt-3" id="exportCertificados">📥 Exportar CSV</button>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
 
 
-@section Scripts{
+
+
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -83,7 +133,7 @@
                 .catch(error => console.error('Error al obtener datos:', error));
         });
     </script>
-   
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             fetch('/Home/GetIntegracionesPorSolucion')
@@ -208,10 +258,170 @@
         });
     </script>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 1️ StandBy vs Activas
+            Promise.all([
+                fetch('/Home/GetIntegracionesStandBy').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasPartners').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientes').then(r => r.json())
+            ])
+            .then(([standby, partners, clientes]) => {
+                const ctx = document.getElementById('standbyChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['StandBy', 'Activas'],
+                        datasets: [{
+                            data: [standby.length, partners.length + clientes.length],
+                            backgroundColor: ['#ffc107', '#28a745']
+                        }]
+                    }
+                });
+            });
+
+            // 2️ Partners vs Clientes Activos
+            Promise.all([
+                fetch('/Home/GetIntegracionesActivasPartners').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientes').then(r => r.json())
+            ])
+            .then(([partners, clientes]) => {
+                const ctx = document.getElementById('partnersClientesChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Partners', 'Clientes'],
+                        datasets: [{
+                            label: 'Integraciones Activas',
+                            data: [partners.length, clientes.length],
+                            backgroundColor: ['#007bff', '#17a2b8']
+                        }]
+                    },
+                    options: { responsive: true, indexAxis: 'y' }
+                });
+            });
+
+            // 3️ Activas por Año (Partners vs Clientes)
+            Promise.all([
+                fetch('/Home/GetIntegracionesActivasPartnersAno').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientesAno').then(r => r.json())
+            ])
+            .then(([partnersAno, clientesAno]) => {
+                const ctx = document.getElementById('anoChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Partners Año', 'Clientes Año'],
+                        datasets: [{
+                            data: [partnersAno.length, clientesAno.length],
+                            backgroundColor: ['#6f42c1', '#fd7e14']
+                        }]
+                    }
+                });
+            });
+
+            // 4️ Certificados Año vs Histórico
+            Promise.all([
+                fetch('/Home/GetCertificadosAno').then(r => r.json()),
+                fetch('/Home/GetCertificadosHistorico').then(r => r.json())
+            ])
+            .then(([ano, historico]) => {
+                const ctx = document.getElementById('certificadosChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Certificados Año', 'Certificados Históricos'],
+                        datasets: [{
+                            label: 'Cantidad',
+                            data: [ano.length, historico.length],
+                            backgroundColor: ['#20c997', '#dc3545']
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            });
+
+        });
+
+        // Función genérica para exportar a CSV
+        function exportToCSV(filename, rows) {
+            if (!rows || !rows.length) return;
+
+            const separator = ",";
+            const keys = Object.keys(rows[0]);
+
+            let csvContent =
+                keys.join(separator) + "\n" +
+                rows.map(row => keys.map(k => `"${row[k] ?? ''}"`).join(separator)).join("\n");
+
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 1️ Exportar StandBy vs Activas
+        document.getElementById('exportStandby').addEventListener('click', function () {
+            Promise.all([
+                fetch('/Home/GetIntegracionesStandBy').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasPartners').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientes').then(r => r.json())
+            ]).then(([standby, partners, clientes]) => {
+                const data = [
+                    ...standby.map(i => ({ Estado: "StandBy", Modelo: i.modelo, Integrador: i.integrador })),
+                    ...partners.map(i => ({ Estado: "Activo (Partner)", Modelo: i.modelo, Integrador: i.integrador })),
+                    ...clientes.map(i => ({ Estado: "Activo (Cliente)", Modelo: i.modelo, Integrador: i.integrador }))
+                ];
+                exportToCSV("Integraciones_StandBy_vs_Activas.csv", data);
+            });
+        });
+
+        // 2️ Exportar Partners vs Clientes Activos
+        document.getElementById('exportPartnersClientes').addEventListener('click', function () {
+            Promise.all([
+                fetch('/Home/GetIntegracionesActivasPartners').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientes').then(r => r.json())
+            ]).then(([partners, clientes]) => {
+                const data = [
+                    ...partners.map(i => ({ Tipo: "Partner", Modelo: i.modelo, Integrador: i.integrador })),
+                    ...clientes.map(i => ({ Tipo: "Cliente", Modelo: i.modelo, Integrador: i.integrador }))
+                ];
+                exportToCSV("Integraciones_Activas_Partners_vs_Clientes.csv", data);
+            });
+        });
+
+        // 3️ Exportar Integraciones del Año
+        document.getElementById('exportAno').addEventListener('click', function () {
+            Promise.all([
+                fetch('/Home/GetIntegracionesActivasPartnersAno').then(r => r.json()),
+                fetch('/Home/GetIntegracionesActivasClientesAno').then(r => r.json())
+            ]).then(([partnersAno, clientesAno]) => {
+                const data = [
+                    ...partnersAno.map(i => ({ Tipo: "Partner", Modelo: i.modelo, Integrador: i.integrador, FechaInicio: i.fechaInicio })),
+                    ...clientesAno.map(i => ({ Tipo: "Cliente", Modelo: i.modelo, Integrador: i.integrador, FechaInicio: i.fechaInicio }))
+                ];
+                exportToCSV("Integraciones_Activas_Año.csv", data);
+            });
+        });
+
+        // 4️ Exportar Certificados (Año vs Histórico)
+        document.getElementById('exportCertificados').addEventListener('click', function () {
+            Promise.all([
+                fetch('/Home/GetCertificadosAno').then(r => r.json()),
+                fetch('/Home/GetCertificadosHistorico').then(r => r.json())
+            ]).then(([ano, historico]) => {
+                const data = [
+                    ...ano.map(i => ({ Tipo: "Certificado", Modelo: i.modelo, Integrador: i.integrador, FechaFin: i.fechaFin })),
+                    ...historico.map(i => ({ Tipo: "Certificado Historico", Modelo: i.modelo, Integrador: i.integrador, FechaFin: i.fechaFin }))
+                ];
+                exportToCSV("Integraciones_Certificados.csv", data);
+            });
+        });
     </script>
-
-
-
 }
-
 

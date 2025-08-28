@@ -29,15 +29,18 @@ namespace ElGantte.Services
             using var scope = _serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var integraciones = await context.Integraciones.ToListAsync();
+            var integraciones = await context.Integraciones
+                .Include(i => i.StatusNavigation)         
+                .ToListAsync();
+                            
             DateTime hoy = DateTime.Today;
 
             foreach (var integracion in integraciones)
             {
                 string status = integracion.StatusNavigation?.Nombre ?? "";
 
-                // 1. Certificada o KO -> no sumar nada
-                if (status.Equals("Certificada", StringComparison.OrdinalIgnoreCase) ||
+                // 1. Certificado o KO -> no sumar nada
+                if (status.Equals("Certificado", StringComparison.OrdinalIgnoreCase) ||
                     status.Equals("KO", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
@@ -66,9 +69,9 @@ namespace ElGantte.Services
                     continue;
                 }
 
-                // 3. StandBy = false y status = Integrando -> sumar días Integrando
+                // 3. StandBy = false y status = Integración -> sumar días Integrando
                 if (!integracion.StandBy.GetValueOrDefault() &&
-                    status.Equals("Integrando", StringComparison.OrdinalIgnoreCase))
+                    status.Equals("Integración", StringComparison.OrdinalIgnoreCase))
                 {
                     if (!integracion.UltimoDiaIntegrando.HasValue)
                     {
@@ -87,7 +90,9 @@ namespace ElGantte.Services
                             integracion.UltimoDiaIntegrando = hoy;
                         }
                     }
+                    continue;
                 }
+            
 
                 // Otros estados -> no debería sumar nada
             }

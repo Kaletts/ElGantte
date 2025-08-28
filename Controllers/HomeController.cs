@@ -1,4 +1,5 @@
 using ElGantte.Data;
+using ElGantte.Migrations;
 using ElGantte.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,8 @@ namespace ElGantte.Controllers
             var data = await _context.Integraciones
                 .Include(i => i.StatusNavigation)
                 .GroupBy(i => i.StatusNavigation.Nombre)
-                .Select(g => new {
+                .Select(g => new
+                {
                     Status = g.Key,
                     Count = g.Count()
                 })
@@ -65,7 +67,8 @@ namespace ElGantte.Controllers
             var data = await _context.Historicoetapas
                 .Include(h => h.IntegracionNavigation)
                 .GroupBy(h => h.IntegracionNavigation.Id)
-                .Select(g => new {
+                .Select(g => new
+                {
                     IntegracionId = g.Key,
                     Etapas = g
                         .OrderBy(e => e.FechaCambio)
@@ -91,7 +94,8 @@ namespace ElGantte.Controllers
             // Paso 2: Agrupar en memoria por Etapa actual
             var resultado = etapasPorIntegracion
                 .GroupBy(h => h.Etapa)
-                .Select(g => new {
+                .Select(g => new
+                {
                     Etapa = g.Key,
                     Total = g.Count()
                 })
@@ -126,7 +130,8 @@ namespace ElGantte.Controllers
 
             var integraciones = await _context.Historicoetapas
                 .Where(h => h.Etapa == etapa)
-                .Select(h => new {
+                .Select(h => new
+                {
                     h.Integracion,
                     Integrador = h.IntegracionNavigation.PartnerNavigation.Nombre,
                     Nombre = h.IntegracionNavigation.ModeloTerminalNavigation.Modelo
@@ -153,6 +158,139 @@ namespace ElGantte.Controllers
             return View(integraciones);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesStandBy()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.StandBy == true)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesActivasPartners()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.StandBy == false
+                         && i.PartnerNavigation != null
+                         && i.PartnerNavigation.Tipo == true)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesActivasClientes()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.StandBy == false
+                         && i.PartnerNavigation != null
+                         && i.PartnerNavigation.Tipo == false)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesActivasPartnersAno()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.StandBy == false
+                         && i.PartnerNavigation != null
+                         && i.PartnerNavigation.Tipo == true
+                         && i.FechaInicio.Value.Year == DateTime.Now.Year)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesActivasClientesAno()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.StandBy == false
+                         && i.PartnerNavigation != null
+                         && i.PartnerNavigation.Tipo == false
+                         && i.FechaInicio.Value.Year == DateTime.Now.Year)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetCertificadosAno()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.Certificado == true
+                         && i.FechaFin.HasValue
+                         && i.FechaFin.Value.Year == DateTime.Now.Year)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaFin = i.FechaFin.HasValue ? i.FechaFin.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetCertificadosHistorico()
+        {
+            var integraciones = _context.Integraciones
+                .Where(i => i.Certificado == true)
+                .Select(i => new
+                {
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    FechaFin = i.FechaFin.HasValue ? i.FechaFin.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+
+                })
+                .ToList();
+
+            return Json(integraciones);
+        }
 
     }
 }
