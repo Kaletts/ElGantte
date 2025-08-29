@@ -4,62 +4,100 @@
     ViewData["Title"] = "Informe Servicio";
 }
 
-<h1>Integradores Certificados ✅</h1>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Fecha registro</th>
-            <th>Tipo</th>
-            <th>Partners</th>
-            <th>Status</th>
-            <th>Observaciones</th>
-            <th>Etapa</th>
-            <th>Tipo de Terminal</th>
-            <th>Solución</th>
-            <th>Tipo Solución</th>
-            <th>Nombre APK-Software</th>
-            <th>Certificado</th>
-            <th>Fecha estimada Certificación</th>
-            <th>Time</th>
-            <th>Fecha certificación/KO</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "Certificada"))
-        {
+<h1 class="mb-4">Integradores Certificados Mes Actual</h1>
+
+<div class="table">
+    <table class="table table-bordered">
+        <thead class="table table-dark">
             <tr>
-                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
-                <td>@item.PartnerNavigation?.Tipo</td>
-                <td>@item.PartnerNavigation?.Nombre</td>
-                <td>@item.StatusNavigation?.Nombre</td>
-                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
-                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
-                <td>@item.ModeloTerminalNavigation?.Modelo</td>
-                <td>@item.SolucionNavigation?.Nombre</td>
-                <td>@item.SoftwareIntegrado</td>
-                <td>@item.NombreSwapp</td>
-                <td>
-                    @if (item.Certificado == true)
-                    {
-                        <span class="badge bg-success">Sí</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger">No</span>
-                    }
+                <th>Fecha registro</th>
+                <th>Tipo</th>
+                <th>Partners</th>
+                <th>Status</th>
+                <th>Observaciones</th>
+                <th>Etapa</th>
+                <th>Tipo de Terminal</th>
+                <th>Solución</th>
+                <th>Tipo Solución</th>
+                <th>Nombre APK-Software</th>
+                <th>Certificado</th>
+                <th>Fecha estimada Certificación</th>
+                <th>Días Integrando</th>
+                <th>Fecha certificación/KO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Where(
+                        i => i.Certificado == true
+                        && i.FechaFin.HasValue
+                        && i.FechaFin.Value.Month == DateTime.Now.Month))
+            {
+                // Estilo por tipo de partner/cliente
+                var tipoClass = item.PartnerNavigation?.Tipo == true ? "table-primary" : "bg-light bg-gradient";
+
+
+                // Estilo según el status
+                string statusClass = item.StatusNavigation?.Nombre switch
+                {
+                    "Certificado" => "table-success",
+                    "Integración" => "table-warning",
+                    "Stand-by" => "table-danger",  // rojo claro
+                    "KO" => "table-danger table-dark text-white", // rojo fuerte
+                    _ => "table-light"
+                };
+
+                <tr class="@tipoClass">
+                    <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                    <td>@((item.PartnerNavigation?.Tipo).GetValueOrDefault() ? "Partner" : "Cliente")</td>
+                    <td>
+                        <a asp-controller="Partners" asp-action="Details" asp-route-id="@item.PartnerNavigation.Id">
+                            @item.PartnerNavigation?.Nombre
+                        </a>
+                    </td>
+                    <td class="@statusClass">
+                        @item.StatusNavigation?.Nombre
+                    </td>
+                    <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                    <td class="@statusClass">
+                        @item.Historicoetapas.LastOrDefault()?.Etapa
+                    </td>
+                    <td>
+                        <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@item.Id">
+                            @item.ModeloTerminalNavigation?.Modelo
+                        </a>
+                    </td>
+                    <td>@item.SolucionNavigation?.Nombre</td>
+                    <td>@item.SoftwareIntegrado</td>
+                    <td>@item.NombreSwapp</td>
+                    <td>
+                        @if (item.Certificado == true)
+                        {
+                            <span class="badge bg-success">Sí</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
                 </td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @(item.FechaInicio.HasValue
+                                        ? (item.FechaInicio.Value.AddDays(item.PartnerNavigation?.Tipo == true ? 21 : 90)).ToString("dd/MM/yyyy")
+                                        : "Sin fecha")
+                </td>
                 <td>@($"{item.DiasIntegrando} días")</td>
                 <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
             </tr>
-        }
-    </tbody>
-</table>
+                        }
+        </tbody>
+    </table>
+</div>
 
 
-<h1>Integradores KO ❌</h1>
+
+
+<h1>Integradores KO</h1>
 <table class="table table-bordered">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>Fecha registro</th>
             <th>Tipo</th>
@@ -73,21 +111,47 @@
             <th>Nombre APK-Software</th>
             <th>Certificado</th>
             <th>Fecha estimada Certificación</th>
-            <th>Time</th>
+            <th>Días Integrando</th>
             <th>Fecha certificación/KO</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "KO"))
         {
-            <tr>
+            // Estilo por tipo de partner/cliente
+            var tipoClass = item.PartnerNavigation?.Tipo == true ? "table-primary" : "bg-light bg-gradient";
+
+
+            // Estilo según el status
+            string statusClass = item.StatusNavigation?.Nombre switch
+            {
+                "Certificado" => "table-success",
+                "Integración" => "table-warning",
+                "Stand-by" => "table-danger",  // rojo claro
+                "KO" => "bg-danger", // rojo fuerte
+                _ => "table-light"
+            };
+
+            <tr class="@tipoClass">
                 <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
-                <td>@item.PartnerNavigation?.Tipo</td>
-                <td>@item.PartnerNavigation?.Nombre</td>
-                <td>@item.StatusNavigation?.Nombre</td>
-                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
-                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
-                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@((item.PartnerNavigation?.Tipo).GetValueOrDefault() ? "Partner" : "Cliente")</td>
+                <td>
+                    <a asp-controller="Partners" asp-action="Details" asp-route-id="@item.PartnerNavigation.Id">
+                        @item.PartnerNavigation?.Nombre
+                    </a>
+                </td>
+                <td class="@statusClass">
+                    @item.StatusNavigation?.Nombre
+                </td>
+                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td class="@statusClass">
+                    @item.Historicoetapas.LastOrDefault()?.Etapa
+                </td>
+                <td>
+                    <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@item.Id">
+                        @item.ModeloTerminalNavigation?.Modelo
+                    </a>
+                </td>
                 <td>@item.SolucionNavigation?.Nombre</td>
                 <td>@item.SoftwareIntegrado</td>
                 <td>@item.NombreSwapp</td>
@@ -100,19 +164,23 @@
                     {
                         <span class="badge bg-danger">No</span>
                     }
-                </td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-                <td>@($"{item.DiasStandBy} días")</td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-            </tr>
-        }
+            </td>
+            <td>
+                @(item.FechaInicio.HasValue
+                                ? (item.FechaInicio.Value.AddDays(item.PartnerNavigation?.Tipo == true ? 21 : 90)).ToString("dd/MM/yyyy")
+                                : "Sin fecha")
+            </td>
+            <td>@($"{item.DiasIntegrando} días")</td>
+            <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+        </tr>
+                }
     </tbody>
 </table>
 
 
-<h1>Integradores en Curso 🔄</h1>
+<h1>Integradores en Curso</h1>
 <table class="table table-bordered">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>Fecha registro</th>
             <th>Tipo</th>
@@ -126,21 +194,46 @@
             <th>Nombre APK-Software</th>
             <th>Certificado</th>
             <th>Fecha estimada Certificación</th>
-            <th>Time</th>
+            <th>Días Integrando</th>
             <th>Fecha certificación/KO</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "Integrando"))
+        @foreach (var item in Model.Where(i => i.StatusNavigation!.Nombre == "Integración"))
         {
-            <tr>
+            // Estilo por tipo de partner/cliente
+            var tipoClass = item.PartnerNavigation?.Tipo == true ? "table-primary" : "bg-light bg-gradient";
+
+            // Estilo según el status
+            string statusClass = item.StatusNavigation?.Nombre switch
+            {
+                "Certificado" => "table-success",
+                "Integración" => "table-warning",
+                "Stand-by" => "table-danger",  // rojo claro
+                "KO" => "table-danger table-dark text-white", // rojo fuerte
+                _ => "table-light"
+            };
+
+            <tr class="@tipoClass">
                 <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
-                <td>@item.PartnerNavigation?.Tipo</td>
-                <td>@item.PartnerNavigation?.Nombre</td>
-                <td>@item.StatusNavigation?.Nombre</td>
-                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
-                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
-                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@((item.PartnerNavigation?.Tipo).GetValueOrDefault() ? "Partner" : "Cliente")</td>
+                <td>
+                    <a asp-controller="Partners" asp-action="Details" asp-route-id="@item.PartnerNavigation.Id">
+                        @item.PartnerNavigation?.Nombre
+                    </a>
+                </td>
+                <td class="@statusClass">
+                    @item.StatusNavigation?.Nombre
+                </td>
+                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td class="@statusClass">
+                    @item.Historicoetapas.LastOrDefault()?.Etapa
+                </td>
+                <td>
+                    <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@item.Id">
+                        @item.ModeloTerminalNavigation?.Modelo
+                    </a>
+                </td>
                 <td>@item.SolucionNavigation?.Nombre</td>
                 <td>@item.SoftwareIntegrado</td>
                 <td>@item.NombreSwapp</td>
@@ -153,19 +246,23 @@
                     {
                         <span class="badge bg-danger">No</span>
                     }
-                </td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-                <td>@($"{item.DiasIntegrando} días")</td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-            </tr>
-        }
+            </td>
+            <td>
+                @(item.FechaInicio.HasValue
+                                ? (item.FechaInicio.Value.AddDays(item.PartnerNavigation?.Tipo == true ? 21 : 90)).ToString("dd/MM/yyyy")
+                                : "Sin fecha")
+            </td>
+            <td>@($"{item.DiasIntegrando} días")</td>
+            <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+        </tr>
+                }
     </tbody>
 </table>
 
 
-<h1>Integradores en StandBy ⏸</h1>
+<h1>Integradores en StandBy</h1>
 <table class="table table-bordered">
-    <thead>
+    <thead class="table-dark">
         <tr>
             <th>Fecha registro</th>
             <th>Tipo</th>
@@ -179,21 +276,46 @@
             <th>Nombre APK-Software</th>
             <th>Certificado</th>
             <th>Fecha estimada Certificación</th>
-            <th>Time</th>
+            <th>Días Integrando</th>
             <th>Fecha certificación/KO</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Where(i => i.StandBy == true))
         {
-            <tr>
+            // Estilo por tipo de partner/cliente
+            var tipoClass = item.PartnerNavigation?.Tipo == true ? "table-primary" : "bg-light bg-gradient";
+
+            // Estilo según el status
+            string statusClass = item.StatusNavigation?.Nombre switch
+            {
+                "Certificado" => "table-success",
+                "Integración" => "table-warning",
+                "Stand-by" => "table-danger",  // rojo claro
+                "KO" => "bg-danger", // rojo fuerte
+                _ => "table-light"
+            };
+
+            <tr class="@tipoClass">
                 <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
-                <td>@item.PartnerNavigation?.Tipo</td>
-                <td>@item.PartnerNavigation?.Nombre</td>
-                <td>@item.StatusNavigation?.Nombre</td>
-                <td>@string.Join(" | ", item.Comentarios.Select(c => c.Comentario1))</td>
-                <td>@item.Historicoetapas.LastOrDefault()?.Etapa</td>
-                <td>@item.ModeloTerminalNavigation?.Modelo</td>
+                <td>@((item.PartnerNavigation?.Tipo).GetValueOrDefault() ? "Partner" : "Cliente")</td>
+                <td>
+                    <a asp-controller="Partners" asp-action="Details" asp-route-id="@item.PartnerNavigation.Id">
+                        @item.PartnerNavigation?.Nombre
+                    </a>
+                </td>
+                <td class="@statusClass">
+                    @item.StatusNavigation?.Nombre
+                </td>
+                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td class="@statusClass">
+                    @item.Historicoetapas.LastOrDefault()?.Etapa
+                </td>
+                <td>
+                    <a asp-controller="Integraciones" asp-action="Details" asp-route-id="@item.Id">
+                        @item.ModeloTerminalNavigation?.Modelo
+                    </a>
+                </td>
                 <td>@item.SolucionNavigation?.Nombre</td>
                 <td>@item.SoftwareIntegrado</td>
                 <td>@item.NombreSwapp</td>
@@ -206,11 +328,15 @@
                     {
                         <span class="badge bg-danger">No</span>
                     }
-                </td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-                <td>@($"{item.DiasStandBy} días")</td>
-                <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
-            </tr>
-        }
+            </td>
+            <td>
+                @(item.FechaInicio.HasValue
+                                ? (item.FechaInicio.Value.AddDays(item.PartnerNavigation?.Tipo == true ? 21 : 90)).ToString("dd/MM/yyyy")
+                                : "Sin fecha")
+            </td>
+            <td>@($"{item.DiasIntegrando} días")</td>
+            <td>@item.FechaFin?.ToString("dd/MM/yyyy")</td>
+        </tr>
+                }
     </tbody>
 </table>

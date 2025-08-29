@@ -74,10 +74,14 @@
                         <dd class="col-7">@Model.CasoSf</dd>
 
                         <dt class="col-5">Partner:</dt>
-                        <dd class="col-7">@Model.PartnerNavigation.Id</dd>
+                        <dd class="col-7">
+                            <a asp-controller="Partners" asp-action="Details" asp-route-id="@Model.PartnerNavigation.Id">
+                                @Model.PartnerNavigation.Nombre
+                            </a>
+                        </dd>
 
                         <dt class="col-5">Solución:</dt>
-                        <dd class="col-7">@Model.SolucionNavigation.Id</dd>
+                        <dd class="col-7">@Model.SolucionNavigation.Nombre</dd>
 
                         <dt class="col-5">Status:</dt>
                         <dd class="col-7">

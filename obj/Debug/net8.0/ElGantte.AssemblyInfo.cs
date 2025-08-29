@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ElGantte")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a11defc672402c09c8dab04c9687e6383fc031ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7bb9c0f02af28eff364f38d5e6348935d94b611")]
 [assembly: System.Reflection.AssemblyProductAttribute("ElGantte")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ElGantte")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
