@@ -57,7 +57,18 @@
                     <td class="@statusClass">
                         @item.StatusNavigation?.Nombre
                     </td>
-                    <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                    <td>
+                        @{
+                            var ultimoComentario = item.Comentarios
+                            .OrderBy(c => c.Fecha) //Ordena por fecha ascendente
+                            .LastOrDefault();
+
+                            if (ultimoComentario != null)
+                            {
+                                @($"({ultimoComentario.Fecha:dd/MM/yyyy}) {ultimoComentario.Comentario1}")
+                            }
+                        }
+                    </td>
                     <td class="@statusClass">
                         @item.Historicoetapas.LastOrDefault()?.Etapa
                     </td>
@@ -143,7 +154,18 @@
                 <td class="@statusClass">
                     @item.StatusNavigation?.Nombre
                 </td>
-                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td>
+                    @{
+                        var ultimoComentario = item.Comentarios
+                        .OrderBy(c => c.Fecha) //Ordena por fecha ascendente
+                        .LastOrDefault();
+
+                        if (ultimoComentario != null)
+                        {
+                            @($"({ultimoComentario.Fecha:dd/MM/yyyy}) {ultimoComentario.Comentario1}")
+                        }
+                    }
+                </td>
                 <td class="@statusClass">
                     @item.Historicoetapas.LastOrDefault()?.Etapa
                 </td>
@@ -225,7 +247,18 @@
                 <td class="@statusClass">
                     @item.StatusNavigation?.Nombre
                 </td>
-                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td>
+                    @{
+                        var ultimoComentario = item.Comentarios
+                        .OrderBy(c => c.Fecha) //Ordena por fecha ascendente
+                        .LastOrDefault();
+
+                        if (ultimoComentario != null)
+                        {
+                            @($"({ultimoComentario.Fecha:dd/MM/yyyy}) {ultimoComentario.Comentario1}")
+                        }
+                    }
+                </td>
                 <td class="@statusClass">
                     @item.Historicoetapas.LastOrDefault()?.Etapa
                 </td>
@@ -307,7 +340,18 @@
                 <td class="@statusClass">
                     @item.StatusNavigation?.Nombre
                 </td>
-                <td>@item.Comentarios.Select(c => c.Comentario1).LastOrDefault()</td>
+                <td>
+                    @{
+                        var ultimoComentario = item.Comentarios
+                        .OrderBy(c => c.Fecha) //Ordena por fecha ascendente
+                        .LastOrDefault();
+
+                        if (ultimoComentario != null)
+                        {
+                            @($"({ultimoComentario.Fecha:dd/MM/yyyy}) {ultimoComentario.Comentario1}")
+                        }
+                    }
+                </td>
                 <td class="@statusClass">
                     @item.Historicoetapas.LastOrDefault()?.Etapa
                 </td>
