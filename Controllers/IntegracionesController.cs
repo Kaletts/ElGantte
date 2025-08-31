@@ -25,7 +25,7 @@ namespace ElGantte.Controllers
         // GET: Integraciones
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Integraciones.Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation).Include(i => i.ModeloTerminalNavigation);
+            var appDbContext = _context.Integraciones.Include(i => i.PartnerNavigation).Include(i => i.SolucionNavigation).Include(i => i.StatusNavigation).Include(i => i.ModeloTerminalNavigation).OrderByDescending(i => i.FechaInicio);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -181,6 +181,7 @@ namespace ElGantte.Controllers
                 .Include(i => i.CartasCesion)
                 .Include(i => i.CuadernosPrueba)
                 .Include(i => i.TeleCertificaciones)
+                .Include(i => i.TipoConexionNavigation)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             if (integracione == null)
@@ -191,6 +192,7 @@ namespace ElGantte.Controllers
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Nombre", integracione.Solucion);
             ViewBag.ModelosTerminales = new SelectList(await _context.Modelosterminals.ToListAsync(), "Id", "Modelo");
             ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Nombre", integracione.Status);
+            ViewData["TipoConexion"] = new SelectList(_context.TipoConexion, "Id", "Nombre", integracione.TipoConexion);
             return View(integracione);
         }
 
@@ -199,7 +201,7 @@ namespace ElGantte.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ModeloTerminal,SoftwareIntegrado,NombreSwapp,Certificado,FechaInicio,FechaFin,DiasIntegrando,DiasStandBy,StandBy,CasoSf,Status,Solucion,Partner,CartaCesion")] Integracione integracione)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ModeloTerminal,SoftwareIntegrado,NombreSwapp,Certificado,FechaInicio,FechaFin,DiasIntegrando,DiasStandBy,StandBy,CasoSf,Status,Solucion,Partner,CartaCesion,TipoConexion")] Integracione integracione)
         {
             if (id != integracione.Id)
             {

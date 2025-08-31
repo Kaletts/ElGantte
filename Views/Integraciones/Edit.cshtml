@@ -64,6 +64,15 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        <label asp-for="TipoConexion" class="form-label">Tipo de Conexión</label>
+                                        <select asp-for="TipoConexion" class="form-select" asp-items="ViewBag.TipoConexion">
+                                            <option value="">Seleccione tipo de conexión</option>
+                                        </select>
+                                        <span asp-validation-for="TipoConexion" class="invalid-feedback"></span>
+                                    </div>
+
+
+                                    <div class="col-md-6">
                                         <label asp-for="NombreSwapp" class="form-label"></label>
                                         <input asp-for="NombreSwapp" class="form-control" />
                                         <span asp-validation-for="NombreSwapp" class="invalid-feedback"></span>

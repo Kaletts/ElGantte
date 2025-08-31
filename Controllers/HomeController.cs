@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Net.Mime;
 
 namespace ElGantte.Controllers
 {
@@ -48,8 +49,8 @@ namespace ElGantte.Controllers
         public async Task<IActionResult> GetStatusSummary()
         {
             var data = await _context.Integraciones
-                .Include(i => i.StatusNavigation)
-                .GroupBy(i => i.StatusNavigation.Nombre)
+                .Select(i => new { Status = i.StatusNavigation != null ? i.StatusNavigation.Nombre : "Sin Estado" })
+                .GroupBy(i => i.Status)
                 .Select(g => new
                 {
                     Status = g.Key,
@@ -291,6 +292,189 @@ namespace ElGantte.Controllers
 
             return Json(integraciones);
         }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetIntegracionesDetalle()
+        {
+            var data = _context.Integraciones
+                .Include(i => i.PartnerNavigation)
+                .Include(i => i.StatusNavigation)
+                .Include(i => i.SolucionNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
+                .Select(i => new
+                {
+                    Estado = i.StatusNavigation.Nombre,
+                    Solucion = i.SolucionNavigation.Nombre,
+                    Modelo = i.ModeloTerminalNavigation.Modelo,
+                    Integrador = i.PartnerNavigation.Nombre,
+                    StandBy = i.StandBy,
+                    FechaInicio = i.FechaInicio.HasValue ? i.FechaInicio.Value.ToString("yyyy-MM-dd") : "Sin Fecha",
+                    FechaFin = i.FechaFin.HasValue ? i.FechaFin.Value.ToString("yyyy-MM-dd") : "Sin Fecha"
+                })
+                .ToList();
+
+            return Json(data);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult GetKPI()
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Today);
+            var primerDiaMes = new DateOnly(hoy.Year, hoy.Month, 1);
+
+            var integraciones = _context.Integraciones
+                .Include(i => i.PartnerNavigation)
+                .Include(i => i.StatusNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
+                .Where(i => i.PartnerNavigation != null)
+                .ToList();
+
+            // Partners
+            var partners = integraciones.Where(i => i.PartnerNavigation!.Tipo).ToList();
+            var partnersMas60Dias = partners.Count(i => i.Certificado.GetValueOrDefault() && i.FechaInicio.HasValue && i.FechaFin.HasValue &&
+                                                       (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) > 60);
+            var partnersMenos60Dias = partners.Count(i => i.Certificado.GetValueOrDefault() && i.FechaInicio.HasValue && i.FechaFin.HasValue &&
+                                                          (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) <= 60);
+            var partnersIntegrandoMes = partners.Count(i => !i.Certificado.GetValueOrDefault() && !i.StandBy.GetValueOrDefault() &&
+                                                            i.StatusNavigation?.Nombre?.Trim().Equals("Integración", StringComparison.OrdinalIgnoreCase) == true);
+            var partnersCertificadosMes = partners.Count(i => i.Certificado.GetValueOrDefault() && i.FechaFin.HasValue && i.FechaFin.Value >= primerDiaMes);
+
+            // Clientes
+            var clientes = integraciones.Where(i => !i.PartnerNavigation!.Tipo).ToList();
+            var clientesMas60Dias = clientes.Count(i => i.Certificado.GetValueOrDefault() && i.FechaInicio.HasValue && i.FechaFin.HasValue &&
+                                                       (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) > 60);
+            var clientesMenos60Dias = clientes.Count(i => i.Certificado.GetValueOrDefault() && i.FechaInicio.HasValue && i.FechaFin.HasValue &&
+                                                          (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) <= 60);
+            var clientesIntegrandoMes = clientes.Count(i => !i.Certificado.GetValueOrDefault() && !i.StandBy.GetValueOrDefault() &&
+                                                            i.StatusNavigation?.Nombre?.Trim().Equals("Integración", StringComparison.OrdinalIgnoreCase) == true);
+            var clientesCertificadosMes = clientes.Count(i => i.Certificado.GetValueOrDefault() && i.FechaFin.HasValue && i.FechaFin.Value >= primerDiaMes);
+
+            var kpi = new
+            {
+                partnersMas60Dias,
+                partnersMenos60Dias,
+                partnersIntegrandoMes,
+                partnersCertificadosMes,
+                clientesMas60Dias,
+                clientesMenos60Dias,
+                clientesIntegrandoMes,
+                clientesCertificadosMes
+            };
+
+            return Json(kpi);
+        }
+
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
+        [HttpGet]
+        public IActionResult ExportKPIsCSV()
+        {
+            var hoy = DateOnly.FromDateTime(DateTime.Today);
+            var primerDiaMes = new DateOnly(hoy.Year, hoy.Month, 1);
+
+            // Partners
+            var partners = _context.Integraciones
+                .Include(i => i.PartnerNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
+                .Include(i => i.StatusNavigation)
+                .Where(i => i.PartnerNavigation != null && i.PartnerNavigation.Tipo == true)
+                .ToList();
+
+            var partnersMas60Dias = partners
+                .Where(i => i.Certificado == true
+                            && i.FechaInicio.HasValue && i.FechaFin.HasValue
+                            && (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) > 60)
+                .ToList();
+
+            var partnersMenos60Dias = partners
+                .Where(i => i.Certificado == true
+                            && i.FechaInicio.HasValue && i.FechaFin.HasValue
+                            && (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) <= 60)
+                .ToList();
+
+            var partnersIntegrandoMes = partners
+                .Where(i => i.StatusNavigation != null
+                            && i.StatusNavigation.Nombre == "Integración"
+                            && i.FechaInicio.HasValue && i.FechaInicio.Value.DayNumber >= primerDiaMes.DayNumber)
+                .ToList();
+
+            var partnersCertificadosMes = partners
+                .Where(i => i.Certificado == true
+                            && i.FechaFin.HasValue
+                            && i.FechaFin.Value.DayNumber >= primerDiaMes.DayNumber)
+                .ToList();
+
+            // Clientes
+            var clientes = _context.Integraciones
+                .Include(i => i.PartnerNavigation)
+                .Include(i => i.ModeloTerminalNavigation)
+                .Include(i => i.StatusNavigation)
+                .Where(i => i.PartnerNavigation != null && i.PartnerNavigation.Tipo == false)
+                .ToList();
+
+            var clientesMas60Dias = clientes
+                .Where(i => i.Certificado == true
+                            && i.FechaInicio.HasValue && i.FechaFin.HasValue
+                            && (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) > 60)
+                .ToList();
+
+            var clientesMenos60Dias = clientes
+                .Where(i => i.Certificado == true
+                            && i.FechaInicio.HasValue && i.FechaFin.HasValue
+                            && (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber) <= 60)
+                .ToList();
+
+            var clientesIntegrandoMes = clientes
+                .Where(i => i.StatusNavigation != null
+                            && i.StatusNavigation.Nombre == "Integración"
+                            && i.FechaInicio.HasValue && i.FechaInicio.Value.DayNumber >= primerDiaMes.DayNumber)
+                .ToList();
+
+            var clientesCertificadosMes = clientes
+                .Where(i => i.Certificado == true
+                            && i.FechaFin.HasValue
+                            && i.FechaFin.Value.DayNumber >= primerDiaMes.DayNumber)
+                .ToList();
+
+            // Combinar todos en una lista para exportar
+            var exportList = partnersMas60Dias
+                .Concat(partnersMenos60Dias)
+                .Concat(partnersIntegrandoMes)
+                .Concat(partnersCertificadosMes)
+                .Concat(clientesMas60Dias)
+                .Concat(clientesMenos60Dias)
+                .Concat(clientesIntegrandoMes)
+                .Concat(clientesCertificadosMes)
+                .Distinct() // Evitar duplicados
+                .ToList();
+
+            var csv = new System.Text.StringBuilder();
+            csv.AppendLine("Tipo,Partner/Cliente,Modelo,Estado,Certificado,Fecha Inicio,Fecha Fin,Días StandBy,Días Integrando,Días Certificado");
+
+            foreach (var i in exportList)
+            {
+                var tipo = i.PartnerNavigation.Tipo ? "Partner" : "Cliente";
+                var nombre = i.PartnerNavigation.Nombre;
+                var modelo = i.ModeloTerminalNavigation?.Modelo ?? "";
+                var estado = i.StatusNavigation?.Nombre ?? "";
+                var certificado = i.Certificado.GetValueOrDefault() ? "Sí" : "No";
+                var fechaInicio = i.FechaInicio?.ToString("yyyy-MM-dd") ?? "";
+                var fechaFin = i.FechaFin?.ToString("yyyy-MM-dd") ?? "";
+                var diasStandBy = i.DiasStandBy.HasValue ? i.DiasStandBy.Value.ToString() : "0";
+                var diasIntegrando = i.DiasIntegrando.HasValue ? i.DiasIntegrando.Value.ToString() : "0";
+                var diasCertificado = (i.Certificado.GetValueOrDefault() && i.FechaInicio.HasValue && i.FechaFin.HasValue)
+                                     ? (i.FechaFin.Value.DayNumber - i.FechaInicio.Value.DayNumber).ToString()
+                                     : "";
+
+                csv.AppendLine($"{tipo},{nombre},{modelo},{estado},{certificado},{fechaInicio},{fechaFin},{diasStandBy},{diasIntegrando},{diasCertificado}");
+            }
+
+            var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
+            string fechaExport = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            return File(bytes, "text/csv", $"KPIs_Integraciones-{fechaExport}.csv");
+        }
+
 
     }
 }

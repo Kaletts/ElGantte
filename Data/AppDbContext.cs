@@ -50,7 +50,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Tarjetas> Tarjetas { get; set; }
 
-
+    public virtual DbSet<TipoConexion> TipoConexion { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySql("server=localhost;user=root;password=YaTuSabes25%?;database=lbase2", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.41-mysql"));

@@ -99,7 +99,7 @@ public partial class Integracione
     [InverseProperty("Integraciones")]
     public virtual Status? StatusNavigation { get; set; }
 
-    [DisplayName("TipoConexion")]
+    [DisplayName("Tipo de Conexión")]
     [ForeignKey("TipoConexion")]
     [InverseProperty("Integraciones")]
     public virtual TipoConexion? TipoConexionNavigation { get; set; }
