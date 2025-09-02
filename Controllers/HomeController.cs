@@ -159,6 +159,20 @@ namespace ElGantte.Controllers
             return View(integraciones);
         }
 
+        [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin,Onsite")]
+        public async Task<IActionResult> Vistacertificados()
+        {
+            var integraciones = await _context.Integraciones
+                 .Where(i => i.Certificado == true)
+                 .Include(i => i.PartnerNavigation)
+                 .Include(i => i.SolucionNavigation)
+                 .Include(i => i.TipoConexionNavigation)
+                 .Include(i => i.ModeloTerminalNavigation)
+                 .ToListAsync();
+
+            return View(integraciones);
+        }
+
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "User,Admin")]
         [HttpGet]
         public IActionResult GetIntegracionesStandBy()
@@ -474,6 +488,8 @@ namespace ElGantte.Controllers
             string fechaExport = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             return File(bytes, "text/csv", $"KPIs_Integraciones-{fechaExport}.csv");
         }
+
+
 
 
     }

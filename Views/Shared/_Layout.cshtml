@@ -11,74 +11,66 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ElGantte</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">ElGantte</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Integraciones" asp-action="Index">Integraciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Partners" asp-action="Index">Partners</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="XieGenerator">GeneradorXie</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Jiras" asp-action="Index">Jiras</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Terminales" asp-action="Index">Terminales</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Kittarjetas" asp-action="Index">Kit Tarjetas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="InformeServicio">Informe Diario</a>
-                        </li>
-                       @*  <authorize policy="SuperAccess"> ESTO SE PUEDE MEJORAR A FUTURO TODO POR POLITICAS DE AUTORIZACIÓN
-                            <p>Contenido solo para Admin o GodMode</p> Si bien ya esta en el controlador, se puede hacer en la vista.
-                        </authorize> *@
-                        @if (User.IsInRole("Admin") || (User.IsInRole("GodMode")))
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @* 🔹 Menú para Admin, GodMode y User *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("GodMode") || User.IsInRole("User"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registro</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Integraciones" asp-action="Index">Integraciones</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Partners" asp-action="Index">Partners</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="XieGenerator">GeneradorXie</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Jiras" asp-action="Index">Jiras</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Terminales" asp-action="Index">Terminales</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Kittarjetas" asp-action="Index">Kit Tarjetas</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="InformeServicio">Informe Diario</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="VistaCertificados">Aplicaciones Certificadas</a></li>
+                        }
+
+                        @* 🔹 Menú exclusivo para Onsite *@
+                        @if (User.IsInRole("Onsite"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="VistaCertificados">Aplicaciones Certificadas</a></li>
+                        }
+
+                        @* 🔹 Menú exclusivo de administración *@
+                        @if (User.IsInRole("Admin") || User.IsInRole("GodMode"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Registro</a></li>
                         }
                     </ul>
+
+                    @* 🔹 Login / Logout *@
+                    <div class="d-flex align-items-center">
+                        @if (!(User.Identity?.IsAuthenticated ?? false))
+                        {
+                           
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center gap-2 p-2 shadow-sm rounded-3 bg-white">
+                                <span class="fw-semibold">Bienvenido, @User.Identity.Name</span>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                    <button type="submit" class="btn btn-danger">Logout</button>
+                                    @Html.AntiForgeryToken()
+                                </form>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-            <div class="me-2 col d-flex gap-2">
-                @if (!(User.Identity?.IsAuthenticated ?? false))
-                {
-                    <form asp-controller="Account" asp-action="Login" method="post" class="m-0">
-                        <button type="submit" class="btn btn-outline-primary">Iniciar sesión</button>
-                        @Html.AntiForgeryToken()
-                    </form>
-                }
-                else
-                {
-                    <small class="text-center">Bienvenido @(User.Identity.Name)</small>
-                    <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
-                        <button type="submit" class="btn btn-outline-danger">Logout</button>
-                        @Html.AntiForgeryToken()
-                    </form>
-                }
-            </div>
-
         </nav>
     </header>
+
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -95,6 +87,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>

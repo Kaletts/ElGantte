@@ -25,7 +25,7 @@ namespace ElGantte.Controllers
         // GET: Index
         public async Task<IActionResult> Index()
         {
-            var kits = await _context.KitTarjetas
+            var kits = await _context.Kittarjetas
                 .Include(k => k.Integracion)
                     .ThenInclude(i => i.PartnerNavigation)
                 .Include(k => k.Tarjetas)
@@ -46,7 +46,7 @@ namespace ElGantte.Controllers
             }
 
             // Verificar si ya existe el nombre
-            bool exists = await _context.KitTarjetas.AnyAsync(k => k.Nombre == Nombre);
+            bool exists = await _context.Kittarjetas.AnyAsync(k => k.Nombre == Nombre);
             if (exists)
             {
                 TempData["Warning"] = "Ya existe un kit con ese nombre. Usa otro nombre.";
@@ -61,7 +61,7 @@ namespace ElGantte.Controllers
                 FechaActualizacion = DateTime.Now
             };
 
-            _context.KitTarjetas.Add(kit);
+            _context.Kittarjetas.Add(kit);
             await _context.SaveChangesAsync();
 
             TempData["Success"] = $"Kit '{Nombre}' creado correctamente.";
@@ -110,7 +110,7 @@ namespace ElGantte.Controllers
                 return NotFound();
             }
 
-            var kittarjeta = await _context.KitTarjetas
+            var kittarjeta = await _context.Kittarjetas
                 .Include(k => k.Integracion)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kittarjeta == null)
@@ -127,10 +127,10 @@ namespace ElGantte.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kittarjeta = await _context.KitTarjetas.FindAsync(id);
+            var kittarjeta = await _context.Kittarjetas.FindAsync(id);
             if (kittarjeta != null)
             {
-                _context.KitTarjetas.Remove(kittarjeta);
+                _context.Kittarjetas.Remove(kittarjeta);
             }
 
             await _context.SaveChangesAsync();

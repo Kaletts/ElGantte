@@ -24,7 +24,7 @@ namespace ElGantte.Controllers
         // GET: Tarjetas
         public async Task<IActionResult> Index()
         {
-            var kits = await _context.KitTarjetas
+            var kits = await _context.Kittarjetas
                  .Include(k => k.Tarjetas)
                  .Include(k => k.Integracion)
                      .ThenInclude(i => i.PartnerNavigation)
@@ -43,7 +43,7 @@ namespace ElGantte.Controllers
                 Nombre = nombre,
                 IntegracionId = integracionId
             };
-            _context.KitTarjetas.Add(kit);
+            _context.Kittarjetas.Add(kit);
             await _context.SaveChangesAsync();
             TempData["Success"] = "Kit creado correctamente.";
             return RedirectToAction(nameof(Index));
@@ -78,14 +78,14 @@ namespace ElGantte.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteKit(int id)
         {
-            var kit = await _context.KitTarjetas
+            var kit = await _context.Kittarjetas
                 .Include(k => k.Tarjetas) // Incluimos solo Tarjetas
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             if (kit != null)
             {
                 _context.Tarjetas.RemoveRange(kit.Tarjetas);
-                _context.KitTarjetas.Remove(kit);
+                _context.Kittarjetas.Remove(kit);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Kit eliminado correctamente.";
             }
@@ -117,7 +117,7 @@ namespace ElGantte.Controllers
         // GET: Tarjetas/Create
         public IActionResult Create()
         {
-            ViewData["KitTarjetaId"] = new SelectList(_context.KitTarjetas, "Id", "Id");
+            ViewData["KitTarjetaId"] = new SelectList(_context.Kittarjetas, "Id", "Id");
             return View();
         }
 
@@ -134,7 +134,7 @@ namespace ElGantte.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KitTarjetaId"] = new SelectList(_context.KitTarjetas, "Id", "Id", tarjetas.KitTarjetaId);
+            ViewData["KitTarjetaId"] = new SelectList(_context.Kittarjetas, "Id", "Id", tarjetas.KitTarjetaId);
             return View(tarjetas);
         }
 
@@ -151,7 +151,7 @@ namespace ElGantte.Controllers
             {
                 return NotFound();
             }
-            ViewData["KitTarjetaId"] = new SelectList(_context.KitTarjetas, "Id", "Id", tarjetas.KitTarjetaId);
+            ViewData["KitTarjetaId"] = new SelectList(_context.Kittarjetas, "Id", "Id", tarjetas.KitTarjetaId);
             return View(tarjetas);
         }
 
@@ -187,7 +187,7 @@ namespace ElGantte.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KitTarjetaId"] = new SelectList(_context.KitTarjetas, "Id", "Id", tarjetas.KitTarjetaId);
+            ViewData["KitTarjetaId"] = new SelectList(_context.Kittarjetas, "Id", "Id", tarjetas.KitTarjetaId);
             return View(tarjetas);
         }
 

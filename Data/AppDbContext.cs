@@ -46,20 +46,30 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    public virtual DbSet<Kittarjeta> KitTarjetas { get; set; }
+    public virtual DbSet<Kittarjeta> Kittarjetas { get; set; }
 
     public virtual DbSet<Tarjetas> Tarjetas { get; set; }
 
-    public virtual DbSet<TipoConexion> TipoConexion { get; set; } = null!;
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=localhost;user=root;password=YaTuSabes25%?;database=lbase2", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.41-mysql"));
+    public virtual DbSet<Tipoconexion> Tipoconexion { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
+
+        // Forzar que todas las tablas y columnas sean minúsculas
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            // Tabla
+            entity.SetTableName(entity.GetTableName().ToLower());
+
+            // Claves primarias
+            foreach (var key in entity.GetKeys())
+            {
+                key.SetName(key.GetName().ToLower());
+            }
+        }
 
         modelBuilder.Entity<Cartascesion>(entity =>
         {

@@ -27,6 +27,7 @@ builder.Services.AddAuthorization();
 //Actualización de standby e integrando
 builder.Services.AddHostedService<ActualizacionDiariaStatus>();
 
+//builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 
 var app = builder.Build();

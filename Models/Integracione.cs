@@ -53,7 +53,7 @@ public partial class Integracione
 
     public sbyte? Status { get; set; }
 
-    public sbyte? TipoConexion { get; set; }
+    public sbyte? Tipoconexion { get; set; }
 
     public int Solucion { get; set; }
 
@@ -100,9 +100,9 @@ public partial class Integracione
     public virtual Status? StatusNavigation { get; set; }
 
     [DisplayName("Tipo de Conexión")]
-    [ForeignKey("TipoConexion")]
+    [ForeignKey("Tipoconexion")]
     [InverseProperty("Integraciones")]
-    public virtual TipoConexion? TipoConexionNavigation { get; set; }
+    public virtual Tipoconexion? TipoConexionNavigation { get; set; }
     public virtual ICollection<Terminale> Terminales { get; set; } = new List<Terminale>();
 
     public virtual ICollection<Kittarjeta> KitsTarjetas { get; set; } = new List<Kittarjeta>();

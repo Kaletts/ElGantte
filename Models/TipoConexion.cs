@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace ElGantte.Models
 {
     [Index("Id", Name = "id_UNIQUE", IsUnique = true)]
-    public partial class TipoConexion
+    public partial class Tipoconexion
     {
         [Key]
         public sbyte Id { get; set; }

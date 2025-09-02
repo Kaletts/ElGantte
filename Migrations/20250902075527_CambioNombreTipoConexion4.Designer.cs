@@ -4,6 +4,7 @@ using ElGantte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElGantte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250902075527_CambioNombreTipoConexion4")]
+    partial class CambioNombreTipoConexion4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex("PartnerId");
 
-                    b.ToTable("apikeys", (string)null);
+                    b.ToTable("apikeys");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Cartascesion", b =>
@@ -88,7 +91,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex("IntegracioneId");
 
-                    b.ToTable("cartascesion", (string)null);
+                    b.ToTable("cartascesion");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Comentario", b =>
@@ -118,7 +121,7 @@ namespace ElGantte.Migrations
                     b.HasIndex(new[] { "Id" }, "id_UNIQUE")
                         .IsUnique();
 
-                    b.ToTable("comentarios", (string)null);
+                    b.ToTable("comentarios");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Cuadernosprueba", b =>
@@ -154,7 +157,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex("IntegracioneId");
 
-                    b.ToTable("cuadernosprueba", (string)null);
+                    b.ToTable("cuadernosprueba");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Efmigrationshistory", b =>
@@ -171,7 +174,7 @@ namespace ElGantte.Migrations
                     b.HasKey("MigrationId")
                         .HasName("PRIMARY");
 
-                    b.ToTable("__efmigrationshistory", (string)null);
+                    b.ToTable("__efmigrationshistory");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Etapasintegracion", b =>
@@ -199,7 +202,7 @@ namespace ElGantte.Migrations
                     b.HasIndex(new[] { "Id" }, "Id_UNIQUE")
                         .IsUnique();
 
-                    b.ToTable("etapasintegracion", (string)null);
+                    b.ToTable("etapasintegracion");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Historicoetapa", b =>
@@ -233,7 +236,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("id_UNIQUE1");
 
-                    b.ToTable("historicoetapa", (string)null);
+                    b.ToTable("historicoetapa");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Historicoreunione", b =>
@@ -262,7 +265,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex(new[] { "Integracion" }, "FK_Integraciones_idx");
 
-                    b.ToTable("historicoreuniones", (string)null);
+                    b.ToTable("historicoreuniones");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Integracione", b =>
@@ -344,7 +347,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex(new[] { "Partner" }, "integraciones_ibfk_2");
 
-                    b.ToTable("integraciones", (string)null);
+                    b.ToTable("integraciones");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Jira", b =>
@@ -394,7 +397,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex(new[] { "Partner" }, "jiras_ibfk_1");
 
-                    b.ToTable("jiras", (string)null);
+                    b.ToTable("jiras");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Kittarjeta", b =>
@@ -422,7 +425,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex("IntegracionId");
 
-                    b.ToTable("KitTarjetas", (string)null);
+                    b.ToTable("KitTarjetas");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Modelosterminal", b =>
@@ -449,7 +452,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("Id_UNIQUE1");
 
-                    b.ToTable("modelosterminal", (string)null);
+                    b.ToTable("modelosterminal");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Partner", b =>
@@ -501,7 +504,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("id_UNIQUE4");
 
-                    b.ToTable("partners", (string)null);
+                    b.ToTable("partners");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Solucione", b =>
@@ -528,7 +531,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("Id_UNIQUE2");
 
-                    b.ToTable("soluciones", (string)null);
+                    b.ToTable("soluciones");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Status", b =>
@@ -554,7 +557,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("id_UNIQUE5");
 
-                    b.ToTable("statuses", (string)null);
+                    b.ToTable("statuses");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Tarjetas", b =>
@@ -588,7 +591,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("id_UNIQUE6");
 
-                    b.ToTable("tarjetas", (string)null);
+                    b.ToTable("tarjetas");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Telecertificaciones", b =>
@@ -618,7 +621,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex("IntegracioneId");
 
-                    b.ToTable("telecertificaciones", (string)null);
+                    b.ToTable("telecertificaciones");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Terminale", b =>
@@ -647,7 +650,7 @@ namespace ElGantte.Migrations
 
                     b.HasIndex(new[] { "Modelo" }, "FK_Modelo_idx");
 
-                    b.ToTable("terminales", (string)null);
+                    b.ToTable("terminales");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Tipoconexion", b =>
@@ -669,7 +672,7 @@ namespace ElGantte.Migrations
                         .IsUnique()
                         .HasDatabaseName("id_UNIQUE7");
 
-                    b.ToTable("Tipoconexion", (string)null);
+                    b.ToTable("Tipoconexion");
                 });
 
             modelBuilder.Entity("ElGantte.Models.Usuario", b =>
@@ -695,7 +698,7 @@ namespace ElGantte.Migrations
                     b.HasKey("Id")
                         .HasName("PRIMARY");
 
-                    b.ToTable("usuarios", (string)null);
+                    b.ToTable("usuarios");
                 });
 
             modelBuilder.Entity("ElGantte.Models.ApiKey", b =>

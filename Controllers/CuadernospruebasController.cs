@@ -155,6 +155,10 @@ namespace ElGantte.Controllers
             var cuadernosprueba = await _context.Cuadernosprueba.FindAsync(id);
             if (cuadernosprueba != null)
             {
+                if (!string.IsNullOrWhiteSpace(cuadernosprueba.RutaArchivo) && System.IO.File.Exists(cuadernosprueba.RutaArchivo))
+                {
+                    System.IO.File.Delete(cuadernosprueba.RutaArchivo);
+                }
                 _context.Cuadernosprueba.Remove(cuadernosprueba);
                 await _context.SaveChangesAsync();
             }
@@ -174,7 +178,7 @@ namespace ElGantte.Controllers
             }
 
             var fileName = Path.GetFileName(ArchivoCuadernoPrueba.FileName);
-            var folderPath = Path.Combine("/app/cuadernos", integracionId.ToString()); //Ruta DENTRO del contenedor
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "CuadernosPrueba", integracionId.ToString());
             Directory.CreateDirectory(folderPath); //Crea la carpeta si no existe
 
             var fullPath = Path.Combine(folderPath, fileName);

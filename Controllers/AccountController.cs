@@ -33,18 +33,25 @@ namespace ElGantte.Controllers
             }
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+                {
+                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role)
+                };
 
             var identity = new ClaimsIdentity(claims, "MiCookieAuth");
             var principal = new ClaimsPrincipal(identity);
-
+            
             await HttpContext.SignInAsync("MiCookieAuth", principal);
+
+            //Redirección según rol
+            if (user.Role == "Onsite")
+            {
+                return RedirectToAction("VistaCertificados", "Home");
+            }
 
             return RedirectToAction("Index", "Home");
         }
+
 
         [Authorize(AuthenticationSchemes = "MiCookieAuth", Roles = "Admin,GodMode")]
         public async Task<IActionResult> Register()
@@ -58,7 +65,7 @@ namespace ElGantte.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string email, string password)
+        public async Task<IActionResult> Register(string email, string password, string role)
         {
             if (_context.Usuarios.Any(u => u.Email == email))
             {
@@ -70,7 +77,7 @@ namespace ElGantte.Controllers
             {
                 Email = email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                Role = "User"
+                Role = role
             };
 
             _context.Usuarios.Add(user);

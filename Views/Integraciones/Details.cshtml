@@ -87,6 +87,12 @@
                         <dd class="col-7">
                             <span class="badge bg-info text-dark">@Model.StatusNavigation.Nombre</span>
                         </dd>
+                        <dt class="col-5">Tipo de Conexión:</dt>
+                        <dd class="col-7">
+                            <span class="badge bg-warning text-dark">
+                                @(Model.TipoConexionNavigation?.Nombre ?? "Sin definir")
+                            </span>
+                        </dd>
                     </dl>
                 </div>
             </div>

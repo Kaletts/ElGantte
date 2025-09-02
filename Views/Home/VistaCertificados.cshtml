@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ElGantte.Models.Integracione>
+
+@{
+    ViewData["Title"] = "Vista Certificados";
+}
+
+<h1 class="mb-4">Lista de aplicaciones certificadas</h1>
+
+<!-- Buscador -->
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Busca lo que sea...">
+</div>
+
+<!-- Tabla con estilos -->
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.SoftwareIntegrado)</th>
+            <th>@Html.DisplayNameFor(model => model.NombreSwapp)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaFin)</th>
+            <th>@Html.DisplayNameFor(model => model.PartnerNavigation)</th>
+            <th>@Html.DisplayNameFor(model => model.SolucionNavigation)</th>
+            <th>@Html.DisplayNameFor(model => model.TipoConexionNavigation)</th>
+            <th>@Html.DisplayNameFor(model => model.ModeloTerminal)</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.SoftwareIntegrado)</td>
+                <td>@Html.DisplayFor(modelItem => item.NombreSwapp)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaFin)</td>
+                <td>@Html.DisplayFor(modelItem => item.PartnerNavigation.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.SolucionNavigation.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.TipoConexionNavigation.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.ModeloTerminalNavigation.Modelo)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Script para el buscador -->
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function () {
+        var value = this.value.toLowerCase();
+        var rows = document.querySelectorAll("#tableBody tr");
+
+        rows.forEach(function (row) {
+            var text = row.textContent.toLowerCase();
+            row.style.display = text.includes(value) ? "" : "none";
+        });
+    });
+</script>

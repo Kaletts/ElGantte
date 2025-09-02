@@ -44,12 +44,13 @@ namespace ElGantte.Controllers
                 .Include(i => i.ModeloTerminalNavigation)
                 .Include(i => i.Historicoetapas)
                 .Include(i => i.Terminales)
+                .Include(i => i.TipoConexionNavigation)
                 .Include(i => i.KitsTarjetas)
                 .ThenInclude(k => k.Tarjetas)
                 .Include(i => i.Comentarios)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            var kitsDisponibles = await _context.KitTarjetas
+            var kitsDisponibles = await _context.Kittarjetas
                 .Where(k => k.IntegracionId == null)
                 .ToListAsync();
 
@@ -192,7 +193,7 @@ namespace ElGantte.Controllers
             ViewData["Solucion"] = new SelectList(_context.Soluciones, "Id", "Nombre", integracione.Solucion);
             ViewBag.ModelosTerminales = new SelectList(await _context.Modelosterminals.ToListAsync(), "Id", "Modelo");
             ViewData["Status"] = new SelectList(_context.Statuses, "Id", "Nombre", integracione.Status);
-            ViewData["TipoConexion"] = new SelectList(_context.TipoConexion, "Id", "Nombre", integracione.TipoConexion);
+            ViewData["TipoConexion"] = new SelectList(_context.Tipoconexion, "Id", "Nombre", integracione.Tipoconexion);
             return View(integracione);
         }
 
@@ -470,7 +471,7 @@ namespace ElGantte.Controllers
         [HttpPost]
         public async Task<IActionResult> AsignarKit(int id, int KitTarjetaId)
         {
-            var kit = await _context.KitTarjetas.FindAsync(KitTarjetaId);
+            var kit = await _context.Kittarjetas.FindAsync(KitTarjetaId);
             if (kit != null)
             {
                 kit.IntegracionId = id;
@@ -499,7 +500,7 @@ namespace ElGantte.Controllers
         [HttpPost]
         public IActionResult QuitarKit(int integracionId, int kitId)
         {
-            var kit = _context.KitTarjetas.FirstOrDefault(k => k.Id == kitId);
+            var kit = _context.Kittarjetas.FirstOrDefault(k => k.Id == kitId);
 
             if (kit == null || kit.IntegracionId != integracionId)
                 return NotFound();
